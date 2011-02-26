@@ -1,0 +1,24 @@
+Instructions for setting up the NIH Lexicon
+
+Download and unpack the latest version of lexAccess from
+http://lexsrv3.nlm.nih.gov/SPECIALIST/Projects/lexAccess/current/
+
+The "lite" version is fine, you don't need the full version
+
+The actual DB is in data\HSqlDb  directory . You must specify the
+directory filename/path in the NIHDBLexicon constructor.  Eg
+
+	static String DB_FILENAME = "E:\\NIHDB\\lexAccess2009\\data\\HSqlDb";
+	Lexicon lexicon = new NIHDBLexicon(DB_FILENAME);
+	
+
+You can get the latest version of the lexAccess jar file (which may contain
+updates to the jar file in the simplenlg release) from
+lib/lexAccess2009dist.jar
+
+Simplenlg also needs the lexCheck jar file, you can get the latest version
+(which may contain updates to the jar file in the simplenlg release) from
+http://lexsrv3.nlm.nih.gov/SPECIALIST/Projects/lexCheck/current
+
+WARNING: use the lexAccess version of the DB, do **NOT** use the main
+version in http://lexsrv3.nlm.nih.gov/SPECIALIST/Projects/lexicon/current

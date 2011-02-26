@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature>
+	<name>adjective position</name>
+	<restriction>
+		<list>
+			<name>applies to</name>
+			<item>
+				<value>adjective</value>
+			</item>
+		</list>
+	</restriction>
+	<type>
+		<name>attributive 1</name>
+	</type>
+	<type>
+		<name>attributive 2</name>
+	</type>
+	<type>
+		<name>attributive 3</name>
+	</type>
+	<type>
+		<name>attributive c</name>
+	</type>
+	<type>
+		<name>post-nominal</name>
+	</type>
+	<type>
+		<name>predicative</name>
+	</type>
+</feature>
