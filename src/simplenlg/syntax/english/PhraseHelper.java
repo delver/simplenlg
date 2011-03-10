@@ -37,39 +37,6 @@ import simplenlg.framework.PhraseElement;
  * phrases.
  * </p>
  * 
- * <hr>
- * 
- * <p>
- * Copyright (C) 2010, University of Aberdeen
- * </p>
- * 
- * <p>
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
- * </p>
- * 
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- * </p>
- * 
- * <p>
- * You should have received a copy of the GNU Lesser General Public License in
- * the zip file. If not, see <a
- * href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.
- * </p>
- * 
- * <p>
- * For more details on SimpleNLG visit the project website at <a
- * href="http://www.csd.abdn.ac.uk/research/simplenlg/"
- * >www.csd.abdn.ac.uk/research/simplenlg</a> or email Dr Ehud Reiter at
- * e.reiter@abdn.ac.uk
- * </p>
- * 
  * @author E. Reiter and D. Westwater, University of Aberdeen.
  * @version 4.0
  */
@@ -154,13 +121,15 @@ abstract class PhraseHelper {
 		NLGElement head = phrase.getHead();
 		if (head != null) {
 			if (phrase.hasFeature(Feature.IS_COMPARATIVE)) {
-				head.setFeature(Feature.IS_COMPARATIVE, phrase.getFeature(Feature.IS_COMPARATIVE));
-			}
-			else if (phrase.hasFeature(Feature.IS_SUPERLATIVE)) {
-				head.setFeature(Feature.IS_SUPERLATIVE, phrase.getFeature(Feature.IS_SUPERLATIVE));
+				head.setFeature(Feature.IS_COMPARATIVE, phrase
+						.getFeature(Feature.IS_COMPARATIVE));
+			} else if (phrase.hasFeature(Feature.IS_SUPERLATIVE)) {
+				head.setFeature(Feature.IS_SUPERLATIVE, phrase
+						.getFeature(Feature.IS_SUPERLATIVE));
 			}
 			head = parent.realise(head);
-			head.setFeature(InternalFeature.DISCOURSE_FUNCTION, DiscourseFunction.HEAD);
+			head.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+					DiscourseFunction.HEAD);
 			realisedElement.addComponent(head);
 		}
 	}
@@ -187,13 +156,26 @@ abstract class PhraseHelper {
 			ListElement realisedElement, List<NLGElement> elementList,
 			DiscourseFunction function) {
 
+		// AG: Change here: the original list structure is kept, i.e. rather
+		// than taking the elements of the list and putting them in the realised
+		// element, we now add the realised elements to a new list and put that
+		// in the realised element list. This preserves constituency for
+		// orthography and morphology processing later.
+		ListElement realisedList = new ListElement();
 		NLGElement currentElement = null;
 		for (NLGElement eachElement : elementList) {
 			currentElement = parent.realise(eachElement);
+
 			if (currentElement != null) {
-				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION, function);
-				realisedElement.addComponent(currentElement);
+				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+						function);
+				// realisedElement.addComponent(currentElement);
+				realisedList.addComponent(currentElement);
 			}
+		}
+
+		if (!realisedList.getChildren().isEmpty()) {
+			realisedElement.addComponent(realisedList);
 		}
 	}
 

@@ -18,8 +18,8 @@
  */
 package simplenlg.morphology.english;
 
-import simplenlg.features.Feature;
 import simplenlg.features.DiscourseFunction;
+import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
@@ -29,6 +29,7 @@ import simplenlg.features.Pattern;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
 import simplenlg.framework.InflectedWordElement;
+import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.StringElement;
 import simplenlg.framework.WordElement;
@@ -59,38 +60,6 @@ import simplenlg.framework.WordElement;
  * class.
  * </p>
  * 
- * <hr>
- * 
- * <p>
- * Copyright (C) 2010, University of Aberdeen
- * </p>
- * 
- * <p>
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * </p>
- * 
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- * </p>
- * 
- * <p>
- * You should have received a copy of the GNU Lesser General Public License in the zip
- * file. If not, see <a
- * href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.
- * </p>
- * 
- * <p>
- * For more details on SimpleNLG visit the project website at <a
- * href="http://www.csd.abdn.ac.uk/research/simplenlg/"
- * >www.csd.abdn.ac.uk/research/simplenlg</a> or email Dr Ehud Reiter at
- * e.reiter@abdn.ac.uk
- * </p>
  * 
  * @author D. Westwater, University of Aberdeen.
  * @version 4.0
@@ -132,11 +101,13 @@ public abstract class MorphologyRules {
 		StringBuffer realised = new StringBuffer();
 
 		if (element.isPlural()
-				&& !element.getFeatureAsBoolean(LexicalFeature.PROPER).booleanValue()) {
+				&& !element.getFeatureAsBoolean(LexicalFeature.PROPER)
+						.booleanValue()) {
 
 			String pluralForm = null;
 
-			if (element.getFeatureAsBoolean(LexicalFeature.NON_COUNT).booleanValue()) {
+			if (element.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
+					.booleanValue()) {
 				pluralForm = element.getBaseForm();
 			} else {
 				pluralForm = element.getFeatureAsString(LexicalFeature.PLURAL);
@@ -146,7 +117,8 @@ public abstract class MorphologyRules {
 						.booleanValue()) {
 					pluralForm = baseWord.getBaseForm();
 				} else {
-					pluralForm = baseWord.getFeatureAsString(LexicalFeature.PLURAL);
+					pluralForm = baseWord
+							.getFeatureAsString(LexicalFeature.PLURAL);
 				}
 			}
 			if (pluralForm == null) {
@@ -279,7 +251,8 @@ public abstract class MorphologyRules {
 		if (element.isNegated() || Form.BARE_INFINITIVE.equals(formValue)) {
 			realised = element.getBaseForm();
 		} else if (Form.PRESENT_PARTICIPLE.equals(formValue)) {
-			realised = element.getFeatureAsString(LexicalFeature.PRESENT_PARTICIPLE);
+			realised = element
+					.getFeatureAsString(LexicalFeature.PRESENT_PARTICIPLE);
 
 			if (realised == null && baseWord != null) {
 				realised = baseWord
@@ -295,7 +268,8 @@ public abstract class MorphologyRules {
 		} else if (Tense.PAST.equals(tenseValue)
 				|| Form.PAST_PARTICIPLE.equals(formValue)) {
 			if (Form.PAST_PARTICIPLE.equals(formValue)) {
-				realised = element.getFeatureAsString(LexicalFeature.PAST_PARTICIPLE);
+				realised = element
+						.getFeatureAsString(LexicalFeature.PAST_PARTICIPLE);
 
 				if (realised == null && baseWord != null) {
 					realised = baseWord
@@ -335,7 +309,8 @@ public abstract class MorphologyRules {
 
 			if (realised == null && baseWord != null
 					&& !"be".equalsIgnoreCase(element.getBaseForm())) { //$NON-NLS-1$
-				realised = baseWord.getFeatureAsString(LexicalFeature.PRESENT3S);
+				realised = baseWord
+						.getFeatureAsString(LexicalFeature.PRESENT3S);
 			}
 			if (realised == null) {
 				realised = buildPresent3SVerb(element.getBaseForm());
@@ -551,7 +526,8 @@ public abstract class MorphologyRules {
 			realised = element.getFeatureAsString(LexicalFeature.COMPARATIVE);
 
 			if (realised == null && baseWord != null) {
-				realised = baseWord.getFeatureAsString(LexicalFeature.COMPARATIVE);
+				realised = baseWord
+						.getFeatureAsString(LexicalFeature.COMPARATIVE);
 			}
 			if (realised == null) {
 				if (Pattern.REGULAR_DOUBLE.equals(patternValue)) {
@@ -566,7 +542,8 @@ public abstract class MorphologyRules {
 			realised = element.getFeatureAsString(LexicalFeature.SUPERLATIVE);
 
 			if (realised == null && baseWord != null) {
-				realised = baseWord.getFeatureAsString(LexicalFeature.SUPERLATIVE);
+				realised = baseWord
+						.getFeatureAsString(LexicalFeature.SUPERLATIVE);
 			}
 			if (realised == null) {
 				if (Pattern.REGULAR_DOUBLE.equals(patternValue)) {
@@ -706,7 +683,8 @@ public abstract class MorphologyRules {
 			realised = element.getFeatureAsString(LexicalFeature.COMPARATIVE);
 
 			if (realised == null && baseWord != null) {
-				realised = baseWord.getFeatureAsString(LexicalFeature.COMPARATIVE);
+				realised = baseWord
+						.getFeatureAsString(LexicalFeature.COMPARATIVE);
 			}
 			if (realised == null) {
 				realised = buildRegularComparative(element.getBaseForm());
@@ -717,7 +695,8 @@ public abstract class MorphologyRules {
 			realised = element.getFeatureAsString(LexicalFeature.SUPERLATIVE);
 
 			if (realised == null && baseWord != null) {
-				realised = baseWord.getFeatureAsString(LexicalFeature.SUPERLATIVE);
+				realised = baseWord
+						.getFeatureAsString(LexicalFeature.SUPERLATIVE);
 			}
 			if (realised == null) {
 				realised = buildRegularSuperlative(element.getBaseForm());
@@ -742,7 +721,8 @@ public abstract class MorphologyRules {
 	public static NLGElement doPronounMorphology(InflectedWordElement element) {
 		String realised = null;
 
-		if (!element.getFeatureAsBoolean(InternalFeature.NON_MORPH).booleanValue()) {
+		if (!element.getFeatureAsBoolean(InternalFeature.NON_MORPH)
+				.booleanValue()) {
 			Object genderValue = element.getFeature(LexicalFeature.GENDER);
 			Object personValue = element.getFeature(Feature.PERSON);
 			Object discourseValue = element
@@ -763,7 +743,8 @@ public abstract class MorphologyRules {
 
 			int positionIndex = 0;
 
-			if (element.getFeatureAsBoolean(LexicalFeature.REFLEXIVE).booleanValue()) {
+			if (element.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)
+					.booleanValue()) {
 				positionIndex = 2;
 			} else if (element.getFeatureAsBoolean(Feature.POSSESSIVE)
 					.booleanValue()) {

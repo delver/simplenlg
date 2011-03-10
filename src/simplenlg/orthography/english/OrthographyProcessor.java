@@ -21,6 +21,8 @@ package simplenlg.orthography.english;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.element.ElementKind;
+
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.InternalFeature;
 import simplenlg.framework.CoordinatedPhraseElement;
@@ -46,38 +48,6 @@ import simplenlg.framework.StringElement;
  * </ul>
  * </p>
  * 
- * <hr>
- * 
- * <p>
- * Copyright (C) 2010, University of Aberdeen
- * </p>
- * 
- * <p>
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * </p>
- * 
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- * </p>
- * 
- * <p>
- * You should have received a copy of the GNU Lesser General Public License in the zip
- * file. If not, see <a
- * href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.
- * </p>
- * 
- * <p>
- * For more details on SimpleNLG visit the project website at <a
- * href="http://www.csd.abdn.ac.uk/research/simplenlg/"
- * >www.csd.abdn.ac.uk/research/simplenlg</a> or email Dr Ehud Reiter at
- * e.reiter@abdn.ac.uk
- * </p>
  * 
  * @author D. Westwater, University of Aberdeen.
  * @version 4.0
@@ -96,6 +66,7 @@ public class OrthographyProcessor extends NLGModule {
 
 		if (element != null) {
 			ElementCategory category = element.getCategory();
+
 			if (category instanceof DocumentCategory
 					&& element instanceof DocumentElement) {
 				List<NLGElement> components = ((DocumentElement) element)
@@ -116,10 +87,24 @@ public class OrthographyProcessor extends NLGModule {
 							.setComponents(realise(components));
 					realisedElement = element;
 				}
+
 			} else if (element instanceof ListElement) {
+				// AG: changes here: if we have a premodifier, then we ask the
+				// realiseList method to separate with a comma.
 				StringBuffer buffer = new StringBuffer();
-				realiseList(buffer, element.getChildren());
+				List<NLGElement> children = element.getChildren();
+				Object function = children.isEmpty() ? null : children.get(0)
+						.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+
+				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
+					realiseList(buffer, element.getChildren(), ",");
+				} else {
+					realiseList(buffer, element.getChildren(), "");
+				}
+
+				// realiseList(buffer, element.getChildren(), "");
 				realisedElement = new StringElement(buffer.toString());
+
 			} else if (element instanceof CoordinatedPhraseElement) {
 				realisedElement = realiseCoordinatedPhrase(element
 						.getChildren());
@@ -147,7 +132,7 @@ public class OrthographyProcessor extends NLGModule {
 		NLGElement realisedElement = null;
 		if (components != null && components.size() > 0) {
 			StringBuffer realisation = new StringBuffer();
-			realiseList(realisation, components);
+			realiseList(realisation, components, "");
 
 			capitaliseFirstLetter(realisation);
 			terminateSentence(realisation, element.getFeatureAsBoolean(
@@ -226,16 +211,27 @@ public class OrthographyProcessor extends NLGModule {
 	 * @param components
 	 *            the <code>List</code> of <code>NLGElement</code>s representing
 	 *            the components that make up the sentence.
+	 * @param listSeparator
+	 *            the string to use to separate elements of the list, empty if
+	 *            no separator needed
 	 */
 	private void realiseList(StringBuffer realisation,
-			List<NLGElement> components) {
+			List<NLGElement> components, String listSeparator) {
 
 		NLGElement realisedChild = null;
 
-		for (NLGElement thisElement : components) {
+		for (int i = 0; i < components.size(); i++) {
+			NLGElement thisElement = components.get(i);
 			realisedChild = realise(thisElement);
-			realisation.append(realisedChild.getRealisation()).append(' ');
+			realisation.append(realisedChild.getRealisation());
+
+			if (components.size() > 1 && i < components.size() - 1) {
+				realisation.append(listSeparator);
+			}
+
+			realisation.append(' ');
 		}
+
 		if (realisation.length() > 0) {
 			realisation.setLength(realisation.length() - 1);
 		}

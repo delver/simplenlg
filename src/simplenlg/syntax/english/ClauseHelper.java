@@ -46,39 +46,6 @@ import simplenlg.phrasespec.VPPhraseSpec;
  * of clauses. It is used exclusively by the <code>SyntaxProcessor</code>.
  * </p>
  * 
- * <hr>
- * 
- * <p>
- * Copyright (C) 2010, University of Aberdeen
- * </p>
- * 
- * <p>
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
- * </p>
- * 
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- * </p>
- * 
- * <p>
- * You should have received a copy of the GNU Lesser General Public License in
- * the zip file. If not, see <a
- * href="http://www.gnu.org/licenses/">www.gnu.org/licenses</a>.
- * </p>
- * 
- * <p>
- * For more details on SimpleNLG visit the project website at <a
- * href="http://www.csd.abdn.ac.uk/research/simplenlg/"
- * >www.csd.abdn.ac.uk/research/simplenlg</a> or email Dr Ehud Reiter at
- * e.reiter@abdn.ac.uk
- * </p>
- * 
  * @author D. Westwater, University of Aberdeen.
  * @version 4.0
  * 
@@ -119,14 +86,18 @@ abstract class ClauseHelper {
 				splitVerb = realiseInterrogative(phrase, parent,
 						realisedElement, phraseFactory, verbElement);
 			} else {
-				PhraseHelper.realiseList(parent, realisedElement, phrase
-						.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
-						DiscourseFunction.FRONT_MODIFIER);
+				PhraseHelper
+						.realiseList(
+								parent,
+								realisedElement,
+								phrase
+										.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
+								DiscourseFunction.FRONT_MODIFIER);
 			}
 			addSubjectsToFront(phrase, parent, realisedElement, splitVerb);
 
-			NLGElement passiveSplitVerb = addPassiveComplementsNumberPerson(phrase, parent,
-					realisedElement, verbElement);
+			NLGElement passiveSplitVerb = addPassiveComplementsNumberPerson(
+					phrase, parent, realisedElement, verbElement);
 
 			if (passiveSplitVerb != null) {
 				splitVerb = passiveSplitVerb;
@@ -185,7 +156,8 @@ abstract class ClauseHelper {
 					.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS)) {
 				currentElement = parent.realise(subject);
 				if (currentElement != null) {
-					currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+					currentElement.setFeature(
+							InternalFeature.DISCOURSE_FUNCTION,
 							DiscourseFunction.FRONT_MODIFIER);
 
 					realisedElement.addComponent(currentElement);
@@ -224,10 +196,12 @@ abstract class ClauseHelper {
 			for (NLGElement subject : allSubjects) {
 
 				subject.setFeature(Feature.PASSIVE, true);
-				if (subject.isA(PhraseCategory.NOUN_PHRASE) || subject instanceof CoordinatedPhraseElement) {
+				if (subject.isA(PhraseCategory.NOUN_PHRASE)
+						|| subject instanceof CoordinatedPhraseElement) {
 					currentElement = parent.realise(subject);
 					if (currentElement != null) {
-						currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+						currentElement.setFeature(
+								InternalFeature.DISCOURSE_FUNCTION,
 								DiscourseFunction.SUBJECT);
 						realisedElement.addComponent(currentElement);
 					}
@@ -270,18 +244,21 @@ abstract class ClauseHelper {
 				if (currentElement instanceof ListElement) {
 					List<NLGElement> children = currentElement.getChildren();
 					currentElement = children.get(0);
-					currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+					currentElement.setFeature(
+							InternalFeature.DISCOURSE_FUNCTION,
 							DiscourseFunction.VERB_PHRASE);
 					realisedElement.addComponent(currentElement);
 					realisedElement.addComponent(splitVerb);
 					for (int eachChild = 1; eachChild < children.size(); eachChild++) {
 						currentElement = children.get(eachChild);
-						currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+						currentElement.setFeature(
+								InternalFeature.DISCOURSE_FUNCTION,
 								DiscourseFunction.VERB_PHRASE);
 						realisedElement.addComponent(currentElement);
 					}
 				} else {
-					currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+					currentElement.setFeature(
+							InternalFeature.DISCOURSE_FUNCTION,
 							DiscourseFunction.VERB_PHRASE);
 					realisedElement.addComponent(currentElement);
 					realisedElement.addComponent(splitVerb);
@@ -304,34 +281,35 @@ abstract class ClauseHelper {
 		// this routine copies features from the clause to the VP.
 		// it is disabled, as this copying is now done automatically
 		// when features are set in SPhraseSpec
-//		if (verbElement != null) {
-//			verbElement.setFeature(Feature.INTERROGATIVE_TYPE, phrase
-//					.getFeature(Feature.INTERROGATIVE_TYPE));
-//			verbElement.setFeature(InternalFeature.COMPLEMENTS, phrase
-//					.getFeature(InternalFeature.COMPLEMENTS));
-//			verbElement.setFeature(InternalFeature.PREMODIFIERS, phrase
-//					.getFeature(InternalFeature.PREMODIFIERS));
-//			verbElement.setFeature(Feature.FORM, phrase
-//					.getFeature(Feature.FORM));
-//			verbElement.setFeature(Feature.MODAL, phrase
-//					.getFeature(Feature.MODAL));
-//			verbElement.setNegated(phrase.isNegated());
-//			verbElement.setFeature(Feature.PASSIVE, phrase
-//					.getFeature(Feature.PASSIVE));
-//			verbElement.setFeature(Feature.PERFECT, phrase
-//					.getFeature(Feature.PERFECT));
-//			verbElement.setFeature(Feature.PROGRESSIVE, phrase
-//					.getFeature(Feature.PROGRESSIVE));
-//			verbElement.setTense(phrase.getTense());
-//			verbElement.setFeature(Feature.FORM, phrase
-//					.getFeature(Feature.FORM));
-//			verbElement.setFeature(LexicalFeature.GENDER, phrase
-//					.getFeature(LexicalFeature.GENDER));
-//		}
+		// if (verbElement != null) {
+		// verbElement.setFeature(Feature.INTERROGATIVE_TYPE, phrase
+		// .getFeature(Feature.INTERROGATIVE_TYPE));
+		// verbElement.setFeature(InternalFeature.COMPLEMENTS, phrase
+		// .getFeature(InternalFeature.COMPLEMENTS));
+		// verbElement.setFeature(InternalFeature.PREMODIFIERS, phrase
+		// .getFeature(InternalFeature.PREMODIFIERS));
+		// verbElement.setFeature(Feature.FORM, phrase
+		// .getFeature(Feature.FORM));
+		// verbElement.setFeature(Feature.MODAL, phrase
+		// .getFeature(Feature.MODAL));
+		// verbElement.setNegated(phrase.isNegated());
+		// verbElement.setFeature(Feature.PASSIVE, phrase
+		// .getFeature(Feature.PASSIVE));
+		// verbElement.setFeature(Feature.PERFECT, phrase
+		// .getFeature(Feature.PERFECT));
+		// verbElement.setFeature(Feature.PROGRESSIVE, phrase
+		// .getFeature(Feature.PROGRESSIVE));
+		// verbElement.setTense(phrase.getTense());
+		// verbElement.setFeature(Feature.FORM, phrase
+		// .getFeature(Feature.FORM));
+		// verbElement.setFeature(LexicalFeature.GENDER, phrase
+		// .getFeature(LexicalFeature.GENDER));
+		// }
 	}
 
 	/**
-	 * Realises the complements of passive clauses; also sets number, person for passive
+	 * Realises the complements of passive clauses; also sets number, person for
+	 * passive
 	 * 
 	 * @param phrase
 	 *            the <code>PhraseElement</code> representing this clause.
@@ -344,14 +322,15 @@ abstract class ClauseHelper {
 	 *            the <code>NLGElement</code> representing the verb phrase for
 	 *            this clause.
 	 */
-	private static NLGElement addPassiveComplementsNumberPerson(PhraseElement phrase,
-			SyntaxProcessor parent, ListElement realisedElement,
-			NLGElement verbElement) {
+	private static NLGElement addPassiveComplementsNumberPerson(
+			PhraseElement phrase, SyntaxProcessor parent,
+			ListElement realisedElement, NLGElement verbElement) {
 		Object passiveNumber = null;
 		Object passivePerson = null;
 		NLGElement currentElement = null;
 		NLGElement splitVerb = null;
-		NLGElement verbPhrase = phrase.getFeatureAsElement(InternalFeature.VERB_PHRASE);
+		NLGElement verbPhrase = phrase
+				.getFeatureAsElement(InternalFeature.VERB_PHRASE);
 
 		if (phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()
 				&& verbPhrase != null
@@ -362,12 +341,14 @@ abstract class ClauseHelper {
 					.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
 
 				if (subject.isA(PhraseCategory.NOUN_PHRASE)
-						&& DiscourseFunction.OBJECT.equals(subject
-								.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
+						&& DiscourseFunction.OBJECT
+								.equals(subject
+										.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
 					subject.setFeature(Feature.PASSIVE, true);
 					currentElement = parent.realise(subject);
 					if (currentElement != null) {
-						currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+						currentElement.setFeature(
+								InternalFeature.DISCOURSE_FUNCTION,
 								DiscourseFunction.OBJECT);
 
 						if (phrase.hasFeature(Feature.INTERROGATIVE_TYPE)) {
@@ -402,10 +383,11 @@ abstract class ClauseHelper {
 		if (verbElement != null) {
 			if (passivePerson != null) {
 				verbElement.setFeature(Feature.PERSON, passivePerson);
-// below commented out.  for non-passive, number and person set by checkSubjectNumberPerson
-//			} else {
-//				verbElement.setFeature(Feature.PERSON, phrase
-//						.getFeature(Feature.PERSON));
+				// below commented out. for non-passive, number and person set
+				// by checkSubjectNumberPerson
+				// } else {
+				// verbElement.setFeature(Feature.PERSON, phrase
+				// .getFeature(Feature.PERSON));
 			}
 			if (passiveNumber != null) {
 				verbElement.setFeature(Feature.NUMBER, passiveNumber);
@@ -528,7 +510,8 @@ abstract class ClauseHelper {
 			case HOW:
 			case WHY:
 			case WHERE:
-				realiseInterrogativeKeyWord(type.toString().toLowerCase(), parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord(type.toString().toLowerCase(),
+						parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				splitVerb = realiseYesNo(phrase, parent, verbElement,
 						phraseFactory, realisedElement);
@@ -540,7 +523,7 @@ abstract class ClauseHelper {
 				realiseInterrogativeKeyWord("many", parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				break;
-				
+
 			case WHO_OBJECT:
 			case WHO_INDIRECT_OBJECT:
 				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
@@ -637,8 +620,8 @@ abstract class ClauseHelper {
 			NLGFactory phraseFactory) {
 
 		if (keyWord != null) {
-			NLGElement question = phraseFactory.createWord(
-					keyWord, LexicalCategory.NOUN);
+			NLGElement question = phraseFactory.createWord(keyWord,
+					LexicalCategory.NOUN);
 			NLGElement currentElement = parent.realise(question);
 			if (currentElement != null) {
 				realisedElement.addComponent(currentElement);
@@ -681,7 +664,8 @@ abstract class ClauseHelper {
 
 		NLGElement splitVerb = null;
 
-		if (!  (verbElement instanceof VPPhraseSpec && VerbPhraseHelper.isCopular(((VPPhraseSpec) verbElement).getVerb()))
+		if (!(verbElement instanceof VPPhraseSpec && VerbPhraseHelper
+				.isCopular(((VPPhraseSpec) verbElement).getVerb()))
 				&& !phrase.getFeatureAsBoolean(Feature.PROGRESSIVE)
 						.booleanValue()
 				&& !phrase.hasFeature(Feature.MODAL)
@@ -767,10 +751,37 @@ abstract class ClauseHelper {
 		List<NLGElement> frontModifiers = phrase
 				.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS);
 		Object clauseForm = phrase.getFeature(Feature.FORM);
+
+		// bug fix by Chris Howell (Agfa) -- do not overwrite existing post-mods
+		// in the VP
 		if (verbElement != null) {
-			verbElement.setFeature(InternalFeature.POSTMODIFIERS, phrase
-					.getFeature(InternalFeature.POSTMODIFIERS));
+			List<NLGElement> phrasePostModifiers = phrase
+					.getFeatureAsElementList(InternalFeature.POSTMODIFIERS);
+
+			if (verbElement instanceof PhraseElement) {
+				List<NLGElement> verbPostModifiers = verbElement
+						.getFeatureAsElementList(InternalFeature.POSTMODIFIERS);
+
+				for (NLGElement eachModifier : phrasePostModifiers) {
+
+					// need to check that VP doesn't already contain the
+					// post-modifier
+					// this only happens if the phrase has already been realised
+					// and later modified, with realiser called again. In that
+					// case, postmods will be copied over twice
+					if (!verbPostModifiers.contains(eachModifier)) {
+						((PhraseElement) verbElement)
+								.addPostModifier(eachModifier);
+					}
+				}
+			}
 		}
+
+		// if (verbElement != null) {
+		// verbElement.setFeature(InternalFeature.POSTMODIFIERS, phrase
+		// .getFeature(InternalFeature.POSTMODIFIERS));
+		// }
+
 		if (Form.INFINITIVE.equals(clauseForm)) {
 			phrase.setFeature(Feature.SUPRESSED_COMPLEMENTISER, true);
 
@@ -809,7 +820,8 @@ abstract class ClauseHelper {
 		List<NLGElement> subjects = phrase
 				.getFeatureAsElementList(InternalFeature.SUBJECTS);
 		Object clauseForm = phrase.getFeature(Feature.FORM);
-		Object discourseValue = phrase.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+		Object discourseValue = phrase
+				.getFeature(InternalFeature.DISCOURSE_FUNCTION);
 
 		if (DiscourseFunction.OBJECT.equals(discourseValue)
 				|| DiscourseFunction.INDIRECT_OBJECT.equals(discourseValue)) {
@@ -828,8 +840,8 @@ abstract class ClauseHelper {
 
 	/**
 	 * Checks the subjects of the phrase to determine if there is more than one
-	 * subject. This ensures that the verb phrase is correctly set. Also
-	 * set person correctly
+	 * subject. This ensures that the verb phrase is correctly set. Also set
+	 * person correctly
 	 * 
 	 * @param phrase
 	 *            the <code>PhraseElement</code> representing this clause.
@@ -852,9 +864,11 @@ abstract class ClauseHelper {
 
 			case 1:
 				currentElement = subjects.get(0);
-				// coordinated NP with "and" are plural (not coordinated NP with "or")
-				if (currentElement instanceof CoordinatedPhraseElement &&
-						((CoordinatedPhraseElement) currentElement).checkIfPlural())
+				// coordinated NP with "and" are plural (not coordinated NP with
+				// "or")
+				if (currentElement instanceof CoordinatedPhraseElement
+						&& ((CoordinatedPhraseElement) currentElement)
+								.checkIfPlural())
 					pluralSubjects = true;
 				else if (currentElement.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL)
 					pluralSubjects = true;
@@ -863,13 +877,16 @@ abstract class ClauseHelper {
 							.getFeatureAsElement(InternalFeature.HEAD);
 					person = (Person) currentElement.getFeature(Feature.PERSON);
 					if ((currentHead.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL))
-							pluralSubjects = true;
+						pluralSubjects = true;
 					else if (currentHead instanceof ListElement) {
 						pluralSubjects = true;
-/*					} else if (currentElement instanceof CoordinatedPhraseElement
-							&& "and".equals(currentElement.getFeatureAsString( //$NON-NLS-1$
-									Feature.CONJUNCTION))) {
-						pluralSubjects = true;*/
+						/*
+						 * } else if (currentElement instanceof
+						 * CoordinatedPhraseElement &&
+						 * "and".equals(currentElement.getFeatureAsString(
+						 * //$NON-NLS-1$ Feature.CONJUNCTION))) { pluralSubjects
+						 * = true;
+						 */
 					}
 				}
 				break;
