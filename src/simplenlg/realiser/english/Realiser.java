@@ -67,6 +67,8 @@ public class Realiser extends NLGModule {
 		this.syntax = new SyntaxProcessor();
 		this.syntax.initialise();
 		this.formatter = new TextFormatter();
+		//AG: added call to initialise for formatter
+		this.formatter.initialise();
 	}
 
 	@Override

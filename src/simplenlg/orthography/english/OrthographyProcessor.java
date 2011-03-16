@@ -71,13 +71,18 @@ public class OrthographyProcessor extends NLGModule {
 					&& element instanceof DocumentElement) {
 				List<NLGElement> components = ((DocumentElement) element)
 						.getComponents();
+
 				switch ((DocumentCategory) category) {
+
 				case SENTENCE:
 					realisedElement = realiseSentence(components, element);
 					break;
 
 				case LIST_ITEM:
 					if (components != null && components.size() > 0) {
+						// recursively realise whatever's in the list item
+						// NB: this will realise embedded lists within list
+						// items
 						realisedElement = new ListElement(realise(components));
 					}
 					break;
@@ -108,10 +113,18 @@ public class OrthographyProcessor extends NLGModule {
 			} else if (element instanceof CoordinatedPhraseElement) {
 				realisedElement = realiseCoordinatedPhrase(element
 						.getChildren());
+			
 			} else {
 				realisedElement = element;
 			}
+
+			//make the realised element inherit the original category
+			//essential if list items are to be properly formatted later
+			if (realisedElement != null) {
+				realisedElement.setCategory(category);
+			}
 		}
+
 		return realisedElement;
 	}
 

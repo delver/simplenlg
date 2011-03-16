@@ -24,6 +24,7 @@ import java.util.List;
 import simplenlg.framework.DocumentCategory;
 import simplenlg.framework.DocumentElement;
 import simplenlg.framework.ElementCategory;
+import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGModule;
 import simplenlg.framework.StringElement;
@@ -54,16 +55,27 @@ public class TextFormatter extends NLGModule {
 	@Override
 	public NLGElement realise(NLGElement element) {
 		NLGElement realisedComponent = null;
-
 		StringBuffer realisation = new StringBuffer();
+		
 		if (element != null) {
 			ElementCategory category = element.getCategory();
-			if (category instanceof DocumentCategory
-					&& element instanceof DocumentElement) {
-				List<NLGElement> components = ((DocumentElement) element)
-						.getComponents();
-				String title = ((DocumentElement) element).getTitle();
+			List<NLGElement> components = element.getChildren();
+
+			//NB: The order of the if-statements below is important!
+			
+			// check if this is a canned text first
+			if (element instanceof StringElement) {
+				realisation.append(element.getRealisation());
+
+			} else if (category instanceof DocumentCategory) {
+				// && element instanceof DocumentElement
+				String title = element instanceof DocumentElement ? ((DocumentElement) element)
+						.getTitle()
+						: null;
+				// String title = ((DocumentElement) element).getTitle();
+
 				switch ((DocumentCategory) category) {
+
 				case DOCUMENT:
 				case SECTION:
 				case LIST:
@@ -105,13 +117,35 @@ public class TextFormatter extends NLGModule {
 					break;
 
 				case LIST_ITEM:
-					realisation.append(" * ").append(element.getRealisation()); //$NON-NLS-1$
+					// cch fix
+					//realisation.append(" * ").append(element.getRealisation()); //$NON-NLS-1$
+					realisation.append(" * "); //$NON-NLS-1$
+
+					for (NLGElement eachComponent : components) {
+						realisedComponent = realise(eachComponent);
+						if (realisedComponent != null) {
+							realisation.append(realisedComponent
+									.getRealisation()).append(' ');							
+						}
+					}
+					//finally, append newline
+					realisation.append("\n");
 					break;
 				}
-			} else if (element instanceof StringElement) {
-				realisation.append(element.getRealisation());
+
+				// also need to check if element is a listelement (items can
+				// have embedded lists post-orthography)
+			} else if (element instanceof ListElement) {
+				for (NLGElement eachComponent : components) {
+					realisedComponent = realise(eachComponent);
+					if (realisedComponent != null) {
+						realisation.append(realisedComponent.getRealisation()).append(' ');
+					}
+				}
+
 			}
 		}
+		
 		return new StringElement(realisation.toString());
 	}
 
