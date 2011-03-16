@@ -159,4 +159,55 @@ public class TutorialTest extends SimpleNLG4Test {
 		Assert.assertEquals("The dog wakes up.", output);
 
 	 }
+	
+	/**
+	 * test ability to uise vartiant words
+	 */
+	@Test
+	public void testVariants() {
+		Lexicon lexicon = Lexicon.getDefaultLexicon();                         // default simplenlg lexicon
+		NLGFactory nlgFactory = new NLGFactory(lexicon);             // factory based on lexicon
+		Realiser realiser = new Realiser(lexicon);
+		
+		SPhraseSpec p = nlgFactory.createClause();
+		p.setSubject("my dog");
+		p.setVerb("is");  // variant of be
+		p.setObject("George");
+		
+		String output = realiser.realiseSentence(p);
+		Assert.assertEquals("My dog is George.", output);
+		
+		p = nlgFactory.createClause();
+		p.setSubject("my dog");
+		p.setVerb("chases");  // variant of chase
+		p.setObject("George");
+		
+		output = realiser.realiseSentence(p);
+		Assert.assertEquals("My dog chases George.", output);
+		
+/*		Below tests are disabled, since this functionality is disabled
+        p = nlgFactory.createClause();
+		p.setSubject(nlgFactory.createNounPhrase("the", "dogs"));   // variant of "dog"
+		p.setVerb("is");  // variant of be
+		p.setObject("happy");  // variant of happy
+		output = realiser.realiseSentence(p);
+		Assert.assertEquals("The dog is happy.", output);
+		
+		p = nlgFactory.createClause();
+		p.setSubject(nlgFactory.createNounPhrase("the", "children"));   // variant of "child"
+		p.setVerb("is");  // variant of be
+		p.setObject("happy");  // variant of happy
+		output = realiser.realiseSentence(p);
+		Assert.assertEquals("The child is happy.", output);*/
+
+		// following functionality is enabled
+		p = nlgFactory.createClause();
+		p.setSubject(nlgFactory.createNounPhrase("the", "dogs"));   // variant of "dog"
+		p.setVerb("is");  // variant of be
+		p.setObject("happy");  // variant of happy
+		output = realiser.realiseSentence(p);
+		Assert.assertEquals("The dogs is happy.", output); // grammatically incorrect, but expected behaviour for now
+
+
+	 }
 }
