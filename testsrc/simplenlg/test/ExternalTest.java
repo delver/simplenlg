@@ -298,4 +298,11 @@ public class ExternalTest extends SimpleNLG4Test {
 
 
 	}
+	
+	@Test
+	public void testData2Text() {
+		// Data2Text test
+		SPhraseSpec p = this.phraseFactory.createClause("the dog", "weigh", "12");
+		Assert.assertEquals("The dog weighes 12.", realiser.realiseSentence(p));
+	}
 }

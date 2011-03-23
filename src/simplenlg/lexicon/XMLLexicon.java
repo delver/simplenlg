@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,9 +40,7 @@ import simplenlg.features.LexicalFeature;
 import simplenlg.framework.ElementCategory;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.WordElement;
-import uk.ac.abdn.aries.DOMUtil;
-import uk.ac.abdn.aries.XPathUtil;
-import uk.ac.abdn.aries.XPathUtilException;
+
 
 /**
  * This class loads words from an XML lexicon. All features specified in the
@@ -123,7 +124,9 @@ public class XMLLexicon extends Lexicon {
 		indexByVariant = new HashMap<String, List<WordElement>>();
 
 		try {
-			Document doc = DOMUtil.loadDocument(lexiconURI);
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(lexiconURI.toString());
 			if (doc != null) {
 				Element lexRoot = doc.getDocumentElement();
 				NodeList wordNodes = lexRoot.getChildNodes();
@@ -172,8 +175,7 @@ public class XMLLexicon extends Lexicon {
 	 * @return
 	 * @throws XPathUtilException
 	 */
-	private WordElement convertNodeToWord(Node wordNode)
-			throws XPathUtilException {
+	private WordElement convertNodeToWord(Node wordNode) {
 		// if this isn't a Word node, ignore it
 		if (!wordNode.getNodeName().equalsIgnoreCase(XML_WORD))
 			return null;
