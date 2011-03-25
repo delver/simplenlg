@@ -55,7 +55,7 @@ public class PhraseElement extends NLGElement {
 	 */
 	public PhraseElement(PhraseCategory newCategory) {
 		setCategory(newCategory);
-		
+
 		// set default feature value
 		setFeature(Feature.ELIDED, false);
 	}
@@ -96,10 +96,14 @@ public class PhraseElement extends NLGElement {
 				}
 				children
 						.addAll(getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS));
-				children.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
-				children.addAll(getFeatureAsElementList(InternalFeature.SUBJECTS));
-				children.addAll(getFeatureAsElementList(InternalFeature.VERB_PHRASE));
-				children.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.SUBJECTS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.VERB_PHRASE));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
 				break;
 
 			case NOUN_PHRASE:
@@ -107,23 +111,29 @@ public class PhraseElement extends NLGElement {
 				if (currentElement != null) {
 					children.add(currentElement);
 				}
-				children.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
 				currentElement = getHead();
 				if (currentElement != null) {
 					children.add(currentElement);
 				}
-				children.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
-				children.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
 				break;
 
 			case VERB_PHRASE:
-				children.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
 				currentElement = getHead();
 				if (currentElement != null) {
 					children.add(currentElement);
 				}
-				children.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
-				children.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
 				break;
 
 			case CANNED_TEXT:
@@ -131,13 +141,16 @@ public class PhraseElement extends NLGElement {
 				break;
 
 			default:
-				children.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.PREMODIFIERS));
 				currentElement = getHead();
 				if (currentElement != null) {
 					children.add(currentElement);
 				}
-				children.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
-				children.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.COMPLEMENTS));
+				children
+						.addAll(getFeatureAsElementList(InternalFeature.POSTMODIFIERS));
 				break;
 			}
 		}
@@ -164,12 +177,10 @@ public class PhraseElement extends NLGElement {
 			headElement = (NLGElement) newHead;
 		else
 			headElement = new StringElement(newHead.toString());
-		
-		setFeature(InternalFeature.HEAD, headElement);
-		
-	}
-	
 
+		setFeature(InternalFeature.HEAD, headElement);
+
+	}
 
 	/**
 	 * Retrieves the current head of this phrase.
@@ -327,23 +338,24 @@ public class PhraseElement extends NLGElement {
 	 *            create a <code>StringElement</code>.
 	 */
 	public void addPreModifier(String newPreModifier) {
-		addPreModifier (new StringElement(newPreModifier));
+		addPreModifier(new StringElement(newPreModifier));
 	}
-	
-	/** Add a modifier to a phrase
-	 * Use heuristics to decide where it goes
+
+	/**
+	 * Add a modifier to a phrase Use heuristics to decide where it goes
+	 * 
 	 * @param modifier
 	 */
 	public void addModifier(Object modifier) {
 		// default addModifier - always make modifier a preModifier
 		if (modifier == null)
 			return;
-		
+
 		// assume is preModifier, add in appropriate form
 		if (modifier instanceof NLGElement)
-			addPreModifier((NLGElement)modifier);
+			addPreModifier((NLGElement) modifier);
 		else
-			addPreModifier((String)modifier);
+			addPreModifier((String) modifier);
 		return;
 	}
 
@@ -364,7 +376,7 @@ public class PhraseElement extends NLGElement {
 	public List<NLGElement> getPostModifiers() {
 		return getFeatureAsElementList(InternalFeature.POSTMODIFIERS);
 	}
-	
+
 	/**
 	 * Retrieves the current list of frony modifiers for the phrase.
 	 * 
@@ -373,7 +385,6 @@ public class PhraseElement extends NLGElement {
 	public List<NLGElement> getFrontModifiers() {
 		return getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS);
 	}
-
 
 	@Override
 	public String printTree(String indent) {
@@ -418,14 +429,19 @@ public class PhraseElement extends NLGElement {
 	 * phrases and is added here for convenience. Determiners are some times
 	 * referred to as specifiers.
 	 * 
-	 * @param newDeterminer the new determiner for the phrase.
+	 * @param newDeterminer
+	 *            the new determiner for the phrase.
+	 * @deprecated Use {@link NPPhraseSpec#setSpecifier(Object)} directly
 	 */
+	@Deprecated
 	public void setDeterminer(Object newDeterminer) {
 		NLGFactory factory = new NLGFactory();
-		NLGElement determinerElement = factory.createWord(
-				newDeterminer, LexicalCategory.DETERMINER);
+		NLGElement determinerElement = factory.createWord(newDeterminer,
+				LexicalCategory.DETERMINER);
 
 		if (determinerElement != null) {
+			determinerElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+					DiscourseFunction.SPECIFIER);
 			setFeature(InternalFeature.SPECIFIER, determinerElement);
 			determinerElement.setParent(this);
 		}

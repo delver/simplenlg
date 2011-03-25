@@ -18,20 +18,15 @@
  */
 package simplenlg.framework;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import simplenlg.features.ClauseStatus;
-import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
-import simplenlg.features.Form;
 import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
-import simplenlg.features.Tense;
 import simplenlg.lexicon.Lexicon;
 import simplenlg.phrasespec.AdjPhraseSpec;
 import simplenlg.phrasespec.AdvPhraseSpec;
@@ -42,11 +37,11 @@ import simplenlg.phrasespec.VPPhraseSpec;
 
 /**
  * <p>
- * This class contains methods for creating syntactic phrases.  These methods
+ * This class contains methods for creating syntactic phrases. These methods
  * should be used instead of directly invoking new on SPhraseSpec, etc.
- *
- * The phrase factory should be linked to s lexicon if possible (although
- * it will work without one)
+ * 
+ * The phrase factory should be linked to s lexicon if possible (although it
+ * will work without one)
  * </p>
  * 
  * 
@@ -56,17 +51,19 @@ import simplenlg.phrasespec.VPPhraseSpec;
  */
 public class NLGFactory {
 
-	/*** CODING COMMENTS
-	 * The original version of phraseFactory created a crude realisation of the phrase in
-	 * the BASE_FORM feature.  This was just for debugging purposes (note BASE_FORM on
-	 * a WordElement is meaningful), I've zapped this as it was makig things too complex
+	/***
+	 * CODING COMMENTS The original version of phraseFactory created a crude
+	 * realisation of the phrase in the BASE_FORM feature. This was just for
+	 * debugging purposes (note BASE_FORM on a WordElement is meaningful), I've
+	 * zapped this as it was makig things too complex
 	 * 
-	 * This version of phraseFactory replicates WordElements (instead of reusing them).
-	 * I think this is because elemente are linked to their parent phrases, via
-	 * the parent data member.  May be good to check if this is actually necessary
+	 * This version of phraseFactory replicates WordElements (instead of reusing
+	 * them). I think this is because elemente are linked to their parent
+	 * phrases, via the parent data member. May be good to check if this is
+	 * actually necessary
 	 * 
-	 * The explicit list of pronouns below should be replaced by a reference
-	 * to the lexicon
+	 * The explicit list of pronouns below should be replaced by a reference to
+	 * the lexicon
 	 * 
 	 * Things to sort out at some point...
 	 * 
@@ -131,9 +128,9 @@ public class NLGFactory {
 	@SuppressWarnings("nls")
 	private static final List<String> EXPLETIVE_PRONOUNS = Arrays
 			.asList("there");
-	
+
 	/** regex for determining if a string is a single word or not **/
-	private static final String WORD_REGEX="\\w*";
+	private static final String WORD_REGEX = "\\w*";
 
 	/**
 	 * Creates a new phrase factory with no associated lexicon.
@@ -168,7 +165,8 @@ public class NLGFactory {
 	 * an <code>NLGElement</code> then that is returned unchanged. If a
 	 * <code>String</code> is passed as the word then the factory will look up
 	 * the <code>Lexicon</code> if one exists and use the details found to
-	 * create a new <code>InflectedWordElement</code>.
+	 * create a new <code>WordElement</code>.
+	 * 
 	 * @param word
 	 *            the base word for the new element. This can be a
 	 *            <code>NLGElement</code>, which is returned unchanged, or a
@@ -183,15 +181,21 @@ public class NLGFactory {
 		NLGElement wordElement = null;
 		if (word instanceof NLGElement) {
 			wordElement = (NLGElement) word;
-		} else if (word instanceof String) {
-			wordElement = new InflectedWordElement((String) word, category);
-			if (this.lexicon != null) {
-				doLexiconLookUp(category, (String) word, wordElement);
-			}
+
+		} else if (word instanceof String && this.lexicon != null) {
+			// AG: change: should create a WordElement, not an InflectedWordElement
+			// wordElement = new InflectedWordElement(
+			// (String) word, category);
+			// if (this.lexicon != null) {
+			// doLexiconLookUp(category, (String) word, wordElement);
+			// }
+			wordElement = lexicon.getWord((String) word, category);
+
 			if (PRONOUNS.contains(word)) {
 				setPronounFeatures(wordElement, (String) word);
 			}
 		}
+
 		return wordElement;
 	}
 
@@ -232,16 +236,19 @@ public class NLGFactory {
 		} else {
 			wordElement.setFeature(LexicalFeature.GENDER, Gender.NEUTER);
 		}
+
 		if (POSSESSIVE_PRONOUNS.contains(word)) {
 			wordElement.setFeature(Feature.POSSESSIVE, true);
 		} else {
 			wordElement.setFeature(Feature.POSSESSIVE, false);
 		}
+
 		if (PLURAL_PRONOUNS.contains(word) && !SECOND_PRONOUNS.contains(word)) {
 			wordElement.setPlural(true);
 		} else if (!EITHER_NUMBER_PRONOUNS.contains(word)) {
 			wordElement.setPlural(false);
 		}
+
 		if (EXPLETIVE_PRONOUNS.contains(word)) {
 			wordElement.setFeature(InternalFeature.NON_MORPH, true);
 			wordElement.setFeature(LexicalFeature.EXPLETIVE_SUBJECT, true);
@@ -261,6 +268,7 @@ public class NLGFactory {
 	private void doLexiconLookUp(LexicalCategory category, String word,
 			NLGElement wordElement) {
 		WordElement baseWord = null;
+
 		if (LexicalCategory.NOUN.equals(category)
 				&& this.lexicon.hasWord(word, LexicalCategory.PRONOUN)) {
 			baseWord = this.lexicon.lookupWord(word, LexicalCategory.PRONOUN);
@@ -315,8 +323,8 @@ public class NLGFactory {
 
 		PPPhraseSpec phraseElement = new PPPhraseSpec(this);
 
-		NLGElement prepositionalElement = createNLGElement(
-				preposition, LexicalCategory.PREPOSITION);
+		NLGElement prepositionalElement = createNLGElement(preposition,
+				LexicalCategory.PREPOSITION);
 		setPhraseHead(phraseElement, prepositionalElement);
 
 		if (complement != null) {
@@ -337,38 +345,49 @@ public class NLGFactory {
 		NLGElement complementElement = createNLGElement(complement);
 		phraseElement.addComplement(complementElement);
 	}
-	
-	/**  this method creates an NLGElement from an object
-	 * If object is null, return null
-	 * If the object is already an NLGElement, it is returned unchanged
-	 * Exception: if it is an InflectedWordElement, return underlying WordElement
-	 * If it is a String which matches a lexicon entry or pronoun, the relevant WordElement is returned
-	 * If it is a different String, a wordElement is created if the string is a single word
-	 * Otherwise a StringElement is returned
-	 * Otherwise throw an exception
+
+	/**
+	 * this method creates an NLGElement from an object If object is null,
+	 * return null If the object is already an NLGElement, it is returned
+	 * unchanged Exception: if it is an InflectedWordElement, return underlying
+	 * WordElement If it is a String which matches a lexicon entry or pronoun,
+	 * the relevant WordElement is returned If it is a different String, a
+	 * wordElement is created if the string is a single word Otherwise a
+	 * StringElement is returned Otherwise throw an exception
 	 * 
-	 * @param element - object to look up
-	 * @param category - default lexical category of object
+	 * @param element
+	 *            - object to look up
+	 * @param category
+	 *            - default lexical category of object
 	 * @return NLGelement
 	 */
 	public NLGElement createNLGElement(Object element, LexicalCategory category) {
 		if (element == null)
 			return null;
+
 		else if (element instanceof InflectedWordElement)
 			return ((InflectedWordElement) element).getBaseWord();
+
 		else if (element instanceof NLGElement)
-			return (NLGElement)element;
+			return (NLGElement) element;
+
 		else if (element instanceof String) {
-			if (lexicon.hasWord((String)element, category) || PRONOUNS.contains((String)element) || ((String)element).matches(WORD_REGEX))
+			if (lexicon != null
+					&& (lexicon.hasWord((String) element, category)
+							|| PRONOUNS.contains((String) element) || ((String) element)
+							.matches(WORD_REGEX)))
 				return createWord(element, category);
 			else
 				return new StringElement((String) element);
 		}
-		
-		throw new IllegalArgumentException(element.toString() + " is not a valid type");
+
+		throw new IllegalArgumentException(element.toString()
+				+ " is not a valid type");
 	}
-	
-	/**  create an NLGElement from the element, no default lexical category
+
+	/**
+	 * create an NLGElement from the element, no default lexical category
+	 * 
 	 * @param element
 	 * @return NLGelement
 	 */
@@ -413,17 +432,14 @@ public class NLGFactory {
 			return (NPPhraseSpec) noun;
 
 		NPPhraseSpec phraseElement = new NPPhraseSpec(this);
-
 		NLGElement nounElement = createNLGElement(noun, LexicalCategory.NOUN);
 		setPhraseHead(phraseElement, nounElement);
-		
-		if (specifier != null)
-			phraseElement.setSpecifier(specifier);
 
+		if (specifier != null)
+			phraseElement.setSpecifier(specifier);		
+		
 		return phraseElement;
 	}
-
-
 
 	/**
 	 * A helper method to set the head feature of the phrase.
@@ -433,13 +449,13 @@ public class NLGFactory {
 	 * @param headElement
 	 *            the head element.
 	 */
-	private void setPhraseHead(PhraseElement phraseElement, NLGElement headElement) {
+	private void setPhraseHead(PhraseElement phraseElement,
+			NLGElement headElement) {
 		if (headElement != null) {
 			phraseElement.setHead(headElement);
 			headElement.setParent(phraseElement);
 		}
 	}
-
 
 	/**
 	 * Creates a blank adjective phrase with no base adjective set.
@@ -460,7 +476,8 @@ public class NLGFactory {
 	public AdjPhraseSpec createAdjectivePhrase(Object adjective) {
 		AdjPhraseSpec phraseElement = new AdjPhraseSpec(this);
 
-		NLGElement adjectiveElement = createNLGElement(adjective,LexicalCategory.ADJECTIVE);
+		NLGElement adjectiveElement = createNLGElement(adjective,
+				LexicalCategory.ADJECTIVE);
 		setPhraseHead(phraseElement, adjectiveElement);
 
 		return phraseElement;
@@ -487,14 +504,11 @@ public class NLGFactory {
 	 * @return a <code>VPPhraseSpec</code> representing this phrase.
 	 */
 	public VPPhraseSpec createVerbPhrase(Object verb) {
-		VPPhraseSpec phraseElement = new VPPhraseSpec(this);
-
+		VPPhraseSpec phraseElement = new VPPhraseSpec(this);		
 		phraseElement.setVerb(verb);
-
 		setPhraseHead(phraseElement, phraseElement.getVerb());
 		return phraseElement;
 	}
-
 
 	/**
 	 * Creates a blank adverb phrase that has no adverb.
@@ -515,7 +529,8 @@ public class NLGFactory {
 	public AdvPhraseSpec createAdverbPhrase(String adverb) {
 		AdvPhraseSpec phraseElement = new AdvPhraseSpec(this);
 
-		NLGElement adverbElement = createNLGElement(adverb,LexicalCategory.ADVERB);
+		NLGElement adverbElement = createNLGElement(adverb,
+				LexicalCategory.ADVERB);
 		setPhraseHead(phraseElement, adverbElement);
 		return phraseElement;
 	}
@@ -564,7 +579,7 @@ public class NLGFactory {
 			Object directObject) {
 
 		SPhraseSpec phraseElement = new SPhraseSpec(this);
-		
+
 		if (verb != null)
 			phraseElement.setVerb(verb);
 
@@ -572,14 +587,13 @@ public class NLGFactory {
 			phraseElement.setSubject(subject);
 
 		if (directObject != null) {
-				phraseElement.setObject(directObject);
+			phraseElement.setObject(directObject);
 		}
-
 
 		return phraseElement;
 	}
 
-/*	*//**
+	/*	*//**
 	 * A helper method to set the verb phrase for a clause.
 	 * 
 	 * @param baseForm
@@ -588,32 +602,26 @@ public class NLGFactory {
 	 *            the verb phrase to be used in the clause.
 	 * @param phraseElement
 	 *            the current representation of the clause.
-	 *//*
-	private void setVerbPhrase(StringBuffer baseForm, NLGElement verbPhrase,
-			PhraseElement phraseElement) {
-		if (baseForm.length() > 0) {
-			baseForm.append(' ');
-		}
-		baseForm.append(verbPhrase.getFeatureAsString(Feature.BASE_FORM));
-		phraseElement.setFeature(Feature.VERB_PHRASE, verbPhrase);
-		verbPhrase.setParent(phraseElement);
-		verbPhrase.setFeature(Feature.DISCOURSE_FUNCTION,
-				DiscourseFunction.VERB_PHRASE);
-		if (phraseElement.hasFeature(Feature.GENDER)) {
-			verbPhrase.setFeature(Feature.GENDER, phraseElement
-					.getFeature(Feature.GENDER));
-		}
-		if (phraseElement.hasFeature(Feature.NUMBER)) {
-			verbPhrase.setFeature(Feature.NUMBER, phraseElement
-					.getFeature(Feature.NUMBER));
-		}
-		if (phraseElement.hasFeature(Feature.PERSON)) {
-			verbPhrase.setFeature(Feature.PERSON, phraseElement
-					.getFeature(Feature.PERSON));
-		}
-	}
-
-	*//**
+	 */
+	/*
+	 * private void setVerbPhrase(StringBuffer baseForm, NLGElement verbPhrase,
+	 * PhraseElement phraseElement) { if (baseForm.length() > 0) {
+	 * baseForm.append(' '); }
+	 * baseForm.append(verbPhrase.getFeatureAsString(Feature.BASE_FORM));
+	 * phraseElement.setFeature(Feature.VERB_PHRASE, verbPhrase);
+	 * verbPhrase.setParent(phraseElement);
+	 * verbPhrase.setFeature(Feature.DISCOURSE_FUNCTION,
+	 * DiscourseFunction.VERB_PHRASE); if
+	 * (phraseElement.hasFeature(Feature.GENDER)) {
+	 * verbPhrase.setFeature(Feature.GENDER, phraseElement
+	 * .getFeature(Feature.GENDER)); } if
+	 * (phraseElement.hasFeature(Feature.NUMBER)) {
+	 * verbPhrase.setFeature(Feature.NUMBER, phraseElement
+	 * .getFeature(Feature.NUMBER)); } if
+	 * (phraseElement.hasFeature(Feature.PERSON)) {
+	 * verbPhrase.setFeature(Feature.PERSON, phraseElement
+	 * .getFeature(Feature.PERSON)); } }
+	 *//**
 	 * A helper method to add the direct object to the clause.
 	 * 
 	 * @param baseForm
@@ -624,33 +632,26 @@ public class NLGFactory {
 	 *            the current representation of this clause.
 	 * @param function
 	 *            the discourse function for this object.
-	 *//*
-	private void setObject(StringBuffer baseForm, Object object,
-			PhraseElement phraseElement, DiscourseFunction function) {
-		if (baseForm.length() > 0) {
-			baseForm.append(' ');
-		}
-		if (object instanceof NLGElement) {
-			phraseElement.addComplement((NLGElement) object);
-			baseForm.append(((NLGElement) object)
-					.getFeatureAsString(Feature.BASE_FORM));
-
-			((NLGElement) object).setFeature(Feature.DISCOURSE_FUNCTION,
-					function);
-
-			if (((NLGElement) object).hasFeature(Feature.NUMBER)) {
-				phraseElement.setFeature(Feature.NUMBER, ((NLGElement) object)
-						.getFeature(Feature.NUMBER));
-			}
-		} else if (object instanceof String) {
-			NLGElement complementElement = createNounPhrase(object);
-			phraseElement.addComplement(complementElement);
-			complementElement.setFeature(Feature.DISCOURSE_FUNCTION, function);
-			baseForm.append((String) object);
-		}
-	}
-*/
-/*	*//**
+	 */
+	/*
+	 * private void setObject(StringBuffer baseForm, Object object,
+	 * PhraseElement phraseElement, DiscourseFunction function) { if
+	 * (baseForm.length() > 0) { baseForm.append(' '); } if (object instanceof
+	 * NLGElement) { phraseElement.addComplement((NLGElement) object);
+	 * baseForm.append(((NLGElement) object)
+	 * .getFeatureAsString(Feature.BASE_FORM));
+	 * 
+	 * ((NLGElement) object).setFeature(Feature.DISCOURSE_FUNCTION, function);
+	 * 
+	 * if (((NLGElement) object).hasFeature(Feature.NUMBER)) {
+	 * phraseElement.setFeature(Feature.NUMBER, ((NLGElement) object)
+	 * .getFeature(Feature.NUMBER)); } } else if (object instanceof String) {
+	 * NLGElement complementElement = createNounPhrase(object);
+	 * phraseElement.addComplement(complementElement);
+	 * complementElement.setFeature(Feature.DISCOURSE_FUNCTION, function);
+	 * baseForm.append((String) object); } }
+	 */
+	/*	*//**
 	 * A helper method that sets the subjects on a clause.
 	 * 
 	 * @param phraseElement
@@ -659,32 +660,28 @@ public class NLGFactory {
 	 *            the subject phrase for the clause.
 	 * @param baseForm
 	 *            the base form for the clause.
-	 *//*
-	private void setPhraseSubjects(PhraseElement phraseElement,
-			NLGElement subjectPhrase, StringBuffer baseForm) {
-		subjectPhrase.setParent(phraseElement);
-		List<NLGElement> allSubjects = new ArrayList<NLGElement>();
-		allSubjects.add(subjectPhrase);
-		phraseElement.setFeature(Feature.SUBJECTS, allSubjects);
-		baseForm.append(subjectPhrase.getFeatureAsString(Feature.BASE_FORM));
-		subjectPhrase.setFeature(Feature.DISCOURSE_FUNCTION,
-				DiscourseFunction.SUBJECT);
-
-		if (subjectPhrase.hasFeature(Feature.GENDER)) {
-			phraseElement.setFeature(Feature.GENDER, subjectPhrase
-					.getFeature(Feature.GENDER));
-		}
-		if (subjectPhrase.hasFeature(Feature.NUMBER)) {
-			phraseElement.setFeature(Feature.NUMBER, subjectPhrase
-					.getFeature(Feature.NUMBER));
-
-		}
-		if (subjectPhrase.hasFeature(Feature.PERSON)) {
-			phraseElement.setFeature(Feature.PERSON, subjectPhrase
-					.getFeature(Feature.PERSON));
-		}
-	}
-*/
+	 */
+	/*
+	 * private void setPhraseSubjects(PhraseElement phraseElement, NLGElement
+	 * subjectPhrase, StringBuffer baseForm) {
+	 * subjectPhrase.setParent(phraseElement); List<NLGElement> allSubjects =
+	 * new ArrayList<NLGElement>(); allSubjects.add(subjectPhrase);
+	 * phraseElement.setFeature(Feature.SUBJECTS, allSubjects);
+	 * baseForm.append(subjectPhrase.getFeatureAsString(Feature.BASE_FORM));
+	 * subjectPhrase.setFeature(Feature.DISCOURSE_FUNCTION,
+	 * DiscourseFunction.SUBJECT);
+	 * 
+	 * if (subjectPhrase.hasFeature(Feature.GENDER)) {
+	 * phraseElement.setFeature(Feature.GENDER, subjectPhrase
+	 * .getFeature(Feature.GENDER)); } if
+	 * (subjectPhrase.hasFeature(Feature.NUMBER)) {
+	 * phraseElement.setFeature(Feature.NUMBER, subjectPhrase
+	 * .getFeature(Feature.NUMBER));
+	 * 
+	 * } if (subjectPhrase.hasFeature(Feature.PERSON)) {
+	 * phraseElement.setFeature(Feature.PERSON, subjectPhrase
+	 * .getFeature(Feature.PERSON)); } }
+	 */
 	/**
 	 * Creates a blank canned text phrase with no text.
 	 * 
@@ -705,27 +702,33 @@ public class NLGFactory {
 		return new StringElement(text);
 	}
 
-	/** Creates a new (empty) coordinated phrase
+	/**
+	 * Creates a new (empty) coordinated phrase
 	 * 
 	 * @return empty <code>CoordinatedPhraseElement</code>
 	 */
 	public CoordinatedPhraseElement createCoordinatedPhrase() {
 		return new CoordinatedPhraseElement();
 	}
-	
-	/** Creates a new coordinated phrase with two elements (initially)
-	 * @param coord1 - first phrase to be coordinated
-	 * @param coord2 = second phrase to be coordinated
+
+	/**
+	 * Creates a new coordinated phrase with two elements (initially)
+	 * 
+	 * @param coord1
+	 *            - first phrase to be coordinated
+	 * @param coord2
+	 *            = second phrase to be coordinated
 	 * @return <code>CoordinatedPhraseElement</code> for the two given elements
 	 */
-	public CoordinatedPhraseElement createdCoordinatedPhrase(Object coord1, Object coord2) {
+	public CoordinatedPhraseElement createdCoordinatedPhrase(Object coord1,
+			Object coord2) {
 		return new CoordinatedPhraseElement(coord1, coord2);
 	}
 
 	/***********************************************************************************
-	* Document level stuff
-	***********************************************************************************/
-	
+	 * Document level stuff
+	 ***********************************************************************************/
+
 	/**
 	 * Creates a new document element with no title.
 	 * 
@@ -759,7 +762,7 @@ public class NLGFactory {
 	 */
 	public DocumentElement createDocument(String title,
 			List<DocumentElement> components) {
-	
+
 		DocumentElement document = new DocumentElement(
 				DocumentCategory.DOCUMENT, title);
 		if (components != null) {
@@ -782,7 +785,7 @@ public class NLGFactory {
 	public DocumentElement createDocument(String title, NLGElement component) {
 		DocumentElement element = new DocumentElement(
 				DocumentCategory.DOCUMENT, title);
-	
+
 		if (component != null) {
 			element.addComponent(component);
 		}
@@ -830,6 +833,7 @@ public class NLGFactory {
 
 	/**
 	 * Creates a list item for adding to a list element.
+	 * 
 	 * @return a <code>DocumentElement</code> representing the list item.
 	 */
 	public DocumentElement createListItem() {
@@ -837,8 +841,9 @@ public class NLGFactory {
 	}
 
 	/**
-	 * Creates a list item for adding to a list element. The list item has the 
+	 * Creates a list item for adding to a list element. The list item has the
 	 * given component.
+	 * 
 	 * @return a <code>DocumentElement</code> representing the list item.
 	 */
 	public DocumentElement createListItem(NLGElement component) {
@@ -925,7 +930,7 @@ public class NLGFactory {
 	 */
 	public DocumentElement createSection(String title,
 			List<DocumentElement> components) {
-	
+
 		DocumentElement section = new DocumentElement(DocumentCategory.SECTION,
 				title);
 		if (components != null) {
@@ -1023,11 +1028,10 @@ public class NLGFactory {
 	 */
 	public DocumentElement createSentence(Object subject, Object verb,
 			Object complement) {
-		
+
 		DocumentElement sentence = new DocumentElement(
 				DocumentCategory.SENTENCE, null);
-		sentence.addComponent(createClause(subject, verb,
-				complement));
+		sentence.addComponent(createClause(subject, verb, complement));
 		return sentence;
 	}
 
@@ -1043,7 +1047,7 @@ public class NLGFactory {
 	public DocumentElement createSentence(String cannedSentence) {
 		DocumentElement sentence = new DocumentElement(
 				DocumentCategory.SENTENCE, null);
-	
+
 		if (cannedSentence != null) {
 			sentence.addComponent(createStringElement(cannedSentence));
 		}

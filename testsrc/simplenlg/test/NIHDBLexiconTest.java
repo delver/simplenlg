@@ -19,6 +19,8 @@
 
 package simplenlg.test;
 
+import java.util.List;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -28,11 +30,13 @@ import org.junit.Test;
 
 import simplenlg.features.LexicalFeature;
 import simplenlg.framework.LexicalCategory;
+import simplenlg.framework.NLGElement;
+import simplenlg.framework.NLGFactory;
 import simplenlg.framework.WordElement;
-import simplenlg.lexicon.Lexicon;
 import simplenlg.lexicon.NIHDBLexicon;
+import simplenlg.phrasespec.NPPhraseSpec;
+import simplenlg.realiser.english.Realiser;
 
-// TODO: Auto-generated Javadoc
 /**
  * Tests for NIHDBLexicon
  * 
@@ -43,8 +47,8 @@ public class NIHDBLexiconTest extends TestCase {
 	// lexicon object -- an instance of Lexicon
 	NIHDBLexicon lexicon = null;
 
-	// DB location
-	static String DB_FILENAME = "E:\\NIHDB\\lexAccess2009";
+	// DB location -- change this to point to the lex access data dir
+	static String DB_FILENAME = "A:\\corpora\\LEX\\lexAccess2011\\data\\HSqlDb\\lexAccess2011";
 
 	@Override
 	@Before
@@ -55,41 +59,55 @@ public class NIHDBLexiconTest extends TestCase {
 		this.lexicon = new NIHDBLexicon(DB_FILENAME);
 	}
 
-	/* close the lexicon
+	/**
+	 * Close the lexicon
 	 */
 	@Override
 	@After
 	public void tearDown() throws Exception {
-		// TODO Auto-generated method stub
 		super.tearDown();
-		if (lexicon!=null)
+
+		if (lexicon != null)
 			lexicon.close();
 	}
-	
+
 	@Test
 	public void testBasics() {
 		SharedLexiconTests.doBasicTests(lexicon);
 	}
-	
-	@Test
-	public void testNIHSpecifics() {
-		// test getWord.  There is only one "UK", it is an acronym for "United Kingdom"
-		WordElement UK = lexicon.getWord("UK");
-		Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
 
+	@Test
+	public void testAcronyms() {
+		WordElement uk = lexicon.getWord("UK");
+		WordElement unitedKingdom = lexicon.getWord("United Kingdom");
+		List<NLGElement> fullForms = uk
+				.getFeatureAsElementList(LexicalFeature.ACRONYM_OF);
+
+		// "uk" is an acronym of 3 full forms
+		Assert.assertEquals(3, fullForms.size());
+		Assert.assertTrue(fullForms.contains(unitedKingdom));
+	}
+
+	@Test
+	public void testStandardInflections() {
 		// test keepStandardInflection flag
 		boolean keepInflectionsFlag = lexicon.isKeepStandardInflections();
-		
+
 		lexicon.setKeepStandardInflections(true);
 		WordElement dog = lexicon.getWord("dog", LexicalCategory.NOUN);
-		Assert.assertEquals("dogs", dog.getFeatureAsString(LexicalFeature.PLURAL));
+		Assert.assertEquals("dogs", dog
+				.getFeatureAsString(LexicalFeature.PLURAL));
 
 		lexicon.setKeepStandardInflections(false);
 		WordElement cat = lexicon.getWord("cat", LexicalCategory.NOUN);
-		Assert.assertEquals(null, cat.getFeatureAsString(LexicalFeature.PLURAL));
+		Assert
+				.assertEquals(null, cat
+						.getFeatureAsString(LexicalFeature.PLURAL));
 
 		// restore flag to original state
-		lexicon.setKeepStandardInflections(keepInflectionsFlag);	
+		lexicon.setKeepStandardInflections(keepInflectionsFlag);
 	}
+
+	
 
 }

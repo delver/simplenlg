@@ -36,6 +36,7 @@ import simplenlg.framework.PhraseElement;
 
 /**
  * Tests for the NPPhraseSpec and CoordinateNPPhraseSpec classes.
+ * 
  * @author agatt
  */
 public class NounPhraseTest extends SimpleNLG4Test {
@@ -85,17 +86,14 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		// sing
 		this.proTest1.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
 		this.proTest1.setFeature(Feature.PRONOMINAL, true);
-		Assert.assertEquals(
-				"she", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
+		Assert.assertEquals("she", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
 
 		// sing, possessive
 		this.proTest1.setFeature(Feature.POSSESSIVE, true);
-		Assert.assertEquals(
-				"her", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
+		Assert.assertEquals("her", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
 
 		// plural pronoun
-		this.proTest2
-				.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		this.proTest2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 		this.proTest2.setFeature(Feature.PRONOMINAL, true);
 		Assert.assertEquals(
 				"they", this.realiser.realise(this.proTest2).getRealisation()); //$NON-NLS-1$
@@ -212,8 +210,8 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		CoordinatedPhraseElement cnp1 = new CoordinatedPhraseElement(this.dog,
 				this.woman);
 		cnp1.setFeature(Feature.RAISE_SPECIFIER, true);
-		Assert.assertEquals("the dog and woman", this.realiser.realise(cnp1) //$NON-NLS-1$
-				.getRealisation());
+		NLGElement realised = this.realiser.realise(cnp1);
+		Assert.assertEquals("the dog and woman",  realised.getRealisation());
 
 		this.dog.addComplement(this.onTheRock);
 		this.woman.addComplement(this.behindTheCurtain);

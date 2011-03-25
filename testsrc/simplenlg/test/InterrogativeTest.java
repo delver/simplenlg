@@ -29,6 +29,7 @@ import simplenlg.features.InterrogativeType;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;
+import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.SPhraseSpec;
@@ -164,8 +165,9 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s3.setFeature(Feature.PROGRESSIVE, true);
 		this.s3.setFeature(Feature.INTERROGATIVE_TYPE,
 				InterrogativeType.YES_NO);
+		NLGElement realised = this.realiser.realise(this.s3);
 		Assert.assertEquals("was the man giving the woman John's flower", //$NON-NLS-1$
-				this.realiser.realise(this.s3).getRealisation());
+				realised.getRealisation());
 
 		// modal
 		// sentence: "the man should be giving the woman John's flower"

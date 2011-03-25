@@ -614,7 +614,6 @@ public class ClauseTest extends SimpleNLG4Test {
 				.createClause(
 						this.phraseFactory.createNounPhrase("he"), "chase", this.phraseFactory.createNounPhrase("me")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		_s4.setFeature(Feature.PASSIVE, true);
-
 		Assert
 				.assertEquals(
 						"I am chased by him", this.realiser.realise(_s4).getRealisation()); //$NON-NLS-1$

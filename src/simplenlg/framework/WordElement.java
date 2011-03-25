@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import simplenlg.features.LexicalFeature;
+
 /**
  * This is the class for a lexical entry (ie, a word). Words are stored in a
  * {@link simplenlg.lexicon.Lexicon}, and usually the developer retrieves a
@@ -47,7 +49,8 @@ public class WordElement extends NLGElement {
 	// will be removed from there
 
 	String id; // id in lexicon (may be null);
-//	LexicalCategory category; // type of word
+
+	// LexicalCategory category; // type of word
 
 	/**********************************************************/
 	// constructors
@@ -145,12 +148,86 @@ public class WordElement extends NLGElement {
 	}
 
 	/**
+	 * Convenience method to set the default inflectional variant of a word.
+	 * Equivalent to
+	 * <code>setFeature(LexicalFeature.DEFAULT_INFL, variant)</code>
+	 * 
+	 * @param variant
+	 *            The variant, which is an inflectional code such as <I>reg</I>
+	 *            or <I>irreg</I>
+	 */
+	public void setDefaultInflectionalVariant(String variant) {
+		setFeature(LexicalFeature.DEFAULT_INFL, variant);
+	}
+
+	/**
+	 * Convenience method, equivalent to
+	 * <code>getFeatureAsString(LexicalFeature.DEFAULT_INFL)</code>.
+	 * 
+	 * @return the default inflectional variant
+	 */
+	public String getDefaultInflectionalVariant() {
+		return getFeatureAsString(LexicalFeature.DEFAULT_INFL);
+	}
+
+	/**
+	 * Convenience method to get all the inflectional forms of the word.
+	 * Equivalent to
+	 * <code>getFeatureAsStringList(LexicalFeature.INFLECTIONS)</code>.
+	 * 
+	 * @return the list of inflectional variants (for example, <I>reg</I>,
+	 *         <I>irreg</I> etc)
+	 */
+	public List<String> getInflectionalVariants() {
+		return getFeatureAsStringList(LexicalFeature.INFLECTIONS);
+	}
+
+	/**
+	 * Convenience method to get all the spelling variants of the word.
+	 * Equivalent to
+	 * <code>getFeatureAsStringList(LexicalFeature.SPELL_VARS)</code>.
+	 * 
+	 * @return the list of spelling variants
+	 */
+	public List<String> getSpellingVariants() {
+		return getFeatureAsStringList(LexicalFeature.SPELL_VARS);
+	}
+
+	/**
+	 * Convenience method to set the default spelling variant of a word.
+	 * Equivalent to
+	 * <code>setFeature(LexicalFeature.DEFAULT_SPELL, variant)</code>.
+	 * 
+	 * <P>
+	 * By default, the spelling variant used is the base form. If otherwise set,
+	 * this forces the realiser to always use the spelling variant specified.
+	 * 
+	 * @param variant
+	 *            The spelling variant
+	 */
+	public void setDefaultSpellingVariant(String variant) {
+		setFeature(LexicalFeature.DEFAULT_SPELL, variant);
+	}
+
+	/**
+	 * Convenience method, equivalent to
+	 * <code>getFeatureAsString(LexicalFeature.DEFAULT_SPELL)</code>. If this
+	 * feature is not set, the baseform is returned.
+	 * 
+	 * @return the default inflectional variant
+	 */
+	public String getDefaultSpellingVariant() {
+		String defSpell = getFeatureAsString(LexicalFeature.DEFAULT_SPELL);
+		return defSpell == null ? this.getBaseForm() : defSpell;
+	}
+
+	/**
 	 * @param category
 	 *            the category to set
 	 */
-//	public void setCategory(LexicalCategory category) {
-//		this.category = category;
-//	}
+	// public void setCategory(LexicalCategory category) {
+	// this.category = category;
+	// }
 
 	/**********************************************************/
 	// other methods
@@ -217,5 +294,28 @@ public class WordElement extends NLGElement {
 				.append(", category=").append(getCategory().toString()) //$NON-NLS-1$
 				.append(", ").append(super.toString()).append('\n'); //$NON-NLS-1$
 		return print.toString();
+	}
+
+	/**
+	 * Check if this WordElement is equal to an object.
+	 * 
+	 * @param the
+	 *            object
+	 * @return <code>true</code> iff the object is a word element with the same
+	 *         id and the same baseform and the same features.
+	 * 
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof WordElement) {
+			WordElement we = (WordElement) o;
+
+			return (this.baseForm == we.baseForm || this.baseForm
+					.equals(we.baseForm))
+					&& (this.id == we.id || this.id.equals(we.id))
+					&& we.features.equals(this.features);
+		}
+
+		return false;
 	}
 }

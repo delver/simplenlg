@@ -31,6 +31,7 @@ import simplenlg.features.LexicalFeature;
  * <em>eat</em>) and for setting and retrieving the base word. The base word is
  * a <code>WordElement</code> constructed by the lexicon.
  * </p>
+ * 
  * @author D. Westwater, University of Aberdeen.
  * @version 4.0
  * 
@@ -52,7 +53,7 @@ public class InflectedWordElement extends NLGElement {
 		setFeature(LexicalFeature.BASE_FORM, word);
 		setCategory(category);
 	}
-	
+
 	/**
 	 * Constructs a new inflected word from a WordElement
 	 * 
@@ -62,7 +63,10 @@ public class InflectedWordElement extends NLGElement {
 	public InflectedWordElement(WordElement word) {
 		super();
 		setFeature(InternalFeature.BASE_WORD, word);
-		setFeature(LexicalFeature.BASE_FORM, word.getBaseForm());
+		// AG: changed to use the default spelling variant
+		// setFeature(LexicalFeature.BASE_FORM, word.getBaseForm());
+		String defaultSpelling = word.getDefaultSpellingVariant();
+		setFeature(LexicalFeature.BASE_FORM, defaultSpelling);
 		setCategory(word.getCategory());
 	}
 
@@ -117,7 +121,8 @@ public class InflectedWordElement extends NLGElement {
 	 *         from the lexicon.
 	 */
 	public WordElement getBaseWord() {
-		NLGElement baseWord = this.getFeatureAsElement(InternalFeature.BASE_WORD);
+		NLGElement baseWord = this
+				.getFeatureAsElement(InternalFeature.BASE_WORD);
 		return baseWord instanceof WordElement ? (WordElement) baseWord : null;
 	}
 }

@@ -30,7 +30,6 @@ import simplenlg.features.Person;
 import simplenlg.features.Tense;
 import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.StringElement;
 import simplenlg.framework.WordElement;
@@ -63,8 +62,7 @@ import simplenlg.framework.WordElement;
  * 
  * 
  * @author D. Westwater, University of Aberdeen.
- * @version 4.0
- * 16-Mar-2011 modified to use correct base form (ER)
+ * @version 4.0 16-Mar-2011 modified to use correct base form (ER)
  */
 public abstract class MorphologyRules {
 
@@ -101,10 +99,9 @@ public abstract class MorphologyRules {
 	protected static StringElement doNounMorphology(
 			InflectedWordElement element, WordElement baseWord) {
 		StringBuffer realised = new StringBuffer();
-		
+
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);
-
 
 		if (element.isPlural()
 				&& !element.getFeatureAsBoolean(LexicalFeature.PROPER)
@@ -112,21 +109,32 @@ public abstract class MorphologyRules {
 
 			String pluralForm = null;
 
-			if (element.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
-					.booleanValue()) {
+			// AG changed: now check if default infl is uncount
+			// if (element.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
+			// .booleanValue()) {
+			// pluralForm = baseForm;
+			String elementDefaultInfl = element
+					.getFeatureAsString(LexicalFeature.DEFAULT_INFL);
+			if (elementDefaultInfl != null && elementDefaultInfl.equals("uncount")) {
 				pluralForm = baseForm;
 			} else {
 				pluralForm = element.getFeatureAsString(LexicalFeature.PLURAL);
 			}
+
 			if (pluralForm == null && baseWord != null) {
-				if (baseWord.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
-						.booleanValue()) {
+				// AG changed: now check if default infl is uncount
+				// if (baseWord.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
+				// .booleanValue()) {
+				// pluralForm = baseForm;
+				String baseDefaultInfl = baseWord.getFeatureAsString(LexicalFeature.DEFAULT_INFL);
+				if (baseDefaultInfl != null && baseDefaultInfl.equals("uncount")) {
 					pluralForm = baseForm;
 				} else {
 					pluralForm = baseWord
 							.getFeatureAsString(LexicalFeature.PLURAL);
 				}
 			}
+			
 			if (pluralForm == null) {
 				Object pattern = element.getFeature(Feature.PATTERN);
 				if (Pattern.GRECO_LATIN_REGULAR.equals(pattern)) {
@@ -136,9 +144,11 @@ public abstract class MorphologyRules {
 				}
 			}
 			realised.append(pluralForm);
+		
 		} else {
 			realised.append(baseForm);
 		}
+		
 		checkPossessive(element, realised);
 		StringElement realisedElement = new StringElement(realised.toString());
 		realisedElement.setFeature(InternalFeature.DISCOURSE_FUNCTION, element
@@ -252,7 +262,7 @@ public abstract class MorphologyRules {
 		Tense tenseValue = element.getTense();
 		Object formValue = element.getFeature(Feature.FORM);
 		Object patternValue = element.getFeature(Feature.PATTERN);
-		
+
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);
 
@@ -289,8 +299,7 @@ public abstract class MorphologyRules {
 					} else if (Pattern.REGULAR_DOUBLE.equals(patternValue)) {
 						realised = buildDoublePastVerb(baseForm);
 					} else {
-						realised = buildRegularPastVerb(baseForm,
-								numberValue);
+						realised = buildRegularPastVerb(baseForm, numberValue);
 					}
 				}
 			} else {
@@ -303,8 +312,7 @@ public abstract class MorphologyRules {
 					if (Pattern.REGULAR_DOUBLE.equals(patternValue)) {
 						realised = buildDoublePastVerb(baseForm);
 					} else {
-						realised = buildRegularPastVerb(baseForm,
-								numberValue);
+						realised = buildRegularPastVerb(baseForm, numberValue);
 					}
 				}
 			}
@@ -341,7 +349,9 @@ public abstract class MorphologyRules {
 		return realisedElement;
 	}
 
-	/** return the base form of a word
+	/**
+	 * return the base form of a word
+	 * 
 	 * @param element
 	 * @param baseWord
 	 * @return
@@ -349,16 +359,17 @@ public abstract class MorphologyRules {
 	private static String getBaseForm(InflectedWordElement element,
 			WordElement baseWord) {
 		// unclear what the right behaviour should be
-		// for now, prefer baseWord.getBaseForm() to element.getBaseForm() for verbs (ie, "is" mapped to "be")
-		// but prefer element.getBaseForm() to baseWord.getBaseForm() for other words (ie, "children" not mapped to "child")
-		
+		// for now, prefer baseWord.getBaseForm() to element.getBaseForm() for
+		// verbs (ie, "is" mapped to "be")
+		// but prefer element.getBaseForm() to baseWord.getBaseForm() for other
+		// words (ie, "children" not mapped to "child")
+
 		if (LexicalCategory.VERB == element.getCategory()) {
 			if (baseWord != null && baseWord.getBaseForm() != null)
 				return baseWord.getBaseForm();
 			else
 				return element.getBaseForm();
-		}
-		else {
+		} else {
 			if (element.getBaseForm() != null)
 				return element.getBaseForm();
 			else if (baseWord == null)
@@ -556,7 +567,7 @@ public abstract class MorphologyRules {
 
 		String realised = null;
 		Object patternValue = element.getFeature(Feature.PATTERN);
-		
+
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);
 
@@ -716,7 +727,7 @@ public abstract class MorphologyRules {
 			WordElement baseWord) {
 
 		String realised = null;
-		
+
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);
 
@@ -797,6 +808,9 @@ public abstract class MorphologyRules {
 				positionIndex = (DiscourseFunction.SUBJECT
 						.equals(discourseValue) && !element
 						.getFeatureAsBoolean(Feature.PASSIVE).booleanValue())
+						|| (DiscourseFunction.OBJECT
+								.equals(discourseValue) && element
+								.getFeatureAsBoolean(Feature.PASSIVE).booleanValue())
 						|| DiscourseFunction.SPECIFIER.equals(discourseValue)
 						|| (DiscourseFunction.COMPLEMENT.equals(discourseValue) && element
 								.getFeatureAsBoolean(Feature.PASSIVE)

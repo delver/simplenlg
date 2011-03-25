@@ -18,16 +18,12 @@
  */
 package simplenlg.test;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simplenlg.features.Feature;
-import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.WordElement;
 import simplenlg.lexicon.XMLLexicon;
 
 /**
@@ -68,6 +64,7 @@ public class XMLLexiconTest extends TestCase {
 			lexicon.close();
 	}
 
+	
 	@Test
 	public void testBasics() {
 		SharedLexiconTests.doBasicTests(lexicon);

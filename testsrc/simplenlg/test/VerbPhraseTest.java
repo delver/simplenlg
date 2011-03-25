@@ -29,14 +29,13 @@ import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.InternalFeature;
-import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
-import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
+import simplenlg.framework.WordElement;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
@@ -69,7 +68,7 @@ public class VerbPhraseTest extends SimpleNLG4Test {
 				"down", v.getFeatureAsString(Feature.PARTICLE)); //$NON-NLS-1$
 
 		Assert.assertEquals(
-				"fall", v.getVerb().getFeatureAsString(LexicalFeature.BASE_FORM)); //$NON-NLS-1$
+				"fall", ((WordElement) v.getVerb()).getBaseForm()); //$NON-NLS-1$
 
 		v.setFeature(Feature.TENSE,Tense.PAST);
 		v.setFeature(Feature.PERSON, Person.THIRD);

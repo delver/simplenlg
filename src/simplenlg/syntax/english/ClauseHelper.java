@@ -344,8 +344,9 @@ abstract class ClauseHelper {
 						&& DiscourseFunction.OBJECT
 								.equals(subject
 										.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
-					subject.setFeature(Feature.PASSIVE, true);
+					subject.setFeature(Feature.PASSIVE, true);					
 					currentElement = parent.realise(subject);
+					
 					if (currentElement != null) {
 						currentElement.setFeature(
 								InternalFeature.DISCOURSE_FUNCTION,
@@ -357,11 +358,13 @@ abstract class ClauseHelper {
 							realisedElement.addComponent(currentElement);
 						}
 					}
+					
 					if (passiveNumber == null) {
 						passiveNumber = subject.getFeature(Feature.NUMBER);
 					} else {
 						passiveNumber = NumberAgreement.PLURAL;
 					}
+					
 					if (Person.FIRST.equals(subject.getFeature(Feature.PERSON))) {
 						passivePerson = Person.FIRST;
 					} else if (Person.SECOND.equals(subject
@@ -371,6 +374,7 @@ abstract class ClauseHelper {
 					} else if (passivePerson == null) {
 						passivePerson = Person.THIRD;
 					}
+					
 					if (Form.GERUND.equals(phrase.getFeature(Feature.FORM))
 							&& !phrase.getFeatureAsBoolean(
 									Feature.SUPPRESS_GENITIVE_IN_GERUND)
@@ -380,6 +384,7 @@ abstract class ClauseHelper {
 				}
 			}
 		}
+		
 		if (verbElement != null) {
 			if (passivePerson != null) {
 				verbElement.setFeature(Feature.PERSON, passivePerson);

@@ -19,21 +19,23 @@
 
 package simplenlg.features;
 
-
 /**
  * <p>
- * This class defines a list of constant values used by SimpleNLG lexicons.
- * Note that there are three feature classes in SimpleNLG.
+ * This class defines a list of constant values used by SimpleNLG lexicons. Note
+ * that there are three feature classes in SimpleNLG.
  * <UL>
- * <LI> <code>Feature</code>: features typically set up developers invoking SimpleNLG
- * <LI> <code>LexicalFeature</code>: features typically set up the SimpleNLG lexicon
- * <LI> <code>InternalFeature</code>: features typically used internally by SimpleNLG
+ * <LI> <code>Feature</code>: features typically set up developers invoking
+ * SimpleNLG
+ * <LI> <code>LexicalFeature</code>: features typically set up the SimpleNLG
+ * lexicon
+ * <LI> <code>InternalFeature</code>: features typically used internally by
+ * SimpleNLG
  * </UL>
- *
+ * 
  * Elements in the system can, in theory, take any kind of feature. Some
- * features will only be expected by certain processors, however.
- * Developers can define their own features but should
- * choose names that do not conflict with those presented here.
+ * features will only be expected by certain processors, however. Developers can
+ * define their own features but should choose names that do not conflict with
+ * those presented here.
  * </p>
  * <p>
  * The details for each feature are supplied in a table. The entries are:
@@ -83,7 +85,7 @@ public abstract class LexicalFeature {
 
 	/**
 	 * <p>
-	 * This feature is used to map an acronym element to the full form of the
+	 * This feature is used to map an acronym element to the full forms of the
 	 * acronym.
 	 * </p>
 	 * <table border="1">
@@ -93,7 +95,7 @@ public abstract class LexicalFeature {
 	 * </tr>
 	 * <tr>
 	 * <td><b>Expected type</b></td>
-	 * <td><code>String</code></td>
+	 * <td><code>List<WordElement></code></td>
 	 * </tr>
 	 * <tr>
 	 * <td><b>Created by</b></td>
@@ -114,6 +116,175 @@ public abstract class LexicalFeature {
 	 * </table>
 	 */
 	public static final String ACRONYM_OF = "acronym_of";
+
+	/**
+	 * <p>
+	 * This feature is used to map a word to its acronyms.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>acronyms</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>List<WordElement></code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>Lexicons that support acronyms should set this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>No processors currently use this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Any lexical item.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String ACRONYMS = "acronyms";
+
+	/**
+	 * <p>
+	 * This feature is used to list all the possible inflectional variants of a
+	 * word. For example, the word <I>fish</I> can be both <I>uncount</I>
+	 * (plural: <I>fish</I>) and <I>reg</I> (plural: <I>fishes</I>).
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>infl</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>List<String></code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>Lexicons that support inflectional variants should set this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>No processors currently use this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Any lexical item.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String INFLECTIONS = "infl";
+
+	/**
+	 * <p>
+	 * This feature is used to specify, for a given word, what its default
+	 * inflectional variant is, if more than one is possible.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>default_infl</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>String</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>Lexicons that support multiple inflectional variants should set this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>{@link simplenlg.morphology.english.MorphologyProcessor}.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Nouns and verbs.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String DEFAULT_INFL = "default_infl";
+
+	/**
+	 * <p>
+	 * This feature is used to specify the spelling variants of a word.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>spell_vars</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>List<String></code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>Lexicons that support multiple spelling variants should set this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>No processors currently use this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Any lexical item.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String SPELL_VARS = "spell_vars";
+
+	/**
+	 * <p>
+	 * This feature is used to specify the default spelling variant of a word, if it has more than one.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>default_spell</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>String</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>Lexicons that support multiple spelling variants should set this feature.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>{@link simplenlg.morphology.english.MorphologyProcessor}</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Any lexical item.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String DEFAULT_SPELL = "default_spell";
+
 	/**
 	 * <p>
 	 * This feature is used to define the base form for phrases and words.
@@ -129,9 +300,9 @@ public abstract class LexicalFeature {
 	 * </tr>
 	 * <tr>
 	 * <td><b>Created by</b></td>
-	 * <td>The lexicon accessor also creates the feature when looking up
-	 * words in the lexicon. Sometimes the phrase factory sets this feature
-	 * as well, as an approximate realisation for debuggin purposes</td>
+	 * <td>The lexicon accessor also creates the feature when looking up words
+	 * in the lexicon. Sometimes the phrase factory sets this feature as well,
+	 * as an approximate realisation for debuggin purposes</td>
 	 * </tr>
 	 * <tr>
 	 * <td><b>Used by</b></td>
@@ -397,39 +568,20 @@ public abstract class LexicalFeature {
 	 * </table>
 	 */
 	public static final String INTRANSITIVE = "intransitive";
-	/**
-	 * <p>
-	 * This feature represents non-countable nouns such as <em>mud</em>,
-	 * <em>sand</em> and <em>water</em>.
-	 * </p>
-	 * <table border="1">
-	 * <tr>
-	 * <td><b>Feature name</b></td>
-	 * <td><em>nonCount</em></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Expected type</b></td>
-	 * <td><code>Boolean</code></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Created by</b></td>
-	 * <td>Supporting lexicons.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Used by</b></td>
-	 * <td>The morphology processor will not pluralise non-countable nouns.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Applies to</b></td>
-	 * <td>Nouns only.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Default</b></td>
-	 * <td><code>Boolean.FALSE</code>.</td>
-	 * </tr>
-	 * </table>
+
+	/*
+	 * <p> This feature represents non-countable nouns such as <em>mud</em>,
+	 * <em>sand</em> and <em>water</em>. </p> <table border="1"> <tr>
+	 * <td><b>Feature name</b></td> <td><em>nonCount</em></td> </tr> <tr>
+	 * <td><b>Expected type</b></td> <td><code>Boolean</code></td> </tr> <tr>
+	 * <td><b>Created by</b></td> <td>Supporting lexicons.</td> </tr> <tr>
+	 * <td><b>Used by</b></td> <td>The morphology processor will not pluralise
+	 * non-countable nouns.</td> </tr> <tr> <td><b>Applies to</b></td> <td>Nouns
+	 * only.</td> </tr> <tr> <td><b>Default</b></td>
+	 * <td><code>Boolean.FALSE</code>.</td> </tr> </table>
 	 */
-	public static final String NON_COUNT = "nonCount";
+	// public static final String NON_COUNT = "nonCount";
+
 	/**
 	 * <p>
 	 * This feature gives the past tense form of a verb. For example, the past
@@ -858,6 +1010,7 @@ public abstract class LexicalFeature {
 	 * </table>
 	 */
 	public static final String TRANSITIVE = "transitive";
+
 	/**
 	 * <p>
 	 * This feature is used to define whether an adverb can be used as a verb
@@ -892,6 +1045,7 @@ public abstract class LexicalFeature {
 	 * </table>
 	 */
 	public static final String VERB_MODIFIER = "verb_modifier";
+
 	/**
 	 * <p>
 	 * This feature determines if the pronoun is an expletive or not. Expletive

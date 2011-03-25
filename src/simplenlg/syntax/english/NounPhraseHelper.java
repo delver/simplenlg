@@ -70,12 +70,14 @@ abstract class NounPhraseHelper {
 	 */
 	static NLGElement realise(SyntaxProcessor parent, PhraseElement phrase) {
 		ListElement realisedElement = null;
+
 		if (phrase != null
 				&& !phrase.getFeatureAsBoolean(Feature.ELIDED).booleanValue()) {
-
 			realisedElement = new ListElement();
+
 			if (phrase.getFeatureAsBoolean(Feature.PRONOMINAL).booleanValue()) {
 				realisedElement.addComponent(createPronoun(parent, phrase));
+
 			} else {
 				realiseSpecifier(phrase, parent, realisedElement);
 				realisePreModifiers(phrase, parent, realisedElement);
@@ -105,6 +107,7 @@ abstract class NounPhraseHelper {
 	private static void realiseHeadNoun(PhraseElement phrase,
 			SyntaxProcessor parent, ListElement realisedElement) {
 		NLGElement headElement = phrase.getHead();
+
 		if (headElement != null) {
 			headElement.setFeature(LexicalFeature.GENDER, phrase
 					.getFeature(LexicalFeature.GENDER));
@@ -166,7 +169,8 @@ abstract class NounPhraseHelper {
 				.getFeatureAsElement(InternalFeature.SPECIFIER);
 
 		if (specifierElement != null
-				&& !phrase.getFeatureAsBoolean(InternalFeature.RAISED).booleanValue()) {
+				&& !phrase.getFeatureAsBoolean(InternalFeature.RAISED)
+						.booleanValue()) {
 
 			if (!specifierElement.isA(LexicalCategory.PRONOUN)) {
 				specifierElement.setFeature(Feature.NUMBER, phrase
@@ -239,7 +243,8 @@ abstract class NounPhraseHelper {
 			} else if (adjective.getFeatureAsBoolean(LexicalFeature.COLOUR)
 					.booleanValue()) {
 				position = COLOUR_POSITION;
-			} else if (adjective.getFeatureAsBoolean(LexicalFeature.CLASSIFYING)
+			} else if (adjective
+					.getFeatureAsBoolean(LexicalFeature.CLASSIFYING)
 					.booleanValue()) {
 				position = CLASSIFYING_POSITION;
 			}
@@ -267,7 +272,8 @@ abstract class NounPhraseHelper {
 			} else if (adjective.getFeatureAsBoolean(LexicalFeature.COLOUR)
 					.booleanValue()) {
 				position = COLOUR_POSITION;
-			} else if (adjective.getFeatureAsBoolean(LexicalFeature.QUALITATIVE)
+			} else if (adjective
+					.getFeatureAsBoolean(LexicalFeature.QUALITATIVE)
 					.booleanValue()) {
 				position = QUALITATIVE_POSITION;
 			} else {
@@ -329,17 +335,32 @@ abstract class NounPhraseHelper {
 				pronoun = "he"; //$NON-NLS-1$
 			}
 		}
-		NLGElement element = phraseFactory.createWord(pronoun,
+		// AG: createWord now returns WordElement; so we embed it in an
+		// inflected word element here
+		NLGElement element;
+		NLGElement proElement = phraseFactory.createWord(pronoun,
 				LexicalCategory.PRONOUN);
+		
+		if (proElement instanceof WordElement) {
+			element = new InflectedWordElement((WordElement) proElement);
+			element.setFeature(LexicalFeature.GENDER, ((WordElement) proElement).getFeature(LexicalFeature.GENDER));			
+		} else {
+			element = proElement;
+		}
+		
 		element.setFeature(InternalFeature.DISCOURSE_FUNCTION,
 				DiscourseFunction.SPECIFIER);
 		element.setFeature(Feature.POSSESSIVE, phrase
 				.getFeature(Feature.POSSESSIVE));
-		element.setFeature(Feature.NUMBER, phrase.getFeature(Feature.NUMBER));
+		element
+				.setFeature(Feature.NUMBER, phrase.getFeature(Feature.NUMBER));
+
+		
 		if (phrase.hasFeature(InternalFeature.DISCOURSE_FUNCTION)) {
 			element.setFeature(InternalFeature.DISCOURSE_FUNCTION, phrase
 					.getFeature(InternalFeature.DISCOURSE_FUNCTION));
-		}
+		}		
+
 		return element;
 	}
 }

@@ -83,9 +83,12 @@ public class MorphologyProcessor extends NLGModule {
 		} else if (element instanceof StringElement) {
 			realisedElement = element;
 		} else if (element instanceof WordElement) {
-			String baseForm = ((WordElement) element).getBaseForm();
-			if (baseForm != null) {
-				realisedElement = new StringElement(baseForm);
+			//AG: now retrieves the default spelling variant, not the baseform
+			//String baseForm = ((WordElement) element).getBaseForm();
+			String defaultSpell = ((WordElement) element).getDefaultSpellingVariant();
+			
+			if (defaultSpell != null) {
+				realisedElement = new StringElement(defaultSpell);
 			}
 		} else if (element instanceof DocumentElement) {
 			List<NLGElement> children = element.getChildren();

@@ -32,69 +32,84 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import simplenlg.features.LexicalFeature;
 import simplenlg.framework.LexicalCategory;
+import simplenlg.framework.NLGElement;
 import simplenlg.framework.WordElement;
 
-/** This class gets Words from the NIH Specialist Lexicon
+/**
+ * This class gets Words from the NIH Specialist Lexicon
  * 
  * @author ereiter
- *
+ * 
  */
 public class NIHDBLexicon extends Lexicon {
-	
+
 	// default DB parameters
-	private static String DB_HSQL_DRIVER = "org.hsqldb.jdbcDriver";  // DB driver
-	private static String DB_HQSL_JDBC = "jdbc:hsqldb:";  // JDBC specifier for HSQL
-	private static String DB_DEFAULT_USERNAME = "sa";  // DB username
-	private static String DB_DEFAULT_PASSWORD = "";  // DB password	
-	private static String DB_HSQL_EXTENSION = ".data";  // filename extension for HSQL DB	
-	
+	private static String DB_HSQL_DRIVER = "org.hsqldb.jdbcDriver"; // DB driver
+	private static String DB_HQSL_JDBC = "jdbc:hsqldb:"; // JDBC specifier for
+	// HSQL
+	private static String DB_DEFAULT_USERNAME = "sa"; // DB username
+	private static String DB_DEFAULT_PASSWORD = ""; // DB password
+	private static String DB_HSQL_EXTENSION = ".data"; // filename extension for
+	// HSQL DB
+
 	// class variables
-	private Connection conn = null;		// DB connection
-	private LexAccessApi lexdb = null;		// Lexicon access object
-	
-	//parameter
-	public boolean keepStandardInflections = false;  // if false, don't keep standard inflections in the Word object
+	private Connection conn = null; // DB connection
+	private LexAccessApi lexdb = null; // Lexicon access object
+
+	// if false, don't keep standard inflections in the Word object
+	private boolean keepStandardInflections = false;
 
 	/****************************************************************************/
 	// constructors
 	/****************************************************************************/
-	
 
-	/** set up lexicon using file which contains downloaded lexAccess HSQL DB and default passwords
-	 * @param filename of HSQL DB
+	/**
+	 * set up lexicon using file which contains downloaded lexAccess HSQL DB and
+	 * default passwords
+	 * 
+	 * @param filename
+	 *            of HSQL DB
 	 */
 	public NIHDBLexicon(String filename) {
 		super();
 		// get rid of .data at end of filename if necessary
 		String dbfilename = filename;
 		if (dbfilename.endsWith(DB_HSQL_EXTENSION))
-			dbfilename = dbfilename.substring(0, dbfilename.length() - DB_HSQL_EXTENSION.length());
-		
+			dbfilename = dbfilename.substring(0, dbfilename.length()
+					- DB_HSQL_EXTENSION.length());
+
 		// try to open DB and set up lexicon
 		try {
 			Class.forName(DB_HSQL_DRIVER);
-			conn = DriverManager.getConnection(DB_HQSL_JDBC+dbfilename, DB_DEFAULT_USERNAME, DB_DEFAULT_PASSWORD);
+			conn = DriverManager.getConnection(DB_HQSL_JDBC + dbfilename,
+					DB_DEFAULT_USERNAME, DB_DEFAULT_PASSWORD);
 			// now set up lexical access object
 			lexdb = new LexAccessApi(conn);
+
 		} catch (Exception ex) {
 			System.out.println("Cannot open lexical db: " + ex.toString());
 			// probably should thrown an exception
 		}
 	}
-	
-	/** set up lexicon using general DB parameters; DB must be NIH specialist lexicon from lexAccess
+
+	/**
+	 * set up lexicon using general DB parameters; DB must be NIH specialist
+	 * lexicon from lexAccess
+	 * 
 	 * @param driver
 	 * @param url
 	 * @param username
 	 * @param password
 	 */
-	public NIHDBLexicon(String driver, String url, String username, String password) {
-		
+	public NIHDBLexicon(String driver, String url, String username,
+			String password) {
+
 		super();
-		
+
 		// try to open DB and set up lexicon
 		try {
 			Class.forName(driver);
@@ -106,20 +121,25 @@ public class NIHDBLexicon extends Lexicon {
 			// probably should thrown an exception
 		}
 	}
-	
+
 	// need more constructors for general case...
 
 	/***************** methods to set global parameters ****************************/
 
-	/** reports whether Words include standard (derivable) inflections
+	/**
+	 * reports whether Words include standard (derivable) inflections
+	 * 
 	 * @return true if standard inflections are kept
 	 */
 	public boolean isKeepStandardInflections() {
 		return keepStandardInflections;
 	}
 
-	/** set whether Words should include standard (derivable) inflections
-	 * @param keepStandardInflections - if true, standard inflections are kept
+	/**
+	 * set whether Words should include standard (derivable) inflections
+	 * 
+	 * @param keepStandardInflections
+	 *            - if true, standard inflections are kept
 	 */
 	public void setKeepStandardInflections(boolean keepStandardInflections) {
 		this.keepStandardInflections = keepStandardInflections;
@@ -129,14 +149,18 @@ public class NIHDBLexicon extends Lexicon {
 	// core methods to retrieve words from DB
 	/****************************************************************************/
 
-	/* (non-Javadoc)
-	 * @see simplenlg.lexicon.Lexicon#getWords(java.lang.String, simplenlg.features.LexicalCategory)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simplenlg.lexicon.Lexicon#getWords(java.lang.String,
+	 * simplenlg.features.LexicalCategory)
 	 */
 	@Override
 	public List<WordElement> getWords(String baseForm, LexicalCategory category) {
 		// get words from DB
 		try {
-			LexAccessApiResult lexResult = lexdb.GetLexRecordsByBase(baseForm, LexAccessApi.B_EXACT);
+			LexAccessApiResult lexResult = lexdb.GetLexRecordsByBase(baseForm,
+					LexAccessApi.B_EXACT);
 			return getWordsFromLexResult(category, lexResult);
 		} catch (SQLException ex) {
 			System.out.println("Lexical DB error: " + ex.toString());
@@ -145,8 +169,9 @@ public class NIHDBLexicon extends Lexicon {
 		return null;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see simplenlg.lexicon.Lexicon#getWordsByID(java.lang.String)
 	 */
 	@Override
@@ -162,8 +187,11 @@ public class NIHDBLexicon extends Lexicon {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see simplenlg.lexicon.Lexicon#getWordsFromVariant(java.lang.String, simplenlg.features.LexicalCategory)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simplenlg.lexicon.Lexicon#getWordsFromVariant(java.lang.String,
+	 * simplenlg.features.LexicalCategory)
 	 */
 	@Override
 	public List<WordElement> getWordsFromVariant(String variant,
@@ -179,12 +207,13 @@ public class NIHDBLexicon extends Lexicon {
 		return null;
 	}
 
-	
 	/****************************************************************************/
 	// other methods
 	/****************************************************************************/
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see simplenlg.lexicon.Lexicon#close()
 	 */
 	@Override
@@ -192,11 +221,11 @@ public class NIHDBLexicon extends Lexicon {
 		if (lexdb != null)
 			lexdb.CleanUp();
 	}
-	
 
-	/** make a WordElement from a lexical record.
-	 * Currently just specifies basic params and inflections
-	 * Should do more in the future!
+	/**
+	 * make a WordElement from a lexical record. Currently just specifies basic
+	 * params and inflections Should do more in the future!
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -205,72 +234,106 @@ public class NIHDBLexicon extends Lexicon {
 		String baseForm = record.GetBase();
 		LexicalCategory category = getSimplenlgCategory(record);
 		String id = record.GetEui();
-		
+
 		// create word class
 		WordElement wordElement = new WordElement(baseForm, category, id);
-		
+
 		// now add inflection info
 		if (keepStandardInflections || !standardInflections(record, category))
-			for (InflVar inflection: record.GetInflVarsAndAgreements().GetInflValues()) {
-				String simplenlgInflection = getSimplenlgInflection(inflection.GetInflection());
+			for (InflVar inflection : record.GetInflVarsAndAgreements()
+					.GetInflValues()) {
+				String simplenlgInflection = getSimplenlgInflection(inflection
+						.GetInflection());
 				if (simplenlgInflection != null)
-					wordElement.setFeature(simplenlgInflection, inflection.GetVar());
+					wordElement.setFeature(simplenlgInflection, inflection
+							.GetVar());
 			}
-		
+
 		// now add type information
 		switch (category) {
-		case ADJECTIVE: addAdjectiveInfo(wordElement, record.GetCatEntry().GetAdjEntry()); break;
-		case ADVERB: addAdverbInfo(wordElement, record.GetCatEntry().GetAdvEntry()); break;
-		case NOUN: addNounInfo(wordElement, record.GetCatEntry().GetNounEntry()); break;
-		case VERB: addVerbInfo(wordElement, record.GetCatEntry().GetVerbEntry()); break;
+		case ADJECTIVE:
+			addAdjectiveInfo(wordElement, record.GetCatEntry().GetAdjEntry());
+			break;
+		case ADVERB:
+			addAdverbInfo(wordElement, record.GetCatEntry().GetAdvEntry());
+			break;
+		case NOUN:
+			addNounInfo(wordElement, record.GetCatEntry().GetNounEntry());
+			break;
+		case VERB:
+			addVerbInfo(wordElement, record.GetCatEntry().GetVerbEntry());
+			break;
 		// ignore closed class words
 		}
-		
+
 		// add acronym info
 		addAcronymInfo(wordElement, record);
-		
-		// now add
+
+		// now add spelling variants
+		addSpellingVariants(wordElement, record);
 
 		return wordElement;
 	}
 
-
-	/** return list of WordElement from LexAccessApiResult
-	 * @param category - desired category (eg, NOUN) (this filters list)
-	 * @param lexResult - the LexAccessApiResult
+	/**
+	 * return list of WordElement from LexAccessApiResult
+	 * 
+	 * @param category
+	 *            - desired category (eg, NOUN) (this filters list)
+	 * @param lexResult
+	 *            - the LexAccessApiResult
 	 * @return list of WordElement
 	 */
 	private List<WordElement> getWordsFromLexResult(LexicalCategory category,
 			LexAccessApiResult lexResult) {
 		List<LexRecord> records = lexResult.GetJavaObjs();
+
 		// set up array of words to return
 		List<WordElement> wordElements = new ArrayList<WordElement>();
+
 		// iterate through result records, adding to words as appropriate
-		for (LexRecord record: records) {
-			String recordCat = record.GetCategory();
-			if (category == LexicalCategory.ANY || category == getSimplenlgCategory(record))
+		for (LexRecord record : records) {
+
+			if (category == LexicalCategory.ANY
+					|| category == getSimplenlgCategory(record))
 				wordElements.add(makeWord(record));
 		}
 		return wordElements;
 	}
 
-	/** check if this record has a standard (regular) inflection
+	/**
+	 * check if this record has a standard (regular) inflection
+	 * 
 	 * @param record
-	 * @param simplenlg syntactic category
+	 * @param simplenlg
+	 *            syntactic category
 	 * @return true if standard (regular) inflection
 	 */
-	private boolean standardInflections(LexRecord record, LexicalCategory category) {
+	private boolean standardInflections(LexRecord record,
+			LexicalCategory category) {
 		List<String> variants = null;
 		switch (category) {
-		case NOUN: variants = record.GetCatEntry().GetNounEntry().GetVariants(); break;
-		case ADJECTIVE: variants = record.GetCatEntry().GetAdjEntry().GetVariants(); break;
-		case ADVERB: variants = record.GetCatEntry().GetAdvEntry().GetVariants(); break;
-		case MODAL: variants = record.GetCatEntry().GetModalEntry().GetVariant(); break;
-		case VERB: if (record.GetCatEntry().GetVerbEntry() != null)  // aux verbs (eg be) won't have verb entries
-			variants = record.GetCatEntry().GetVerbEntry().GetVariants();
+		case NOUN:
+			variants = record.GetCatEntry().GetNounEntry().GetVariants();
+			break;
+		case ADJECTIVE:
+			variants = record.GetCatEntry().GetAdjEntry().GetVariants();
+			break;
+		case ADVERB:
+			variants = record.GetCatEntry().GetAdvEntry().GetVariants();
+			break;
+		case MODAL:
+			variants = record.GetCatEntry().GetModalEntry().GetVariant();
+			break;
+		case VERB:
+			if (record.GetCatEntry().GetVerbEntry() != null) // aux verbs (eg
+				// be) won't
+				// have verb
+				// entries
+				variants = record.GetCatEntry().GetVerbEntry().GetVariants();
 			break;
 		}
-		
+
 		return notEmpty(variants) && variants.contains("reg");
 	}
 
@@ -278,8 +341,10 @@ public class NIHDBLexicon extends Lexicon {
 	// The following methods map codes in the NIH Specialist Lexicon
 	// into the codes used in simplenlg
 	/***********************************************************************************/
-	
-	/** get the simplenlg LexicalCategory of a record
+
+	/**
+	 * get the simplenlg LexicalCategory of a record
+	 * 
 	 * @param cat
 	 * @return
 	 */
@@ -291,9 +356,11 @@ public class NIHDBLexicon extends Lexicon {
 			return LexicalCategory.NOUN;
 		else if (cat.equalsIgnoreCase("verb"))
 			return LexicalCategory.VERB;
-		else if (cat.equalsIgnoreCase("aux") && record.GetBase().equalsIgnoreCase("be")) // return aux "be" as a VERB
+		else if (cat.equalsIgnoreCase("aux")
+				&& record.GetBase().equalsIgnoreCase("be")) // return aux "be"
+			// as a VERB
 			// not needed for other aux "have" and "do", they have a verb entry
-			return LexicalCategory.VERB;			
+			return LexicalCategory.VERB;
 		else if (cat.equalsIgnoreCase("adj"))
 			return LexicalCategory.ADJECTIVE;
 		else if (cat.equalsIgnoreCase("adv"))
@@ -316,11 +383,12 @@ public class NIHDBLexicon extends Lexicon {
 			return LexicalCategory.ANY;
 	}
 
-
-	/** convert an inflection type in NIH lexicon into one used by simplenlg
+	/**
+	 * convert an inflection type in NIH lexicon into one used by simplenlg
 	 * return null if no simplenlg equivalent to NIH inflection type
 	 * 
-	 * @param NIHInflection - inflection type in NIH lexicon
+	 * @param NIHInflection
+	 *            - inflection type in NIH lexicon
 	 * @return inflection type in simplenlg
 	 */
 	private String getSimplenlgInflection(String NIHInflection) {
@@ -340,12 +408,15 @@ public class NIHDBLexicon extends Lexicon {
 			return LexicalFeature.PAST_PARTICIPLE;
 		else if (NIHInflection.equalsIgnoreCase("presPart"))
 			return LexicalFeature.PRESENT_PARTICIPLE;
-		else // no equvalent in simplenlg, eg clitic or negative
+		else
+			// no equvalent in simplenlg, eg clitic or negative
 			return null;
 	}
 
-	/** extract adj information from NIH AdjEntry record, and add to a simplenlg WordElement
-	 * For now just extract position info
+	/**
+	 * extract adj information from NIH AdjEntry record, and add to a simplenlg
+	 * WordElement For now just extract position info
+	 * 
 	 * @param wordElement
 	 * @param AdjEntry
 	 */
@@ -353,9 +424,9 @@ public class NIHDBLexicon extends Lexicon {
 		boolean qualitativeAdj = false;
 		boolean colourAdj = false;
 		boolean classifyingAdj = false;
-		boolean predicativeAdj  = false;
+		boolean predicativeAdj = false;
 		List<String> positions = adjEntry.GetPosition();
-		for (String position: positions) {
+		for (String position : positions) {
 			if (position.startsWith("attrib(1)"))
 				qualitativeAdj = true;
 			else if (position.startsWith("attrib(2)"))
@@ -373,9 +444,11 @@ public class NIHDBLexicon extends Lexicon {
 		wordElement.setFeature(LexicalFeature.PREDICATIVE, predicativeAdj);
 		return;
 	}
-	
-	/** extract adv information from NIH AdvEntry record, and add to a simplenlg WordElement
-	 * For now just extract modifier type
+
+	/**
+	 * extract adv information from NIH AdvEntry record, and add to a simplenlg
+	 * WordElement For now just extract modifier type
+	 * 
 	 * @param wordElement
 	 * @param AdvEntry
 	 */
@@ -383,9 +456,9 @@ public class NIHDBLexicon extends Lexicon {
 		boolean verbModifier = false;
 		boolean sentenceModifier = false;
 		boolean intensifier = false;
-		
+
 		List<String> modifications = advEntry.GetModification();
-		for (String modification: modifications) {
+		for (String modification : modifications) {
 			if (modification.startsWith("verb_modifier"))
 				verbModifier = true;
 			else if (modification.startsWith("sentence_modifier"))
@@ -396,66 +469,138 @@ public class NIHDBLexicon extends Lexicon {
 		}
 		// ignore (for now) other info in record
 		wordElement.setFeature(LexicalFeature.VERB_MODIFIER, verbModifier);
-		wordElement.setFeature(LexicalFeature.SENTENCE_MODIFIER, sentenceModifier);
+		wordElement.setFeature(LexicalFeature.SENTENCE_MODIFIER,
+				sentenceModifier);
 		wordElement.setFeature(LexicalFeature.INTENSIFIER, intensifier);
 		return;
 	}
 
-	/** extract noun information from NIH NounEntry record, and add to a simplenlg WordElement
-	 * For now just extract whether count/non-count and whether proper or not
+	/**
+	 * extract noun information from NIH NounEntry record, and add to a
+	 * simplenlg WordElement For now just extract whether count/non-count and
+	 * whether proper or not
+	 * 
 	 * @param wordElement
 	 * @param nounEntry
 	 */
 	private void addNounInfo(WordElement wordElement, NounEntry nounEntry) {
 		boolean proper = nounEntry.IsProper();
-		boolean nonCountVariant = false;
-		boolean regVariant = false;
+		// boolean nonCountVariant = false;
+		// boolean regVariant = false;
+
+		// add the inflectional variants
 		List<String> variants = nounEntry.GetVariants();
-		for (String variant: variants) {
-			if (variant.startsWith("uncount") || variant.startsWith("groupuncount"))
-				nonCountVariant = true;
-			if (variant.startsWith("reg"))
-				regVariant = true;
-			// ignore other variant info
+
+		if (!variants.isEmpty()) {
+			List<String> wordVariants = new ArrayList<String>();
+
+			for (String v : variants) {
+				wordVariants.add(this.getInflCode(v));
+			}
+
+			// if the variants include "reg", this is the default, otherwise
+			// just a random pick
+			String defaultVariant = wordVariants.contains("reg") ? "reg"
+					: wordVariants.get(0);
+			wordElement.setFeature(LexicalFeature.INFLECTIONS, wordVariants);
+			wordElement.setFeature(LexicalFeature.DEFAULT_INFL, defaultVariant);
 		}
-		
+
+		// for (String variant : variants) {
+		// if (variant.startsWith("uncount")
+		// || variant.startsWith("groupuncount"))
+		// nonCountVariant = true;
+		//
+		// if (variant.startsWith("reg"))
+		// regVariant = true;
+		// // ignore other variant info
+		// }
+
 		// lots of words have both "reg" and "unCount", indicating they
-		// can be used in either way.  Regard such words as normal,
+		// can be used in either way. Regard such words as normal,
 		// only flag as nonCount if unambiguous
-		wordElement.setFeature(LexicalFeature.NON_COUNT, nonCountVariant&&!regVariant);
-		wordElement.setFeature(LexicalFeature.PROPER, proper);		
+		// wordElement.setFeature(LexicalFeature.NON_COUNT, nonCountVariant
+		// && !regVariant);
+		wordElement.setFeature(LexicalFeature.PROPER, proper);
 		// ignore (for now) other info in record
-		
+
 		return;
 	}
-	
-	/** extract verb information from NIH VerbEntry record, and add to a simplenlg WordElement
-	 * For now just extract transitive, instransitive, and/or ditransitive
+
+	/**
+	 * extract verb information from NIH VerbEntry record, and add to a
+	 * simplenlg WordElement For now just extract transitive, instransitive,
+	 * and/or ditransitive
+	 * 
 	 * @param wordElement
 	 * @param verbEntry
 	 */
 	private void addVerbInfo(WordElement wordElement, VerbEntry verbEntry) {
-		if (verbEntry == null) { // should only happen for aux verbs, which have auxEntry instead of verbEntry in NIH Lex
+		if (verbEntry == null) { // should only happen for aux verbs, which have
+			// auxEntry instead of verbEntry in NIH Lex
 			// just flag as transitive and return
 			wordElement.setFeature(LexicalFeature.INTRANSITIVE, false);
-			wordElement.setFeature(LexicalFeature.TRANSITIVE, true);	
-			wordElement.setFeature(LexicalFeature.DITRANSITIVE, false);	
+			wordElement.setFeature(LexicalFeature.TRANSITIVE, true);
+			wordElement.setFeature(LexicalFeature.DITRANSITIVE, false);
 			return;
 		}
-		
+
 		boolean intransitiveVerb = notEmpty(verbEntry.GetIntran());
-		boolean transitiveVerb = notEmpty(verbEntry.GetTran()) || notEmpty(verbEntry.GetCplxtran());
+		boolean transitiveVerb = notEmpty(verbEntry.GetTran())
+				|| notEmpty(verbEntry.GetCplxtran());
 		boolean ditransitiveVerb = notEmpty(verbEntry.GetDitran());
 
 		wordElement.setFeature(LexicalFeature.INTRANSITIVE, intransitiveVerb);
-		wordElement.setFeature(LexicalFeature.TRANSITIVE, transitiveVerb);	
-		wordElement.setFeature(LexicalFeature.DITRANSITIVE, ditransitiveVerb);	
+		wordElement.setFeature(LexicalFeature.TRANSITIVE, transitiveVerb);
+		wordElement.setFeature(LexicalFeature.DITRANSITIVE, ditransitiveVerb);
+
+		// add the inflectional variants
+		List<String> variants = verbEntry.GetVariants();
+
+		if (!variants.isEmpty()) {
+			List<String> wordVariants = new ArrayList<String>();
+
+			for (String v : variants) {
+				wordVariants.add(this.getInflCode(v));
+			}
+
+			// if the variants include "reg", this is the default, otherwise
+			// just a random pick
+			String defaultVariant = wordVariants.contains("reg") ? "reg"
+					: wordVariants.get(0);
+			wordElement.setFeature(LexicalFeature.INFLECTIONS, wordVariants);
+			wordElement.setFeature(LexicalFeature.DEFAULT_INFL, defaultVariant);
+		}
+
 		// ignore (for now) other info in record
-		
+
 		return;
 	}
-	
-	/** convenience method to test that a list is not null and not empty
+
+	/**
+	 * convenience method: parses an NIH inflectional code such as
+	 * "irreg|woman|women" to retrieve the first element, which is the code
+	 * itself.
+	 * 
+	 * @param variant
+	 * @return
+	 */
+	private String getInflCode(String variant) {
+		int index = variant.indexOf("|");
+		String code;
+
+		if (index > -1) {
+			code = variant.substring(0, index);
+		} else {
+			code = variant;
+		}
+
+		return code;
+	}
+
+	/**
+	 * convenience method to test that a list is not null and not empty
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -464,22 +609,89 @@ public class NIHDBLexicon extends Lexicon {
 		return list != null && !list.isEmpty();
 	}
 
-	/** extract information  about acronyms from NIH record, and add to a simplenlg WordElement
-	 * For now, just record first acronym if there are several
-	 * mostly just want to know if this word is an acronym or not
+	/**
+	 * extract information about acronyms from NIH record, and add to a
+	 * simplenlg WordElement.
+	 * 
+	 * <P>
+	 * Acronyms are represented as lists of word elements. Any acronym will have
+	 * a list of full form word elements, retrievable via
+	 * {@link LexicalFeature#ACRONYM_OF}
+	 * 
 	 * @param wordElement
 	 * @param record
 	 */
 	private void addAcronymInfo(WordElement wordElement, LexRecord record) {
+		// NB: the acronyms are actually the full forms of which the word is an
+		// acronym
 		List<String> acronyms = record.GetAcronyms();
+
 		if (!acronyms.isEmpty()) {
-			String acronym = acronyms.get(0);
-			// remove anything after a |, this will be an NIH ID
-			if (acronym.contains("|"))
-				acronym = acronym.substring(0, acronym.indexOf("|"));
-			wordElement.setFeature(LexicalFeature.ACRONYM_OF, acronym);
+			// the list of full forms of which this word is an acronym
+			List<NLGElement> acronymOf = wordElement
+					.getFeatureAsElementList(LexicalFeature.ACRONYM_OF);
+
+			// keep all acronym full forms and set them up as wordElements
+			for (String fullForm : acronyms) {
+				if (fullForm.contains("|")) {
+					// get the acronym id
+					String acronymID = fullForm.substring(
+							fullForm.indexOf("|") + 1, fullForm.length());
+					// create the full form element
+					WordElement fullFormWE = this.getWordByID(acronymID);
+
+					if (fullForm != null) {
+						// add as full form of this acronym
+						acronymOf.add(fullFormWE);
+
+						// List<NLGElement> fullFormAcronyms = fullFormWE
+						// .getFeatureAsElementList(LexicalFeature.ACRONYMS);
+						// fullFormAcronyms.add(wordElement);
+						// fullFormWE.setFeature(LexicalFeature.ACRONYMS,
+						// fullFormAcronyms);
+					}
+				}
+			}
+
+			// set all the full forms for this acronym
+			wordElement.setFeature(LexicalFeature.ACRONYM_OF, acronymOf);
 		}
+
+		// if (!acronyms.isEmpty()) {
+		//
+		// String acronym = acronyms.get(0);
+		// // remove anything after a |, this will be an NIH ID
+		// if (acronym.contains("|"))
+		// acronym = acronym.substring(0, acronym.indexOf("|"));
+		// wordElement.setFeature(LexicalFeature.ACRONYM_OF, acronym);
+		// }
 
 		return;
 	}
+
+	/**
+	 * Extract info about the spelling variants of a word from an NIH record,
+	 * and add to the simplenlg Woordelement.
+	 * 
+	 * <P>
+	 * Spelling variants are represented as lists of strings, retrievable via
+	 * {@link LexicalFeature#SPELL_VARS}
+	 * 
+	 * @param wordElement
+	 * @param record
+	 */
+	private void addSpellingVariants(WordElement wordElement, LexRecord record) {
+		Vector<String> vars = record.GetSpellingVars();
+
+		if (vars != null && !vars.isEmpty()) {
+			List<String> wordVars = new ArrayList<String>();
+			wordVars.addAll(vars);
+			wordElement.setFeature(LexicalFeature.SPELL_VARS, wordVars);
+		}
+
+		// we set the default spelling var as the baseForm
+		wordElement.setFeature(LexicalFeature.DEFAULT_SPELL, wordElement
+				.getBaseForm());
+	}
+
 }

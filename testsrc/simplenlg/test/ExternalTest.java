@@ -95,10 +95,10 @@ public class ExternalTest extends SimpleNLG4Test {
 		// Rachel Dwight's test
 		this.phraseFactory.setLexicon(this.lexicon);
 
-		PhraseElement noun4 = this.phraseFactory
+		NPPhraseSpec noun4 = this.phraseFactory
 				.createNounPhrase("FGFR3 gene in every cell"); //$NON-NLS-1$
 
-		noun4.setDeterminer("the");
+		noun4.setSpecifier("the");
 
 		PhraseElement prep1 = this.phraseFactory.createPrepositionPhrase(
 				"of", noun4); //$NON-NLS-1$
@@ -124,6 +124,7 @@ public class ExternalTest extends SimpleNLG4Test {
 		PhraseElement sentence1 = this.phraseFactory.createClause(coordNoun1,
 				verbPhrase1, noun3);
 
+		realiser.setDebugMode(true);
 		Assert
 				.assertEquals(
 						"the patient's mother or the patient's father has one changed copy of the FGFR3 gene in every cell", //$NON-NLS-1$
