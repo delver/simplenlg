@@ -322,6 +322,30 @@ public class ExternalTest extends SimpleNLG4Test {
 		weather1.setFeature(Feature.FORM, Form.GERUND);
 		Assert.assertEquals("SE 10-15 veering S 15-20.", realiser.realiseSentence(weather1));		
 
+		// test OK to have subject only
+		SPhraseSpec weather2 = this.phraseFactory.createClause("cloudy and misty", "be", "XXX");
+		weather2.getVerbPhrase().setFeature(Feature.ELIDED, true);
+		Assert.assertEquals("Cloudy and misty.", realiser.realiseSentence(weather2));
+		
+		// test OK to have VP only
+		SPhraseSpec weather3 = this.phraseFactory.createClause("S 15-20", "increase", "20-25");
+		weather3.setFeature(Feature.FORM, Form.GERUND);
+		weather3.getSubject().setFeature(Feature.ELIDED, true);
+		Assert.assertEquals("Increasing 20-25.", realiser.realiseSentence(weather3));		
+		
+		// conjoined test
+		SPhraseSpec weather4 = this.phraseFactory.createClause("S 20-25", "back", "SSE");
+		weather4.setFeature(Feature.FORM, Form.GERUND);
+		weather4.getSubject().setFeature(Feature.ELIDED, true);
+		
+		CoordinatedPhraseElement coord = new CoordinatedPhraseElement();
+		coord.addCoordinate(weather1);
+		coord.addCoordinate(weather3);
+		coord.addCoordinate(weather4);
+		coord.setConjunction("then");
+		Assert.assertEquals("SE 10-15 veering S 15-20, increasing 20-25 then backing SSE.", realiser.realiseSentence(coord));		
+		
+
 
 	}
 }
