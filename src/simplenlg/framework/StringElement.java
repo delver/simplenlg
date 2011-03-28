@@ -64,6 +64,23 @@ public class StringElement extends NLGElement {
 		return getRealisation();
 	}
 
+	/* (non-Javadoc)
+	 * @see simplenlg.framework.NLGElement#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		return super.equals(o) && (o instanceof StringElement) && realisationsMatch((StringElement) o);
+	}
+
+	private boolean realisationsMatch(StringElement o) {
+		if  (getRealisation() == null) {
+			return o.getRealisation() == null;
+		}
+		else
+			return getRealisation().equals(o.getRealisation());
+	}
+
 	@Override
 	public String printTree(String indent) {
 		StringBuffer print = new StringBuffer();
