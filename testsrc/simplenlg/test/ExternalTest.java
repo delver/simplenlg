@@ -346,6 +346,9 @@ public class ExternalTest extends SimpleNLG4Test {
 		Assert.assertEquals("SE 10-15 veering S 15-20, increasing 20-25 then backing SSE.", realiser.realiseSentence(coord));		
 		
 
+		// no verb
+		SPhraseSpec weather5 = this.phraseFactory.createClause("rain", null, "likely");
+		Assert.assertEquals("Rain likely.", realiser.realiseSentence(weather5));
 
 	}
 }
