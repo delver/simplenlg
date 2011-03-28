@@ -30,6 +30,7 @@ import simplenlg.features.NumberAgreement;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;
+import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
@@ -305,5 +306,14 @@ public class ExternalTest extends SimpleNLG4Test {
 		// Data2Text test
 		SPhraseSpec p = this.phraseFactory.createClause("the dog", "weigh", "12");
 		Assert.assertEquals("The dog weighes 12.", realiser.realiseSentence(p));
+		
+		NLGElement dataDropout2 = this.phraseFactory.createNLGElement("data dropouts");
+		dataDropout2.setPlural(true);
+		SPhraseSpec sentence2 = this.phraseFactory.createClause();
+		sentence2.setSubject(this.phraseFactory.createStringElement("there"));
+		sentence2.setVerb("be");
+		sentence2.setObject(dataDropout2);
+
+
 	}
 }
