@@ -44,6 +44,7 @@ public class SyntaxTests {
 //		suite.addTestSuite(InflectionTest.class);
 		suite.addTestSuite(XMLLexiconTest.class);
 		suite.addTestSuite(PhraseSpecTest.class);
+		suite.addTestSuite(CoordinationTest.class);
 		// $JUnit-END$
 		return suite;
 	}

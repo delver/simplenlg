@@ -308,9 +308,11 @@ public class PhraseElement extends NLGElement {
 	 */
 	public void addFrontModifier(String newFrontModifier) {
 		List<NLGElement> frontModifiers = getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS);
+		
 		if (frontModifiers == null) {
 			frontModifiers = new ArrayList<NLGElement>();
 		}
+		
 		frontModifiers.add(new StringElement(newFrontModifier));
 		setFeature(InternalFeature.FRONT_MODIFIERS, frontModifiers);
 	}
