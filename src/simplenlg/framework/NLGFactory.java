@@ -365,17 +365,26 @@ public class NLGFactory {
 		if (element == null)
 			return null;
 
+		// InflectedWordElement - return underlying word
 		else if (element instanceof InflectedWordElement)
 			return ((InflectedWordElement) element).getBaseWord();
+		
+		// StringElement - look up in lexicon if it is a word
+		// otherwise return element
+		else if (element instanceof StringElement) {
+			if (stringIsWord(((StringElement) element).getRealisation(), category))
+				return createWord(((StringElement) element).getRealisation(), category);
+			else
+				return (StringElement) element;
+		}
 
+		// other NLGElement - return element
 		else if (element instanceof NLGElement)
 			return (NLGElement) element;
 
+		// String - look up in lexicon if a word, otherwise return StringElement
 		else if (element instanceof String) {
-			if (lexicon != null
-					&& (lexicon.hasWord((String) element, category)
-							|| PRONOUNS.contains((String) element) || ((String) element)
-							.matches(WORD_REGEX)))
+			if (stringIsWord((String) element, category))
 				return createWord(element, category);
 			else
 				return new StringElement((String) element);
@@ -383,6 +392,18 @@ public class NLGFactory {
 
 		throw new IllegalArgumentException(element.toString()
 				+ " is not a valid type");
+	}
+
+	/** return true if string is a word
+	 * @param string
+	 * @param category
+	 * @return
+	 */
+	private boolean stringIsWord(String string, LexicalCategory category) {
+		return lexicon != null
+				&& (lexicon.hasWord(string, category)
+						|| PRONOUNS.contains(string) ||
+						(string.matches(WORD_REGEX)));
 	}
 
 	/**

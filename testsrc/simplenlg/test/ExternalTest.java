@@ -303,16 +303,24 @@ public class ExternalTest extends SimpleNLG4Test {
 	
 	@Test
 	public void testData2Text() {
-		// Data2Text test
+		// Data2Text tests
+		// test OK to have number at end of sentence
 		SPhraseSpec p = this.phraseFactory.createClause("the dog", "weigh", "12");
 		Assert.assertEquals("The dog weighes 12.", realiser.realiseSentence(p));
 		
+		// test OK to have "there be" sentence with "there" as a StringElement
 		NLGElement dataDropout2 = this.phraseFactory.createNLGElement("data dropouts");
 		dataDropout2.setPlural(true);
 		SPhraseSpec sentence2 = this.phraseFactory.createClause();
 		sentence2.setSubject(this.phraseFactory.createStringElement("there"));
 		sentence2.setVerb("be");
 		sentence2.setObject(dataDropout2);
+		Assert.assertEquals("There are data dropouts.", realiser.realiseSentence(sentence2));
+		
+		// test OK to have gerund form verb
+		SPhraseSpec weather1 = this.phraseFactory.createClause("SE 10-15", "veer", "S 15-20");
+		weather1.setFeature(Feature.FORM, Form.GERUND);
+		Assert.assertEquals("SE 10-15 veering S 15-20.", realiser.realiseSentence(weather1));		
 
 
 	}
