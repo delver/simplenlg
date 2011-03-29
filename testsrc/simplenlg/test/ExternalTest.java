@@ -18,10 +18,14 @@
  */
 package simplenlg.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
+import simplenlg.aggregation.ClauseCoordinationRule;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.InternalFeature;
@@ -350,5 +354,59 @@ public class ExternalTest extends SimpleNLG4Test {
 		SPhraseSpec weather5 = this.phraseFactory.createClause("rain", null, "likely");
 		Assert.assertEquals("Rain likely.", realiser.realiseSentence(weather5));
 
+	}
+	
+	@Test
+	public void testRafael() {
+		// Rafael Valle's tests
+		List<NLGElement> ss=new ArrayList<NLGElement>();
+		ClauseCoordinationRule coord = new ClauseCoordinationRule();
+		coord.setFactory(this.phraseFactory);
+		
+		ss.add(this.agreePhrase("John Lennon")); // john lennon agreed with it  
+		ss.add(this.disagreePhrase("Geri Halliwell")); // Geri Halliwell disagreed with it
+		ss.add(this.commentPhrase("Melanie B")); // Mealnie B commented on it
+		ss.add(this.agreePhrase("you")); // you agreed with it
+		ss.add(this.commentPhrase("Emma Bunton")); //Emma Bunton commented on it
+
+		List<NLGElement> results=coord.apply(ss);
+		List<String> ret=this.realizeAll(results);
+		Assert.assertEquals("[John Lennon and you agreed with it, Geri Halliwell disagreed with it, Melanie B and Emma Bunton commented on it]", ret.toString());
+	}
+	
+	private NLGElement commentPhrase(String name){  // used by testRafael
+		SPhraseSpec s = phraseFactory.createClause();
+		s.setSubject(phraseFactory.createNounPhrase(name));
+		s.setVerbPhrase(phraseFactory.createVerbPhrase("comment on"));
+		s.setObject("it");
+		s.setFeature(Feature.TENSE, Tense.PAST);
+		return s;
+	}
+
+	private NLGElement agreePhrase(String name){  // used by testRafael
+		SPhraseSpec s = phraseFactory.createClause();
+		s.setSubject(phraseFactory.createNounPhrase(name));
+		s.setVerbPhrase(phraseFactory.createVerbPhrase("agree with"));
+		s.setObject("it");
+		s.setFeature(Feature.TENSE, Tense.PAST);
+		return s;
+	}
+
+	private NLGElement disagreePhrase(String name){  // used by testRafael
+		SPhraseSpec s = phraseFactory.createClause();
+		s.setSubject(phraseFactory.createNounPhrase(name));
+		s.setVerbPhrase(phraseFactory.createVerbPhrase("disagree with"));
+		s.setObject("it");
+		s.setFeature(Feature.TENSE, Tense.PAST);
+		return s;
+	}
+
+	private ArrayList<String> realizeAll(List<NLGElement> results){ // used by testRafael
+		ArrayList<String> ret=new ArrayList<String>();
+		for (NLGElement e : results) {
+			String r = this.realiser.realise(e).getRealisation();
+			ret.add(r);
+		}
+		return ret;
 	}
 }
