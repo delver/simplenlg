@@ -79,7 +79,6 @@ public abstract class SimpleNLG4Test extends TestCase {
 		lexicon = new XMLLexicon();  // built in lexicon
 		this.phraseFactory = new NLGFactory(this.lexicon);
 		this.realiser = new Realiser(this.lexicon);
-		this.realiser.setFormatter(null);
 		
 		this.man = this.phraseFactory.createNounPhrase("the", "man"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.woman = this.phraseFactory.createNounPhrase("the", "woman");  //$NON-NLS-1$//$NON-NLS-2$

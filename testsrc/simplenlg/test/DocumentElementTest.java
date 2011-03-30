@@ -36,18 +36,18 @@ import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.SPhraseSpec;
 
 /**
- * Tests for the TextSpec class.
+ * Tests for the DocumentElement class.
  * @author ereiter
  */
-public class TextSpecTest extends SimpleNLG4Test {
+public class DocumentElementTest extends SimpleNLG4Test {
 
 	/**
-	 * Instantiates a new text spec test.
+	 * Instantiates a new document element test.
 	 * 
 	 * @param name
 	 *            the name
 	 */
-	public TextSpecTest(String name) {
+	public DocumentElementTest(String name) {
 		super(name);
 	}
 
@@ -56,7 +56,6 @@ public class TextSpecTest extends SimpleNLG4Test {
 	 */
 	@Test
 	public void testBasics() {
-		this.realiser.setFormatter(new TextFormatter());
 		SPhraseSpec p1 = this.phraseFactory
 				.createClause("you", "be", "happy");
 		SPhraseSpec p2 = this.phraseFactory.createClause("I", "be", "sad"); 
@@ -80,7 +79,6 @@ public class TextSpecTest extends SimpleNLG4Test {
 	 */
 	@Test
 	public void testEmbedding() {
-		this.realiser.setFormatter(new TextFormatter());
 		DocumentElement sent = phraseFactory.createSentence("This is a test");
 		DocumentElement sent2 = phraseFactory.createSentence(phraseFactory.createClause("John", "be", "missing"));
 		DocumentElement section = phraseFactory.createSection("SECTION TITLE");
@@ -89,76 +87,31 @@ public class TextSpecTest extends SimpleNLG4Test {
 		
 		Assert.assertEquals("SECTION TITLE\nThis is a test.\n\nJohn is missing.\n\n",
 				this.realiser.realise(section).getRealisation());
-
-		
-//		this.phraseFactory.setLexicon(this.lexicon);
-//
-//		PhraseElement comp = this.phraseFactory.createNounPhrase("the", "baby"); //$NON-NLS-1$ //$NON-NLS-2$
-//		PhraseElement p1 = this.phraseFactory.createClause(null, "give", comp); //$NON-NLS-1$
-//		p1.setFeature(Feature.PASSIVE, true);
-//
-//		PhraseElement morphine = this.phraseFactory
-//				.createNounPhrase("50mg of morphine"); //$NON-NLS-1$
-//		morphine.setFeature(Feature.DISCOURSE_FUNCTION, DiscourseFunction.INDIRECT_OBJECT);
-//		p1.addComplement(morphine);
-//		p1.setFeature(Feature.CUE_PHRASE, "after"); //$NON-NLS-1$
-//		p1.setFeature(Feature.FORM, Form.GERUND);
-//		
-//		Assert.assertEquals("after the baby's being given 50mg of morphine", //$NON-NLS-1$
-//				this.realiser.realise(p1).getRealisation());
-//
-//		PhraseElement p2 = this.phraseFactory.createClause(null, "intubate", "the baby"); //$NON-NLS-1$ //$NON-NLS-2$
-//		p2.setFeature(Feature.PASSIVE, true);
-//		p2.setTense(Tense.PAST);
-//
-//		DocumentElement t1 = DocumentElement.createSentence(p1);
-//		t1.addComponent(p2);
-//		this.realiser.setDebugMode(true);
-//		this.realiser.realise(p2);
-//		this.realiser.setDebugMode(false);
-//		Assert
-//				.assertEquals(
-//						"After the baby's being given 50mg of morphine, the baby was intubated. \n", //$NON-NLS-1$
-//						this.realiser.realise(t1).getRealisation());
 	}
 
 	@Test
 	public void testSections() {
-		// // complex test involving doc which contains a section, subsection,
-		// // indented list of para
-		// TextSpec doc = new TextSpec();
-		// doc.setDocument();
-		// doc.setHeading("Test Document");
-		//
-		// TextSpec section = new TextSpec();
-		// section.setDocStructure(DocStructure.SECTION);
-		// section.setHeading("Test Section");
-		// doc.addSpec(section);
-		//
-		// TextSpec subsection = new TextSpec();
-		// subsection.setDocStructure(DocStructure.SUBSECTION);
-		// subsection.setHeading("Test Subsection");
-		// section.addSpec(subsection);
-		//
-		// TextSpec list = new TextSpec();
-		// list.setDocStructure(DocStructure.PARAGRAPHSET);
-		// list.setIndentedList(true);
-		// subsection.addSpec(list);
-		//
-		// TextSpec para1 = new TextSpec();
-		// para1.setParagraph();
-		// para1.addChild("This is the first test paragraph.");
-		// list.addSpec(para1);
-		//
-		// TextSpec para2 = new TextSpec();
-		// para2.setParagraph();
-		// para2.addChild("This is the second test paragraph.");
-		// list.addSpec(para2);
-		//
-		// Assert
-		// .assertEquals(
-		// "Test Document\r\n\r\nTest Section\r\n\r\nTest Subsection\r\n\r\n * This is the first test paragraph.\r\n\r\n * This is the second test paragraph.\r\n",
-		// this.realiser.realise(doc));
+		 // doc which contains a section, and two paras
+		 DocumentElement doc = this.phraseFactory.createDocument("Test Document");
+		
+		 DocumentElement section = this.phraseFactory.createSection("Test Section");
+		 doc.addComponent(section);
+		
+		
+		 DocumentElement para1 = this.phraseFactory.createParagraph();
+		 DocumentElement sent1 = this.phraseFactory.createSentence("This is the first test paragraph");
+		 para1.addComponent(sent1);
+		 section.addComponent(para1);
+		 
+		 DocumentElement para2 = this.phraseFactory.createParagraph();
+		 DocumentElement sent2 = this.phraseFactory.createSentence("This is the second test paragraph");
+		 para2.addComponent(sent2);
+		 section.addComponent(para2);
+		
+		 Assert
+		 .assertEquals(
+		 "Test Document\nTest Section\nThis is the first test paragraph.\n\nThis is the second test paragraph.\n\n",
+		 this.realiser.realise(doc).getRealisation());
 		//
 		// Realiser htmlRealiser = new Realiser();
 		// htmlRealiser.setHTML(true);
