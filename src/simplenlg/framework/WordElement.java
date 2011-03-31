@@ -299,8 +299,8 @@ public class WordElement extends NLGElement {
 	/**
 	 * Check if this WordElement is equal to an object.
 	 * 
-	 * @param the
-	 *            object
+	 * @param o
+	 *            the object
 	 * @return <code>true</code> iff the object is a word element with the same
 	 *         id and the same baseform and the same features.
 	 * 

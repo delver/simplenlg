@@ -102,8 +102,8 @@ public abstract class Lexicon {
 	 */
 	protected WordElement createWord(String baseForm, LexicalCategory category) {
 		return new WordElement(baseForm, category); // return default
-													// WordElement of this
-													// baseForm, category
+		// WordElement of this
+		// baseForm, category
 	}
 
 	/**
@@ -116,7 +116,7 @@ public abstract class Lexicon {
 	 */
 	protected WordElement createWord(String baseForm) {
 		return new WordElement(baseForm); // return default WordElement of this
-											// baseForm
+		// baseForm
 	}
 
 	/***************************************************************************/
@@ -190,16 +190,16 @@ public abstract class Lexicon {
 	 *         and returned
 	 */
 	public WordElement getWord(String baseForm, LexicalCategory category) {// convenience
-																			// method
-																			// derived
-																			// from
-																			// other
-																			// methods
+		// method
+		// derived
+		// from
+		// other
+		// methods
 		List<WordElement> wordElements = getWords(baseForm, category);
 		if (wordElements.isEmpty())
 			return createWord(baseForm, category); // return default WordElement
-													// of this baseForm,
-													// category
+		// of this baseForm,
+		// category
 		else
 			return wordElements.get(0); // else return first match
 	}
@@ -215,12 +215,12 @@ public abstract class Lexicon {
 	 * @return <code>true</code> if Lexicon contains such a WordElement
 	 */
 	public boolean hasWord(String baseForm, LexicalCategory category) {// convenience
-																		// method
-																		// derived
-																		// from
-																		// other
-																		// methods)
-																		// {
+		// method
+		// derived
+		// from
+		// other
+		// methods)
+		// {
 		return !getWords(baseForm, category).isEmpty();
 	}
 
@@ -232,8 +232,8 @@ public abstract class Lexicon {
 	 * @return collection of all matching Words (may be empty)
 	 */
 	public List<WordElement> getWords(String baseForm) { // convenience method
-															// derived from
-															// other methods
+		// derived from
+		// other methods
 		return getWords(baseForm, LexicalCategory.ANY);
 	}
 
@@ -248,12 +248,12 @@ public abstract class Lexicon {
 	 *         and returned
 	 */
 	public WordElement getWord(String baseForm) { // convenience method derived
-													// from other methods
+		// from other methods
 		List<WordElement> wordElements = getWords(baseForm);
-		
+
 		if (wordElements.isEmpty())
 			return createWord(baseForm); // return default WordElement of this
-											// baseForm
+		// baseForm
 		else
 			return wordElements.get(0); // else return first match
 	}
@@ -267,7 +267,7 @@ public abstract class Lexicon {
 	 * @return <code>true</code> if Lexicon contains such a WordElement
 	 */
 	public boolean hasWord(String baseForm) {// convenience method derived from
-												// other methods) {
+		// other methods) {
 		return !getWords(baseForm).isEmpty();
 	}
 
@@ -295,8 +295,8 @@ public abstract class Lexicon {
 	/**
 	 * get a WordElement with the specified ID
 	 * 
-	 * @param internal
-	 *            lexicon ID for a word
+	 * @param id
+	 *            internal lexicon ID for a word
 	 * @return WordElement with this ID if found; otherwise a new WordElement is
 	 *         created with the ID as the base form
 	 */
@@ -304,7 +304,7 @@ public abstract class Lexicon {
 		List<WordElement> wordElements = getWordsByID(id);
 		if (wordElements.isEmpty())
 			return createWord(id); // return WordElement based on ID; may help
-									// in debugging...
+		// in debugging...
 		else
 			return wordElements.get(0); // else return first match
 	}
@@ -318,7 +318,7 @@ public abstract class Lexicon {
 	 * @return <code>true</code> if Lexicon contains such a WordElement
 	 */
 	public boolean hasWordByID(String id) {// convenience method derived from
-											// other methods) {
+		// other methods) {
 		return !getWordsByID(id).isEmpty();
 	}
 
@@ -367,8 +367,8 @@ public abstract class Lexicon {
 		List<WordElement> wordElements = getWordsFromVariant(variant, category);
 		if (wordElements.isEmpty())
 			return createWord(variant, category); // return default WordElement
-													// using variant as base
-													// form
+		// using variant as base
+		// form
 		else
 			return wordElements.get(0); // else return first match
 
@@ -385,12 +385,12 @@ public abstract class Lexicon {
 	 * @return <code>true</code> if Lexicon contains such a WordElement
 	 */
 	public boolean hasWordFromVariant(String variant, LexicalCategory category) {// convenience
-																					// method
-																					// derived
-																					// from
-																					// other
-																					// methods)
-																					// {
+		// method
+		// derived
+		// from
+		// other
+		// methods)
+		// {
 		return !getWordsFromVariant(variant, category).isEmpty();
 	}
 
@@ -422,7 +422,7 @@ public abstract class Lexicon {
 		List<WordElement> wordElements = getWordsFromVariant(variant);
 		if (wordElements.isEmpty())
 			return createWord(variant); // return default WordElement using
-										// variant as base form
+		// variant as base form
 		else
 			return wordElements.get(0); // else return first match
 	}
@@ -436,8 +436,8 @@ public abstract class Lexicon {
 	 * @return <code>true</code> if Lexicon contains such a WordElement
 	 */
 	public boolean hasWordFromVariant(String variant) {// convenience method
-														// derived from other
-														// methods) {
+		// derived from other
+		// methods) {
 		return !getWordsFromVariant(variant).isEmpty();
 	}
 
