@@ -127,4 +127,23 @@ public class ExternalTests2 extends SimpleNLG4Test {
 		// cch TODO : handle general case making phrase type corresponding to
 		// lexeme category and usage.
 	}
+	
+	/**
+	 * Check that setComplement replaces earlier complements
+	 */
+	public void testSetComplement() {
+		SPhraseSpec s = this.phraseFactory.createClause();
+		s.setSubject("I");
+		s.setVerb("see");
+		s.setObject("a dog");
+		
+		Assert.assertEquals("I see a dog", this.realiser.realise(s).getRealisation());
+		
+		s.setObject("a cat");
+		Assert.assertEquals("I see a cat", this.realiser.realise(s).getRealisation());
+		
+		s.setObject("a wolf");
+		Assert.assertEquals("I see a wolf", this.realiser.realise(s).getRealisation());
+
+	}
 }

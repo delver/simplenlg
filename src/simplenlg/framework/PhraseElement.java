@@ -231,6 +231,20 @@ public class PhraseElement extends NLGElement {
 
 	/**
 	 * <p>
+	 * Sets the complement of the phrase element. This replaces complements set
+	 * earleir via {@link #addComplement(NLGElement)}
+	 * </p>
+	 * 
+	 * @param newComplement
+	 *            the new complement as an <code>NLGElement</code>.
+	 */
+	public void setComplement(NLGElement newComplement) {
+		setFeature(InternalFeature.COMPLEMENTS, null);
+		addComplement(newComplement);
+	}
+
+	/**
+	 * <p>
 	 * Adds a new complement to the phrase element. Complements will be realised
 	 * in the syntax after the head element of the phrase. Complements differ
 	 * from post-modifiers in that complements are crucial to the understanding
@@ -249,6 +263,21 @@ public class PhraseElement extends NLGElement {
 		}
 		complements.add(newElement);
 		setFeature(InternalFeature.COMPLEMENTS, complements);
+	}
+
+	/**
+	 * <p>
+	 * Sets the complement to the phrase element. This replaces any complements
+	 * set earlier.
+	 * </p>
+	 * 
+	 * @param newComplement
+	 *            the new complement as a <code>String</code>. It is used to
+	 *            create a <code>StringElement</code>.
+	 */
+	public void setComplement(String newComplement) {
+		setFeature(InternalFeature.COMPLEMENTS, null);
+		addComplement(newComplement);
 	}
 
 	/**
@@ -308,11 +337,11 @@ public class PhraseElement extends NLGElement {
 	 */
 	public void addFrontModifier(String newFrontModifier) {
 		List<NLGElement> frontModifiers = getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS);
-		
+
 		if (frontModifiers == null) {
 			frontModifiers = new ArrayList<NLGElement>();
 		}
-		
+
 		frontModifiers.add(new StringElement(newFrontModifier));
 		setFeature(InternalFeature.FRONT_MODIFIERS, frontModifiers);
 	}

@@ -152,7 +152,7 @@ public class VPPhraseSpec extends PhraseElement {
 			objectPhrase = getFactory().createNounPhrase(object);
 
 		objectPhrase.setFeature(InternalFeature.DISCOURSE_FUNCTION, DiscourseFunction.OBJECT);
-		addComplement(objectPhrase);
+		setComplement(objectPhrase);
 	}
 	
 	
