@@ -148,21 +148,21 @@ public class ClauseAggregationTest extends SimpleNLG4Test {
 		Assert.assertEquals(2, result.size());
 	}
 
-	/**
-	 * Test clause coordination with 2 sentences with same subject: succeeds
-	 */
-	@Test
-	public void testCoordinationSameSubjectSuccess() {
-		List<NLGElement> elements = Arrays.asList((NLGElement) this.s1,
-				(NLGElement) this.s3);
-		List<NLGElement> result = this.coord.apply(elements);
-		Assert.assertTrue(result.size() == 1); // should only be one sentence
-		NLGElement aggregated = result.get(0);
-		Assert
-				.assertEquals(
-						"the woman kisses the man and kicks the dog behind the curtain", //$NON-NLS-1$
-						this.realiser.realise(aggregated).getRealisation());
-	}
+//	/**
+//	 * Test clause coordination with 2 sentences with same subject: succeeds
+//	 */
+//	@Test
+//	public void testCoordinationSameSubjectSuccess() {
+//		List<NLGElement> elements = Arrays.asList((NLGElement) this.s1,
+//				(NLGElement) this.s3);
+//		List<NLGElement> result = this.coord.apply(elements);
+//		Assert.assertTrue(result.size() == 1); // should only be one sentence
+//		NLGElement aggregated = result.get(0);
+//		Assert
+//				.assertEquals(
+//						"the woman kisses the man and kicks the dog behind the curtain", //$NON-NLS-1$
+//						this.realiser.realise(aggregated).getRealisation());
+//	}
 
 	/**
 	 * Test clause coordination with 2 sentences with same VP: succeeds

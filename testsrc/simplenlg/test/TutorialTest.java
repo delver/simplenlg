@@ -185,7 +185,7 @@ public class TutorialTest extends SimpleNLG4Test {
 		output = realiser.realiseSentence(p);
 		Assert.assertEquals("My dog chases George.", output);
 		
-/*		Below tests are disabled, since this functionality is disabled
+		//Below tests are disabled, since this functionality is disabled
         p = nlgFactory.createClause();
 		p.setSubject(nlgFactory.createNounPhrase("the", "dogs"));   // variant of "dog"
 		p.setVerb("is");  // variant of be
@@ -198,7 +198,7 @@ public class TutorialTest extends SimpleNLG4Test {
 		p.setVerb("is");  // variant of be
 		p.setObject("happy");  // variant of happy
 		output = realiser.realiseSentence(p);
-		Assert.assertEquals("The child is happy.", output);*/
+		Assert.assertEquals("The child is happy.", output);
 
 		// following functionality is enabled
 		p = nlgFactory.createClause();
@@ -206,8 +206,6 @@ public class TutorialTest extends SimpleNLG4Test {
 		p.setVerb("is");  // variant of be
 		p.setObject("happy");  // variant of happy
 		output = realiser.realiseSentence(p);
-		Assert.assertEquals("The dogs is happy.", output); // grammatically incorrect, but expected behaviour for now
-
-
+		Assert.assertEquals("The dog is happy.", output); //corrected automatically				
 	 }
 }

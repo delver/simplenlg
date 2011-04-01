@@ -189,8 +189,8 @@ public class NLGFactory {
 			// if (this.lexicon != null) {
 			// doLexiconLookUp(category, (String) word, wordElement);
 			// }
-			wordElement = lexicon.getWord((String) word, category);
-
+			//wordElement = lexicon.getWord((String) word, category);
+			wordElement = lexicon.lookupWord((String) word, category);
 			if (PRONOUNS.contains(word)) {
 				setPronounFeatures(wordElement, (String) word);
 			}

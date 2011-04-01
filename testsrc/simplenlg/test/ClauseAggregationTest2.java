@@ -64,27 +64,28 @@ public class ClauseAggregationTest2 extends SimpleNLG4Test {
 		this.s4.setFeature(Feature.PROGRESSIVE, true);
 	}
 
-	@Test
-	public void testConjReduction1() {
-		NLGElement element = this.aggregator.realise(this.s1, this.s2);
-		Assert.assertEquals("John is writing and Mary is editing an article",
-				this.realiser.realise(element).getRealisation());
-	}
-
-	@Test
-	public void testConjReduction2() {
-		this.s1.setFeature(Feature.PASSIVE, true);
-		this.s2.setFeature(Feature.PASSIVE, true);
-		NLGElement element = this.aggregator.realise(this.s1, this.s2);
-		Assert.assertEquals("John is writing and Mary is editing an article",
-				this.realiser.realise(element).getRealisation());
-	}
-
-	@Test
-	public void testConjReduction3() {
-		NLGElement element = this.aggregator.realise(this.s3, this.s4);
-		Assert.assertEquals("John was reading a book and Mary an article",
-				this.realiser.realise(element).getRealisation());
-	}
+	//Functionality disabled for the time being
+	// @Test
+	// public void testConjReduction1() {
+	// NLGElement element = this.aggregator.realise(this.s1, this.s2);
+	// Assert.assertEquals("John is writing and Mary is editing an article",
+	// this.realiser.realise(element).getRealisation());
+	// }
+	//
+	// @Test
+	// public void testConjReduction2() {
+	// this.s1.setFeature(Feature.PASSIVE, true);
+	// this.s2.setFeature(Feature.PASSIVE, true);
+	// NLGElement element = this.aggregator.realise(this.s1, this.s2);
+	// Assert.assertEquals("John is writing and Mary is editing an article",
+	// this.realiser.realise(element).getRealisation());
+	// }
+	//
+	// @Test
+	// public void testConjReduction3() {
+	// NLGElement element = this.aggregator.realise(this.s3, this.s4);
+	// Assert.assertEquals("John was reading a book and Mary an article",
+	// this.realiser.realise(element).getRealisation());
+	// }
 
 }
