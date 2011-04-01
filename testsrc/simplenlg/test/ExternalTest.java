@@ -409,4 +409,22 @@ public class ExternalTest extends SimpleNLG4Test {
 		}
 		return ret;
 	}
+	
+	@Test
+	public void testWikipedia() {
+		// test code fragments in wikipedia
+		// realisation
+		NPPhraseSpec subject = phraseFactory.createNounPhrase("the", "woman");
+		subject.setPlural(true);
+		SPhraseSpec sentence = phraseFactory.createClause(subject, "smoke");
+		sentence.setFeature(Feature.NEGATED, true);
+		Assert.assertEquals("The women do not smoke.", realiser.realiseSentence(sentence));
+
+		// aggregation
+		SPhraseSpec s1 = phraseFactory.createClause("the man", "be", "hungry");
+		SPhraseSpec s2 = phraseFactory.createClause("the man", "buy", "an apple");
+		NLGElement result = new ClauseCoordinationRule().apply(s1, s2);
+		Assert.assertEquals("The man is hungry and buys an apple.", realiser.realiseSentence(result));
+
+	}
 }

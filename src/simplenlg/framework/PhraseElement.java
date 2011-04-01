@@ -231,18 +231,41 @@ public class PhraseElement extends NLGElement {
 
 	/**
 	 * <p>
-	 * Sets the complement of the phrase element. This replaces complements set
-	 * earleir via {@link #addComplement(NLGElement)}
+	 * Sets a complement of the phrase element. If a complement already
+	 * exists of the same DISCOURSE_FUNCTION, it is removed.
+	 * This replaces complements set
+	 * earlier via {@link #addComplement(NLGElement)}
 	 * </p>
 	 * 
 	 * @param newComplement
 	 *            the new complement as an <code>NLGElement</code>.
 	 */
 	public void setComplement(NLGElement newComplement) {
-		setFeature(InternalFeature.COMPLEMENTS, null);
+		DiscourseFunction function = (DiscourseFunction) newComplement.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+		removeComplements(function);
 		addComplement(newComplement);
 	}
 
+	/** remove complements of the specified DiscourseFunction
+	 * @param function
+	 */
+	private void removeComplements(DiscourseFunction function) {
+		List<NLGElement> complements = getFeatureAsElementList(InternalFeature.COMPLEMENTS);
+		if (function == null || complements == null)
+			return;
+		List<NLGElement> complementsToRemove = new ArrayList<NLGElement>();
+		for (NLGElement complement: complements)
+			if (function == complement.getFeature(InternalFeature.DISCOURSE_FUNCTION))
+				complementsToRemove.add(complement);
+
+		if (!complementsToRemove.isEmpty()) {
+			complements.removeAll(complementsToRemove);
+			setFeature(InternalFeature.COMPLEMENTS, complements);
+		}
+		
+		return;
+	}
+	
 	/**
 	 * <p>
 	 * Adds a new complement to the phrase element. Complements will be realised

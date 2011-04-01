@@ -180,7 +180,7 @@ public class VPPhraseSpec extends PhraseElement {
 			indirectObjectPhrase = getFactory().createNounPhrase(indirectObject);
 
 		indirectObjectPhrase.setFeature(InternalFeature.DISCOURSE_FUNCTION, DiscourseFunction.INDIRECT_OBJECT);
-		addComplement(indirectObjectPhrase);
+		setComplement(indirectObjectPhrase);
 	}
 	
 	/** Returns the indirect object of a clause (assumes there is only one)
