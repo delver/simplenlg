@@ -185,7 +185,7 @@ public class TutorialTest extends SimpleNLG4Test {
 		output = realiser.realiseSentence(p);
 		Assert.assertEquals("My dog chases George.", output);
 		
-		//Below tests are disabled, since this functionality is disabled
+
         p = nlgFactory.createClause();
 		p.setSubject(nlgFactory.createNounPhrase("the", "dogs"));   // variant of "dog"
 		p.setVerb("is");  // variant of be
