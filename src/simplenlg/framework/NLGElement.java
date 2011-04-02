@@ -247,6 +247,41 @@ public abstract class NLGElement {
 		}
 		return list;
 	}
+	
+	/**
+	 * <p>
+	 * Retrieves the value of the feature as a list of java objects. If the feature
+	 * is a single element, the list contains only this element.
+	 * If the feature is a <code>Collection</code> each object in the collection is
+	 * returned in the list.
+	 * </p>
+	 * <p>
+	 * If the feature does not exist then an empty list is returned.
+	 * </p>
+	 * 
+	 * @param featureName
+	 *            the name of the feature.
+	 * @return the <code>List</code> of <code>Object</code>s
+	 */
+	public List<Object> getFeatureAsList(String featureName) {
+		List<Object> values = new ArrayList<Object>();
+		Object value = this.features.get(featureName);
+		
+		if (value != null) {
+			if (value instanceof Collection<?>) {
+				Iterator<?> iterator = ((Collection<?>) value).iterator();
+				Object nextObject = null;
+				while (iterator.hasNext()) {
+					nextObject = iterator.next();
+					values.add(nextObject);
+				}
+			} else {
+				values.add(value);
+			}
+		}
+		
+		return values;
+	}
 
 	/**
 	 * <p>

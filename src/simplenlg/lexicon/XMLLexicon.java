@@ -22,7 +22,6 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +36,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import simplenlg.features.Inflection;
 import simplenlg.features.LexicalFeature;
 import simplenlg.framework.ElementCategory;
 import simplenlg.framework.LexicalCategory;
@@ -56,10 +56,6 @@ public class XMLLexicon extends Lexicon {
 	private static final String XML_CATEGORY = "category"; // base form of Word
 	private static final String XML_ID = "id"; // base form of Word
 	private static final String XML_WORD = "word"; // node defining a word
-
-	// inflectional codes which need to be set as part of INFLECTION feature
-	private static final List<String> INFL_CODES = Arrays.asList(new String[] {
-			"reg", "irreg", "uncount", "inv", "metareg", "glreg", "nonCount", "sing", "groupuncount" });
 
 	// lexicon
 	private Set<WordElement> words; // set of words
@@ -182,7 +178,7 @@ public class XMLLexicon extends Lexicon {
 	private WordElement convertNodeToWord(Node wordNode) {
 		// if this isn't a Word node, ignore it
 		if (!wordNode.getNodeName().equalsIgnoreCase(XML_WORD))
-			return null;		
+			return null;
 
 		// // if there is no base, flag an error and return null
 		// String base = XPathUtil.extractValue(wordNode, Constants.XML_BASE);
@@ -193,8 +189,8 @@ public class XMLLexicon extends Lexicon {
 
 		// create word
 		WordElement word = new WordElement();
-		List<String> inflections = new ArrayList<String>();
-		
+		List<Inflection> inflections = new ArrayList<Inflection>();
+
 		// now copy features
 		NodeList nodes = wordNode.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -220,12 +216,15 @@ public class XMLLexicon extends Lexicon {
 							.toUpperCase()));
 				else if (feature.equalsIgnoreCase(XML_ID))
 					word.setId(value);
+
 				else if (value == null || value.equals("")) {
-					if (INFL_CODES.contains(feature)) {
-						// if this is an infl code, add it to inflections
-						inflections.add(feature);
+					// if this is an infl code, add it to inflections
+					Inflection infl = Inflection.getInflCode(feature);
+
+					if (infl != null) {
+						inflections.add(infl);
 					} else {
-						//otherwise assume it's a boolean feature
+						// otherwise assume it's a boolean feature
 						word.setFeature(feature, true);
 					}
 				} else
@@ -233,17 +232,23 @@ public class XMLLexicon extends Lexicon {
 			}
 
 		}
+
+		// if no infl specified, assume regular
+		if (inflections.isEmpty()) {
+			inflections.add(Inflection.REGULAR);
+		}
+
+		// default inflection code is "reg" if we have it, else random pick form
+		// infl codes available
+		Inflection defaultInfl = inflections.contains(Inflection.REGULAR) ? Inflection.REGULAR
+				: inflections.get(0);		
 		
-		//if no infl specified, assume regular
-		if(inflections.isEmpty()) {
-			inflections.add("reg");
-		} 
-		
-		//default inflection code is "reg" if we have it, else random pick form infl codes available
-		String defaultInfl = inflections.contains("reg") ? "reg" : inflections.get(0);
-		
-		word.setFeature(LexicalFeature.INFLECTIONS, inflections);
 		word.setFeature(LexicalFeature.DEFAULT_INFL, defaultInfl);
+		word.setDefaultInflectionalVariant(defaultInfl);
+		
+		for(Inflection infl: inflections) {
+			word.addInflectionalVariant(infl);
+		}
 
 		// done, return word
 		return word;

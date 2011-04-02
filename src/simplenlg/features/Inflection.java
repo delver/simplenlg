@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Westwater, Roman Kutlak, Margaret Mitchell.
  */
 
 package simplenlg.features;
@@ -41,7 +41,7 @@ package simplenlg.features;
  * 
  */
 
-public enum Pattern {
+public enum Inflection {
 
 	/**
 	 * The morphology processor has simple rules for pluralising Greek and Latin
@@ -65,13 +65,57 @@ public enum Pattern {
 	 * morphology processor. An example would be adding <em>-s</em> to the end
 	 * of regular nouns to pluralise them.
 	 */
-	REGULAR, 
-	
+	REGULAR,
+
 	/**
-	 * Regular double patterns apply to verbs where the last consonant is duplicated
-	 * before applying the new suffix. For example, the verb <em>tag</em> has a 
-	 * regular double pattern as its inflected forms include <em>tagged</em> and 
-	 * <em>tagging</em>.
+	 * Regular double patterns apply to verbs where the last consonant is
+	 * duplicated before applying the new suffix. For example, the verb
+	 * <em>tag</em> has a regular double pattern as its inflected forms include
+	 * <em>tagged</em> and <em>tagging</em>.
 	 */
-	REGULAR_DOUBLE;
+	REGULAR_DOUBLE,
+
+	/**
+	 * The value for uncountable nouns, which are not inflected in their plural
+	 * form.
+	 */
+	UNCOUNT,
+
+	/**
+	 * The value for words which are invariant, that is, are never inflected.
+	 */
+	INVARIANT;
+
+	/**
+	 * convenience method: parses an inflectional code such as
+	 * "irreg|woman|women" to retrieve the first element, which is the code
+	 * itself, then maps it to the value of <code>Inflection</code>.
+	 * 
+	 * @param variant
+	 *            -- the string representing the inflection. The strings are
+	 *            those defined in the NIH Lexicon.
+	 * @return the Inflection
+	 */
+	public static Inflection getInflCode(String code) {
+		code = code.toLowerCase().trim();
+		Inflection infl = null;
+
+		if (code.equals("reg")) {
+			infl = Inflection.REGULAR;
+		} else if (code.equals("irreg")) {
+			infl = Inflection.IRREGULAR;
+		} else if (code.equals("regd")) {
+			infl = Inflection.REGULAR_DOUBLE;
+		} else if (code.equals("glreg")) {
+			infl = Inflection.GRECO_LATIN_REGULAR;
+		} else if (code.equals("uncount") || code.equals("noncount")
+				|| code.equals("groupuncount")) {
+			infl = Inflection.UNCOUNT;
+		} else if (code.equals("inv")) {
+			infl = Inflection.INVARIANT;
+		}
+
+		return infl;
+	}
+
 }

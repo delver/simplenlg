@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import simplenlg.features.Inflection;
 import simplenlg.features.LexicalFeature;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
@@ -238,17 +239,6 @@ public class NIHDBLexicon extends Lexicon {
 		// create word class
 		WordElement wordElement = new WordElement(baseForm, category, id);
 
-		// now add inflection info
-		if (keepStandardInflections || !standardInflections(record, category))
-			for (InflVar inflection : record.GetInflVarsAndAgreements()
-					.GetInflValues()) {
-				String simplenlgInflection = getSimplenlgInflection(inflection
-						.GetInflection());
-				if (simplenlgInflection != null)
-					wordElement.setFeature(simplenlgInflection, inflection
-							.GetVar());
-			}
-
 		// now add type information
 		switch (category) {
 		case ADJECTIVE:
@@ -265,6 +255,44 @@ public class NIHDBLexicon extends Lexicon {
 			break;
 		// ignore closed class words
 		}
+
+		Inflection defaultInfl = (Inflection) wordElement
+				.getDefaultInflectionalVariant();
+
+		// now add inflected forms
+		// if (keepStandardInflections || !standardInflections(record,
+		// category)) {
+		for (InflVar inflection : record.GetInflVarsAndAgreements()
+				.GetInflValues()) {
+			String simplenlgInflection = getSimplenlgInflection(inflection
+					.GetInflection());
+
+			if (simplenlgInflection != null) {
+				String inflectedForm = inflection.GetVar();
+				Inflection inflType = Inflection.getInflCode(inflection
+						.GetType());
+
+				// store all inflectional variants, except for regular ones
+				// unless explicitly set
+				if (inflType != null
+						&& !(Inflection.REGULAR.equals(inflType) && !this.keepStandardInflections)) {
+					wordElement.addInflectionalVariant(inflType,
+							simplenlgInflection, inflectedForm);
+				}
+
+				// if the infl variant is the default, also set this feature on
+				// the word
+				if (defaultInfl == null
+						|| (defaultInfl.equals(inflType) && !(Inflection.REGULAR
+								.equals(inflType) && !this.keepStandardInflections))) {
+					wordElement.setFeature(simplenlgInflection, inflectedForm);
+				}
+
+				// wordElement
+				// .setFeature(simplenlgInflection, inflection.GetVar());
+			}
+		}
+		// }
 
 		// add acronym info
 		addAcronymInfo(wordElement, record);
@@ -492,18 +520,35 @@ public class NIHDBLexicon extends Lexicon {
 		List<String> variants = nounEntry.GetVariants();
 
 		if (!variants.isEmpty()) {
-			List<String> wordVariants = new ArrayList<String>();
+			List<Inflection> wordVariants = new ArrayList<Inflection>();
 
 			for (String v : variants) {
-				wordVariants.add(this.getInflCode(v));
+				int index = v.indexOf("|");
+				String code;
+
+				if (index > -1) {
+					code = v.substring(0, index).toLowerCase().trim();
+
+				} else {
+					code = v.toLowerCase().trim();
+				}
+
+				Inflection infl = Inflection.getInflCode(code);
+
+				if (infl != null) {
+					wordVariants.add(infl);
+					wordElement.addInflectionalVariant(infl);
+				}
 			}
 
 			// if the variants include "reg", this is the default, otherwise
 			// just a random pick
-			String defaultVariant = wordVariants.contains("reg") ? "reg"
-					: wordVariants.get(0);
-			wordElement.setFeature(LexicalFeature.INFLECTIONS, wordVariants);
+			Inflection defaultVariant = wordVariants
+					.contains(Inflection.REGULAR)
+					|| wordVariants.isEmpty() ? Inflection.REGULAR
+					: wordVariants.get(0);			
 			wordElement.setFeature(LexicalFeature.DEFAULT_INFL, defaultVariant);
+			wordElement.setDefaultInflectionalVariant(defaultVariant);
 		}
 
 		// for (String variant : variants) {
@@ -558,44 +603,40 @@ public class NIHDBLexicon extends Lexicon {
 		List<String> variants = verbEntry.GetVariants();
 
 		if (!variants.isEmpty()) {
-			List<String> wordVariants = new ArrayList<String>();
+			List<Inflection> wordVariants = new ArrayList<Inflection>();
 
 			for (String v : variants) {
-				wordVariants.add(this.getInflCode(v));
+				int index = v.indexOf("|");
+				String code;
+				Inflection infl;
+
+				if (index > -1) {
+					code = v.substring(0, index).toLowerCase().trim();
+					infl = Inflection.getInflCode(code);					
+
+				} else {
+					infl = Inflection.getInflCode(v.toLowerCase().trim());
+				}
+
+				if (infl != null) {
+					wordElement.addInflectionalVariant(infl);
+					wordVariants.add(infl);
+				}
 			}
 
 			// if the variants include "reg", this is the default, otherwise
 			// just a random pick
-			String defaultVariant = wordVariants.contains("reg") ? "reg"
+			Inflection defaultVariant = wordVariants
+					.contains(Inflection.REGULAR)
+					|| wordVariants.isEmpty() ? Inflection.REGULAR
 					: wordVariants.get(0);
-			wordElement.setFeature(LexicalFeature.INFLECTIONS, wordVariants);
-			wordElement.setFeature(LexicalFeature.DEFAULT_INFL, defaultVariant);
+//			wordElement.setFeature(LexicalFeature.INFLECTIONS, wordVariants);
+//			wordElement.setFeature(LexicalFeature.DEFAULT_INFL, defaultVariant);
+			wordElement.setDefaultInflectionalVariant(defaultVariant);
 		}
 
 		// ignore (for now) other info in record
-
 		return;
-	}
-
-	/**
-	 * convenience method: parses an NIH inflectional code such as
-	 * "irreg|woman|women" to retrieve the first element, which is the code
-	 * itself.
-	 * 
-	 * @param variant
-	 * @return
-	 */
-	private String getInflCode(String variant) {
-		int index = variant.indexOf("|");
-		String code;
-
-		if (index > -1) {
-			code = variant.substring(0, index);
-		} else {
-			code = variant;
-		}
-
-		return code;
 	}
 
 	/**
