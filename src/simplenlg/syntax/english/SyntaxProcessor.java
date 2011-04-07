@@ -136,6 +136,7 @@ public class SyntaxProcessor extends NLGModule {
 				realisedElement = ((ListElement) realisedElement).getFirst();
 			}
 		}
+		
 		return realisedElement;
 	}
 

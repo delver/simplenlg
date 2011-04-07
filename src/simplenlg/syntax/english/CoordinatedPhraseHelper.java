@@ -104,12 +104,16 @@ abstract class CoordinatedPhraseHelper {
 												.getFeature(Feature.SUPRESSED_COMPLEMENTISER));
 					}
 
-					conjunctionElement = new InflectedWordElement(conjunction,
-							LexicalCategory.CONJUNCTION);
-					conjunctionElement.setFeature(
-							InternalFeature.DISCOURSE_FUNCTION,
-							DiscourseFunction.CONJUNCTION);
-					coordinated.addCoordinate(conjunctionElement);
+					//skip conjunction if it's null or empty string
+					if (conjunction != null && conjunction.length() > 0) {
+						conjunctionElement = new InflectedWordElement(
+								conjunction, LexicalCategory.CONJUNCTION);
+						conjunctionElement.setFeature(
+								InternalFeature.DISCOURSE_FUNCTION,
+								DiscourseFunction.CONJUNCTION);
+						coordinated.addCoordinate(conjunctionElement);
+					}
+
 					coordinated.addCoordinate(parent.realise(child));
 				}
 				realisedElement.addComponent(coordinated);

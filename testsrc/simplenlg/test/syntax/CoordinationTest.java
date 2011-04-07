@@ -77,7 +77,7 @@ public class CoordinationTest extends SimpleNLG4Test {
 	public void testCoordinateVPComplexSubject() {
 		// "As a result of the procedure the patient had an adverse contrast media reaction and went into cardiogenic shock."
 		SPhraseSpec s = this.phraseFactory.createClause();
-		
+
 		s.setSubject(this.phraseFactory.createNounPhrase("the", "patient"));
 
 		// first VP
@@ -93,18 +93,50 @@ public class CoordinationTest extends SimpleNLG4Test {
 		// second VP
 		VPPhraseSpec vp2 = this.phraseFactory.createVerbPhrase(this.lexicon
 				.getWord("go", LexicalCategory.VERB));
-		PPPhraseSpec pp = this.phraseFactory.createPrepositionPhrase("into", this.lexicon.getWord("cardiogenic shock", LexicalCategory.NOUN));
+		PPPhraseSpec pp = this.phraseFactory
+				.createPrepositionPhrase("into", this.lexicon.getWord(
+						"cardiogenic shock", LexicalCategory.NOUN));
 		vp2.addComplement(pp);
-		
-		//coordinate
-		CoordinatedPhraseElement coord = this.phraseFactory.createdCoordinatedPhrase(vp1, vp2);
-		coord.setFeature(Feature.TENSE, Tense.PAST);		
-		Assert.assertEquals("had an adverse contrast media reaction and went into cardiogenic shock", this.realiser.realise(coord).getRealisation());
-		
-		//now put this in the sentence
+
+		// coordinate
+		CoordinatedPhraseElement coord = this.phraseFactory
+				.createdCoordinatedPhrase(vp1, vp2);
+		coord.setFeature(Feature.TENSE, Tense.PAST);
+		Assert
+				.assertEquals(
+						"had an adverse contrast media reaction and went into cardiogenic shock",
+						this.realiser.realise(coord).getRealisation());
+
+		// now put this in the sentence
 		s.setVerbPhrase(coord);
 		s.addFrontModifier("As a result of the procedure");
-		Assert.assertEquals("As a result of the procedure the patient had an adverse contrast media reaction and went into cardiogenic shock", this.realiser.realise(s).getRealisation());
+		Assert
+				.assertEquals(
+						"As a result of the procedure the patient had an adverse contrast media reaction and went into cardiogenic shock",
+						this.realiser.realise(s).getRealisation());
+
+	}
+
+	/**
+	 * Test setting a conjunction to null
+	 */
+	public void testNullConjunction() {
+		SPhraseSpec p = this.phraseFactory.createClause("I", "be", "happy");
+		SPhraseSpec q = this.phraseFactory.createClause("I", "eat", "fish");
+		CoordinatedPhraseElement pq = this.phraseFactory
+				.createCoordinatedPhrase();
+		pq.addCoordinate(p);
+		pq.addCoordinate(q);
+		pq.setFeature(Feature.CONJUNCTION, "");
+
+		//should come out without conjunction
+		Assert.assertEquals("I am happy I eat fish", this.realiser.realise(pq)
+				.getRealisation());
 		
+		//should come out without conjunction
+		pq.setFeature(Feature.CONJUNCTION, null);
+		Assert.assertEquals("I am happy I eat fish", this.realiser.realise(pq)
+				.getRealisation());
+
 	}
 }

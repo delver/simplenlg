@@ -386,7 +386,7 @@ abstract class VerbPhraseHelper {
 		} else {
 			NumberAgreement numToUse = determineNumber(phrase.getParent(),
 					phrase);
-			frontVG.setTense(phrase.getTense());
+			frontVG.setFeature(Feature.TENSE, phrase.getFeature(Feature.TENSE));
 			frontVG.setFeature(Feature.PERSON, phrase
 					.getFeature(Feature.PERSON));
 			frontVG.setFeature(Feature.NUMBER, numToUse);
@@ -411,13 +411,13 @@ abstract class VerbPhraseHelper {
 			Stack<NLGElement> vgComponents, NLGElement frontVG, boolean hasModal) {
 		NLGElement newFront = frontVG;
 
-		if (phrase.isNegated()) {
+		if (phrase.getFeatureAsBoolean(Feature.NEGATED).booleanValue()) {
 			if (!vgComponents.empty() || frontVG != null && isCopular(frontVG)) {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
 			} else {
 				if (frontVG != null && !hasModal) {
-					frontVG.setNegated(true);
+					frontVG.setFeature(Feature.NEGATED, true);
 					vgComponents.push(frontVG);
 				}
 
@@ -481,7 +481,7 @@ abstract class VerbPhraseHelper {
 			vgComponents.push(frontVG);
 		}
 		newFront = new InflectedWordElement("have", LexicalCategory.VERB); //$NON-NLS-1$
-		newFront.setTense(tenseValue);
+		newFront.setFeature(Feature.TENSE, tenseValue);
 		if (modal != null) {
 			newFront.setFeature(InternalFeature.NON_MORPH, true);
 		}
@@ -550,11 +550,11 @@ abstract class VerbPhraseHelper {
 			frontVG = new InflectedWordElement((WordElement) frontVG);
 
 		if (Tense.FUTURE.equals(tenseValue) && frontVG != null) {
-			frontVG.setTense(Tense.FUTURE);
+			frontVG.setFeature(Feature.TENSE, Tense.FUTURE);
 		}
 		
 		if (hasModal && frontVG != null) {
-			frontVG.setNegated(false);
+			frontVG.setFeature(Feature.NEGATED, false);
 		}
 		
 		return frontVG;
