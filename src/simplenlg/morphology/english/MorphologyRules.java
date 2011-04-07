@@ -139,7 +139,7 @@ public abstract class MorphologyRules {
 			}
 
 			if (pluralForm == null) {
-				Object pattern = element.getFeature(Feature.PATTERN);
+				Object pattern = element.getFeature(LexicalFeature.DEFAULT_INFL);
 				if (Inflection.GRECO_LATIN_REGULAR.equals(pattern)) {
 					pluralForm = buildGrecoLatinPluralNoun(baseForm);
 				} else {
@@ -274,7 +274,7 @@ public abstract class MorphologyRules {
 		}
 
 		Object formValue = element.getFeature(Feature.FORM);
-		Object patternValue = element.getFeature(Feature.PATTERN);
+		Object patternValue = element.getFeature(LexicalFeature.DEFAULT_INFL);
 
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);
@@ -589,7 +589,7 @@ public abstract class MorphologyRules {
 			InflectedWordElement element, WordElement baseWord) {
 
 		String realised = null;
-		Object patternValue = element.getFeature(Feature.PATTERN);
+		Object patternValue = element.getFeature(LexicalFeature.DEFAULT_INFL);
 
 		// base form from baseWord if it exists, otherwise from element
 		String baseForm = getBaseForm(element, baseWord);

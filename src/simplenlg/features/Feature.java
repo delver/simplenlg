@@ -610,7 +610,7 @@ abstract public class Feature {
 	 */
 	public static final String NUMBER = "number";
 
-	/**
+	/*
 	 * <p>
 	 * This feature represents the pattern that a particular word follows when
 	 * being inflected. These can be <em>regular</em>, <em>irregular</em>,
@@ -646,7 +646,7 @@ abstract public class Feature {
 	 * </tr>
 	 * </table>
 	 */
-	public static final String PATTERN = "pattern";
+	//public static final String PATTERN = "pattern";
 
 	/**
 	 * <p>
