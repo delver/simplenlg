@@ -25,10 +25,8 @@ import java.util.Map;
 import simplenlg.features.ClauseStatus;
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
-import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
-import simplenlg.features.Person;
-import simplenlg.phrasespec.*;
+import simplenlg.phrasespec.NPPhraseSpec;
 
 /**
  * <p>
@@ -231,22 +229,24 @@ public class PhraseElement extends NLGElement {
 
 	/**
 	 * <p>
-	 * Sets a complement of the phrase element. If a complement already
-	 * exists of the same DISCOURSE_FUNCTION, it is removed.
-	 * This replaces complements set
-	 * earlier via {@link #addComplement(NLGElement)}
+	 * Sets a complement of the phrase element. If a complement already exists
+	 * of the same DISCOURSE_FUNCTION, it is removed. This replaces complements
+	 * set earlier via {@link #addComplement(NLGElement)}
 	 * </p>
 	 * 
 	 * @param newComplement
 	 *            the new complement as an <code>NLGElement</code>.
 	 */
 	public void setComplement(NLGElement newComplement) {
-		DiscourseFunction function = (DiscourseFunction) newComplement.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+		DiscourseFunction function = (DiscourseFunction) newComplement
+				.getFeature(InternalFeature.DISCOURSE_FUNCTION);
 		removeComplements(function);
 		addComplement(newComplement);
 	}
 
-	/** remove complements of the specified DiscourseFunction
+	/**
+	 * remove complements of the specified DiscourseFunction
+	 * 
 	 * @param function
 	 */
 	private void removeComplements(DiscourseFunction function) {
@@ -254,18 +254,19 @@ public class PhraseElement extends NLGElement {
 		if (function == null || complements == null)
 			return;
 		List<NLGElement> complementsToRemove = new ArrayList<NLGElement>();
-		for (NLGElement complement: complements)
-			if (function == complement.getFeature(InternalFeature.DISCOURSE_FUNCTION))
+		for (NLGElement complement : complements)
+			if (function == complement
+					.getFeature(InternalFeature.DISCOURSE_FUNCTION))
 				complementsToRemove.add(complement);
 
 		if (!complementsToRemove.isEmpty()) {
 			complements.removeAll(complementsToRemove);
 			setFeature(InternalFeature.COMPLEMENTS, complements);
 		}
-		
+
 		return;
 	}
-	
+
 	/**
 	 * <p>
 	 * Adds a new complement to the phrase element. Complements will be realised
@@ -393,6 +394,30 @@ public class PhraseElement extends NLGElement {
 	 */
 	public void addPreModifier(String newPreModifier) {
 		addPreModifier(new StringElement(newPreModifier));
+	}
+
+	/**
+	 * Set the premodifier for this phrase. This resets all previous
+	 * premodifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newPreModifier the premodifier
+	 */
+	public void setPreModifier(String newPreModifier) {
+		this.setFeature(InternalFeature.PREMODIFIERS, null);
+		addPreModifier(newPreModifier);
+	}
+	
+	/**
+	 * Set the premodifier for this phrase. This resets all previous
+	 * premodifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newPreModifier the premodifier
+	 */
+	public void setPreModifier(NLGElement newPreModifier) {
+		this.setFeature(InternalFeature.PREMODIFIERS, null);
+		addPreModifier(newPreModifier);
 	}
 
 	/**

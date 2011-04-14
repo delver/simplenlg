@@ -139,4 +139,7 @@ public class CoordinationTest extends SimpleNLG4Test {
 				.getRealisation());
 
 	}
+	
+
+
 }

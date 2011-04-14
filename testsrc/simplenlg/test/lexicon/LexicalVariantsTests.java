@@ -65,45 +65,49 @@ public class LexicalVariantsTests extends TestCase {
 			lexicon.close();
 	}
 	
-//	/**
-//	 * check that spelling variants are properly set
-//	 */
-//	@Test
-//	public void testSpellingVariants() {
-//		WordElement asd = lexicon.getWord("Adams-Stokes disease");
-//		List<String> spellVars = asd
-//				.getFeatureAsStringList(LexicalFeature.SPELL_VARS);
-//		Assert.assertTrue(spellVars.contains("Adams Stokes disease"));
-//		Assert.assertTrue(spellVars.contains("Adam-Stokes disease"));
-//		Assert.assertEquals(2, spellVars.size());
-//		Assert.assertEquals(asd.getBaseForm(), asd
-//				.getFeatureAsString(LexicalFeature.DEFAULT_SPELL));
-//
-//		//default spell variant is baseform
-//		Assert.assertEquals("Adams-Stokes disease", asd
-//				.getDefaultSpellingVariant());		
-//		
-//		//default spell variant changes
-//		asd.setDefaultSpellingVariant("Adams Stokes disease");
-//		Assert.assertEquals("Adams Stokes disease", asd
-//				.getDefaultSpellingVariant());
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	public void testSpellingVariantWithInflection() {
-//		realiser.setDebugMode(true);
-//		WordElement word = lexicon.getWord("formalization");
-//		List<String> spellVars = word.getSpellingVariants();
-//		Assert.assertTrue(spellVars.contains("formalisation"));
-//		Assert.assertEquals(Inflection.REGULAR, word.getDefaultInflectionalVariant());
-//		//hydro.setDefaultSpellingVariant("hydroxy-benzonitrile");
-//		NPPhraseSpec np = factory.createNounPhrase("the", "formalization");
-//		//NPPhraseSpec np = factory.createNounPhrase(lexicon.getWord("the"), lexicon.getWord("formalization"));
-//		np.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-//		System.out.println(realiser.realise(np));
-//	}
+	/**
+	 * check that spelling variants are properly set
+	 */
+	@Test
+	public void testSpellingVariants() {
+		WordElement asd = lexicon.getWord("Adams-Stokes disease");
+		List<String> spellVars = asd
+				.getFeatureAsStringList(LexicalFeature.SPELL_VARS);
+		Assert.assertTrue(spellVars.contains("Adams Stokes disease"));
+		Assert.assertTrue(spellVars.contains("Adam-Stokes disease"));
+		Assert.assertEquals(2, spellVars.size());
+		Assert.assertEquals(asd.getBaseForm(), asd
+				.getFeatureAsString(LexicalFeature.DEFAULT_SPELL));
+
+		//default spell variant is baseform
+		Assert.assertEquals("Adams-Stokes disease", asd
+				.getDefaultSpellingVariant());		
+		
+		//default spell variant changes
+		asd.setDefaultSpellingVariant("Adams Stokes disease");
+		Assert.assertEquals("Adams Stokes disease", asd
+				.getDefaultSpellingVariant());
+	}
+	
+	/**
+	 * Test spelling/orthographic variants with different inflections
+	 */
+	public void testSpellingVariantWithInflection() {
+		realiser.setDebugMode(true);
+		WordElement word = lexicon.getWord("formalization");
+		List<String> spellVars = word.getFeatureAsStringList(LexicalFeature.SPELL_VARS);
+		Assert.assertTrue(spellVars.contains("formalisation"));
+		Assert.assertEquals(Inflection.REGULAR, word.getDefaultInflectionalVariant());
+		
+		//create with default spelling
+		NPPhraseSpec np = factory.createNounPhrase("the", word);
+		np.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		Assert.assertEquals("the formalizations", this.realiser.realise(np).getRealisation());
+		
+		//reset spell var
+		word.setDefaultSpellingVariant("formalisation");
+		Assert.assertEquals("the formalisations", this.realiser.realise(np).getRealisation());
+	}
 	
 	/**
 	 * Test the inflectional variants for a verb.

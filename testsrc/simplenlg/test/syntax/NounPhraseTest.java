@@ -33,6 +33,7 @@ import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
+import simplenlg.phrasespec.NPPhraseSpec;
 
 /**
  * Tests for the NPPhraseSpec and CoordinateNPPhraseSpec classes.
@@ -86,11 +87,13 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		// sing
 		this.proTest1.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
 		this.proTest1.setFeature(Feature.PRONOMINAL, true);
-		Assert.assertEquals("she", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
+		Assert.assertEquals(
+				"she", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
 
 		// sing, possessive
 		this.proTest1.setFeature(Feature.POSSESSIVE, true);
-		Assert.assertEquals("her", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
+		Assert.assertEquals(
+				"her", this.realiser.realise(this.proTest1).getRealisation()); //$NON-NLS-1$
 
 		// plural pronoun
 		this.proTest2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
@@ -211,7 +214,7 @@ public class NounPhraseTest extends SimpleNLG4Test {
 				this.woman);
 		cnp1.setFeature(Feature.RAISE_SPECIFIER, true);
 		NLGElement realised = this.realiser.realise(cnp1);
-		Assert.assertEquals("the dog and woman",  realised.getRealisation());
+		Assert.assertEquals("the dog and woman", realised.getRealisation());
 
 		this.dog.addComplement(this.onTheRock);
 		this.woman.addComplement(this.behindTheCurtain);
@@ -309,6 +312,39 @@ public class NounPhraseTest extends SimpleNLG4Test {
 
 		Assert.assertEquals("some enormous dogs", this.realiser.realise(_dog) //$NON-NLS-1$
 				.getRealisation());
+	}
+	
+	/**
+	 * Further tests for a/an agreement with coordinated premodifiers
+	 */
+	public void testAAnCoord() {
+		NPPhraseSpec _dog = this.phraseFactory.createNounPhrase("a", "dog");
+		_dog.addPreModifier(this.phraseFactory.createdCoordinatedPhrase("enormous", "black"));
+		String realisation = this.realiser.realise(_dog).getRealisation();
+		Assert.assertEquals("an enormous and black dog", realisation);
+	}
+	
+	/**
+	 * Test for a/an agreement with numbers
+	 */
+	public void testAAnWithNumbers() {
+		NPPhraseSpec num = this.phraseFactory.createNounPhrase("a", "change");
+		
+		//no an with "one"
+		num.setPreModifier("one percent");
+		String realisation = this.realiser.realise(num).getRealisation();
+		Assert.assertEquals("a one percent change", realisation);
+		
+		//an with "eighty"
+		num.setPreModifier("eighty percent");
+		realisation = this.realiser.realise(num).getRealisation();
+		Assert.assertEquals("an eighty percent change", realisation);
+		
+		
+		//an with 80
+		num.setPreModifier("80%");
+		realisation = this.realiser.realise(num).getRealisation();
+		Assert.assertEquals("an 80% change", realisation);
 	}
 
 	/**
