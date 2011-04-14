@@ -25,7 +25,6 @@ import simplenlg.framework.DocumentCategory;
 import simplenlg.framework.DocumentElement;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGModule;
-import simplenlg.framework.StringElement;
 import simplenlg.lexicon.Lexicon;
 import simplenlg.morphology.english.MorphologyProcessor;
 import simplenlg.orthography.english.OrthographyProcessor;
@@ -109,20 +108,6 @@ public class Realiser extends NLGModule {
 		
 		
 		return postFormatter;
-	}
-	
-	/*
-	 * Remove multiple whitespace that could have been introduced by null elements.
-	 */
-	private void removeMultiSpaces(NLGElement element) {
-		if(element != null) {			
-			String realisation = element.getRealisation();
-			
-			if(realisation != null) {
-				realisation.replaceAll("\\s+", " ");
-				element.setRealisation(realisation);
-			}
-		}
 	}
 	
 	/** Convenience class to realise any NLGElement as a sentence

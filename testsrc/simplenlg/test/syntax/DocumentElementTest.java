@@ -23,23 +23,20 @@ import java.util.Arrays;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import simplenlg.features.DiscourseFunction;
-import simplenlg.features.Feature;
-import simplenlg.features.Form;
-import simplenlg.features.Tense;
-import simplenlg.format.english.TextFormatter;
 import simplenlg.framework.DocumentElement;
-import simplenlg.framework.NLGElement;
-import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.SPhraseSpec;
 
 /**
  * Tests for the DocumentElement class.
+ * 
  * @author ereiter
  */
 public class DocumentElementTest extends SimpleNLG4Test {
+
+	private SPhraseSpec p1, p2, p3;
 
 	/**
 	 * Instantiates a new document element test.
@@ -51,23 +48,25 @@ public class DocumentElementTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	@Before
+	public void setUp() {
+		super.setUp();
+		p1 = this.phraseFactory.createClause("you", "be", "happy");
+		p2 = this.phraseFactory.createClause("I", "be", "sad");
+		p3 = this.phraseFactory.createClause("they", "be", "nervous");
+	}
+
 	/**
 	 * Basic tests.
 	 */
 	@Test
 	public void testBasics() {
-		SPhraseSpec p1 = this.phraseFactory
-				.createClause("you", "be", "happy");
-		SPhraseSpec p2 = this.phraseFactory.createClause("I", "be", "sad"); 
-		SPhraseSpec p3 = this.phraseFactory.createClause("they", "be",
-				"nervous");
-
 		DocumentElement s1 = this.phraseFactory.createSentence(p1);
 		DocumentElement s2 = this.phraseFactory.createSentence(p2);
 		DocumentElement s3 = this.phraseFactory.createSentence(p3);
 
-		DocumentElement par1 = this.phraseFactory.createParagraph(Arrays.asList(
-				s1, s2, s3));
+		DocumentElement par1 = this.phraseFactory.createParagraph(Arrays
+				.asList(s1, s2, s3));
 
 		Assert.assertEquals("You are happy. I am sad. They are nervous.\n\n",
 				this.realiser.realise(par1).getRealisation());
@@ -80,38 +79,43 @@ public class DocumentElementTest extends SimpleNLG4Test {
 	@Test
 	public void testEmbedding() {
 		DocumentElement sent = phraseFactory.createSentence("This is a test");
-		DocumentElement sent2 = phraseFactory.createSentence(phraseFactory.createClause("John", "be", "missing"));
+		DocumentElement sent2 = phraseFactory.createSentence(phraseFactory
+				.createClause("John", "be", "missing"));
 		DocumentElement section = phraseFactory.createSection("SECTION TITLE");
 		section.addComponent(sent);
 		section.addComponent(sent2);
-		
-		Assert.assertEquals("SECTION TITLE\nThis is a test.\n\nJohn is missing.\n\n",
+
+		Assert.assertEquals(
+				"SECTION TITLE\nThis is a test.\n\nJohn is missing.\n\n",
 				this.realiser.realise(section).getRealisation());
 	}
 
 	@Test
 	public void testSections() {
-		 // doc which contains a section, and two paras
-		 DocumentElement doc = this.phraseFactory.createDocument("Test Document");
-		
-		 DocumentElement section = this.phraseFactory.createSection("Test Section");
-		 doc.addComponent(section);
-		
-		
-		 DocumentElement para1 = this.phraseFactory.createParagraph();
-		 DocumentElement sent1 = this.phraseFactory.createSentence("This is the first test paragraph");
-		 para1.addComponent(sent1);
-		 section.addComponent(para1);
-		 
-		 DocumentElement para2 = this.phraseFactory.createParagraph();
-		 DocumentElement sent2 = this.phraseFactory.createSentence("This is the second test paragraph");
-		 para2.addComponent(sent2);
-		 section.addComponent(para2);
-		
-		 Assert
-		 .assertEquals(
-		 "Test Document\nTest Section\nThis is the first test paragraph.\n\nThis is the second test paragraph.\n\n",
-		 this.realiser.realise(doc).getRealisation());
+		// doc which contains a section, and two paras
+		DocumentElement doc = this.phraseFactory
+				.createDocument("Test Document");
+
+		DocumentElement section = this.phraseFactory
+				.createSection("Test Section");
+		doc.addComponent(section);
+
+		DocumentElement para1 = this.phraseFactory.createParagraph();
+		DocumentElement sent1 = this.phraseFactory
+				.createSentence("This is the first test paragraph");
+		para1.addComponent(sent1);
+		section.addComponent(para1);
+
+		DocumentElement para2 = this.phraseFactory.createParagraph();
+		DocumentElement sent2 = this.phraseFactory
+				.createSentence("This is the second test paragraph");
+		para2.addComponent(sent2);
+		section.addComponent(para2);
+
+		Assert
+				.assertEquals(
+						"Test Document\nTest Section\nThis is the first test paragraph.\n\nThis is the second test paragraph.\n\n",
+						this.realiser.realise(doc).getRealisation());
 		//
 		// Realiser htmlRealiser = new Realiser();
 		// htmlRealiser.setHTML(true);
@@ -152,4 +156,15 @@ public class DocumentElementTest extends SimpleNLG4Test {
 
 	}
 
+	/**
+	 * Tests for lists and embedded lists
+	 */
+	public void testListItems() {
+		DocumentElement list = this.phraseFactory.createList();
+		list.addComponent(this.phraseFactory.createListItem(p1));
+		list.addComponent(this.phraseFactory.createListItem(p2));
+		list.addComponent(this.phraseFactory.createListItem(this.phraseFactory.createdCoordinatedPhrase(p1, p2)));
+		String realisation = this.realiser.realise(list).getRealisation();
+		Assert.assertEquals("* you are happy \n* I am sad \n* you are happy and I am sad \n", realisation);
+	}
 }
