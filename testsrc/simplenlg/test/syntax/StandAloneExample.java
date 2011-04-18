@@ -110,17 +110,17 @@ public class StandAloneExample {
 		// end of main example
 		
 		// second example - using simplenlg just for morphology
-		// in V4 morphology is done by a MorphologyProcessor, not by the lexicon
-		
-		MorphologyProcessor morph = new MorphologyProcessor();
-
-		// create inflected word
-		NLGElement word = nlgFactory.createWord("child", LexicalCategory.NOUN);
-		// setPlural is an exception to the general rule that features are set with setFeature
-		word.setPlural(true);
-		
-		// get result from morph processor
-		String result = morph.realise(word).getRealisation();
+		// below is clumsy as direct access to morphology isn't properly supported in V4.2
+		// hopefully will be better supported in later versions
+	
+		// get word element for "child"
+		WordElement word = (WordElement) nlgFactory.createWord("child", LexicalCategory.NOUN);
+		// create InflectedWordElement from word element
+		InflectedWordElement inflectedWord = new InflectedWordElement(word);
+		// set the inflected word to plural
+		inflectedWord.setPlural(true);
+		// realise the inflected word
+		String result = realiser.realise(inflectedWord).getRealisation();
 		
 		System.out.println(result);
 	}
