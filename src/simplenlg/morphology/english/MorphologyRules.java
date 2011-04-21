@@ -86,12 +86,6 @@ public abstract class MorphologyRules {
 					{ "our", "your", "their", "their", "their" } } };
 
 	/**
-	 * An array of strings which are exceptions to the rule that "an" comes
-	 * before vowels
-	 */
-	private static final String[] AN_EXCEPTIONS = { "one" };
-
-	/**
 	 * This method performs the morphology for nouns.
 	 * 
 	 * @param element
@@ -872,27 +866,38 @@ public abstract class MorphologyRules {
 			if (determiner.getRealisation().equals("a")) { //$NON-NLS-1$
 
 				if (determiner.isPlural()) {
-					determiner.setRealisation("some"); //$NON-NLS-1$
-				} else if (realisation.matches("\\A(a|e|i|o|u|8).*") && !isAnException(realisation)) { //$NON-NLS-1$
-					determiner.setRealisation("an"); //$NON-NLS-1$
+					determiner.setRealisation("some");
+
+				} else if (DeterminerAgrHelper.requiresAn(realisation)) {
+					determiner.setRealisation("an");
 				}
+
+				// } else if (realisation.matches(MorphologyRules.AN_AGREEMENT)
+				// || realisation
+				// .matches(MorphologyRules.AN_NUMERAL_AGREEMENT)) {
+				// if (!isAnException(realisation)) {
+				// determiner.setRealisation("an");
+				// }
+				// }
 			}
 		}
 	}
 
-	/**
-	 * check whether a string beginning with a vowel is an exception and doesn't
-	 * take "an" (e.g. "a one percent change")
-	 * 
-	 * @return
-	 */
-	private static boolean isAnException(String string) {
-		for(String ex: MorphologyRules.AN_EXCEPTIONS) {
-			if(string.matches("^" + ex + ".*")) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+	// /**
+	// * check whether a string beginning with a vowel is an exception and
+	// doesn't
+	// * take "an" (e.g. "a one percent change")
+	// *
+	// * @return
+	// */
+	// private static boolean isAnException(String string) {
+	// for (String ex : MorphologyRules.AN_EXCEPTIONS) {
+	// if (string.matches("^" + ex + ".*")) {
+	// // if (string.equalsIgnoreCase(ex)) {
+	// return true;
+	// }
+	// }
+	//
+	// return false;
+	// }
 }

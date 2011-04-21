@@ -161,7 +161,7 @@ public class NIHDBLexicon extends Lexicon {
 		// get words from DB
 		try {
 			LexAccessApiResult lexResult = lexdb.GetLexRecordsByBase(baseForm,
-					LexAccessApi.B_EXACT);
+					LexAccessApi.B_EXACT);			
 			return getWordsFromLexResult(category, lexResult);
 		} catch (SQLException ex) {
 			System.out.println("Lexical DB error: " + ex.toString());
@@ -232,7 +232,7 @@ public class NIHDBLexicon extends Lexicon {
 	 */
 	private WordElement makeWord(LexRecord record) {
 		// get basic data
-		String baseForm = record.GetBase();
+		String baseForm = record.GetBase();		
 		LexicalCategory category = getSimplenlgCategory(record);
 		String id = record.GetEui();
 

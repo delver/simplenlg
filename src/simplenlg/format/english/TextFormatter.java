@@ -124,9 +124,14 @@ public class TextFormatter extends NLGModule {
 
 					for (NLGElement eachComponent : components) {
 						realisedComponent = realise(eachComponent);
+						
 						if (realisedComponent != null) {
 							realisation.append(realisedComponent
-									.getRealisation()).append(' ');							
+									.getRealisation());	
+							
+							if(components.indexOf(eachComponent) < components.size()-1) {
+								realisation.append(' ');
+							}
 						}
 					}
 					//finally, append newline
