@@ -109,6 +109,8 @@ abstract class NounPhraseHelper {
 		NLGElement headElement = phrase.getHead();
 
 		if (headElement != null) {
+			headElement.setFeature(Feature.ELIDED, phrase
+					.getFeature(Feature.ELIDED));
 			headElement.setFeature(LexicalFeature.GENDER, phrase
 					.getFeature(LexicalFeature.GENDER));
 			headElement.setFeature(InternalFeature.ACRONYM, phrase
@@ -170,13 +172,15 @@ abstract class NounPhraseHelper {
 
 		if (specifierElement != null
 				&& !phrase.getFeatureAsBoolean(InternalFeature.RAISED)
-						.booleanValue()) {
+						.booleanValue() && !phrase.getFeatureAsBoolean(Feature.ELIDED).booleanValue()) {
 
 			if (!specifierElement.isA(LexicalCategory.PRONOUN)) {
 				specifierElement.setFeature(Feature.NUMBER, phrase
 						.getFeature(Feature.NUMBER));
 			}
+			
 			NLGElement currentElement = parent.realise(specifierElement);
+			
 			if (currentElement != null) {
 				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
 						DiscourseFunction.SPECIFIER);
@@ -302,6 +306,7 @@ abstract class NounPhraseHelper {
 		} else if (element instanceof PhraseElement) {
 			head = getHeadWordElement(((PhraseElement) element).getHead());
 		}
+				
 		return head;
 	}
 

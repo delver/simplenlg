@@ -183,13 +183,14 @@ public class NLGFactory {
 			wordElement = (NLGElement) word;
 
 		} else if (word instanceof String && this.lexicon != null) {
-			// AG: change: should create a WordElement, not an InflectedWordElement
+			// AG: change: should create a WordElement, not an
+			// InflectedWordElement
 			// wordElement = new InflectedWordElement(
 			// (String) word, category);
 			// if (this.lexicon != null) {
 			// doLexiconLookUp(category, (String) word, wordElement);
 			// }
-			//wordElement = lexicon.getWord((String) word, category);
+			// wordElement = lexicon.getWord((String) word, category);
 			wordElement = lexicon.lookupWord((String) word, category);
 			if (PRONOUNS.contains(word)) {
 				setPronounFeatures(wordElement, (String) word);
@@ -197,6 +198,57 @@ public class NLGFactory {
 		}
 
 		return wordElement;
+	}
+
+	/**
+	 * Create an inflected word element. InflectedWordElement represents a word
+	 * that already specifies the morphological and other features that it
+	 * should exhibit in a realisation. While normally, phrases are constructed
+	 * using <code>WordElement</code>s, and features are set on phrases, it is
+	 * sometimes desirable to set features directly on words (for example, when
+	 * one wants to elide a specific word, but not its parent phrase).
+	 * 
+	 * <P>
+	 * If the object passed is already a <code>WordElement</code>, then a new
+	 * 
+	 * <code>InflectedWordElement<code> is returned which wraps this <code>WordElement</code>
+	 * . If the object is a <code>String</code>, then the
+	 * <code>WordElement</code> representing this <code>String</code> is looked
+	 * up, and a new
+	 * <code>InflectedWordElement<code> wrapping this is returned. If no such <code>WordElement</code>
+	 * is found, the element returned is an <code>InflectedWordElement</code>
+	 * with the supplied string as baseform and no base <code>WordElement</code>
+	 * . If an <code>NLGElement</code> is passed, this is returned unchanged.
+	 * 
+	 * @param word
+	 *            the word
+	 * @param category
+	 *            the category
+	 * @return an <code>InflectedWordElement</code>, or the original supplied
+	 *         object if it is an <code>NLGElement</code>.
+	 */
+	public NLGElement createInflectedWord(Object word, LexicalCategory category) {
+		// first get the word element
+		NLGElement inflElement = null;
+
+		if (word instanceof WordElement) {
+			inflElement = new InflectedWordElement((WordElement) word);
+
+		} else if (word instanceof String) {
+			NLGElement baseword = createWord((String) word, category);
+
+			if (baseword != null && baseword instanceof WordElement) {
+				inflElement = new InflectedWordElement((WordElement) baseword);
+			} else {
+				inflElement = new InflectedWordElement((String) word, category);
+			}
+
+		} else if (word instanceof NLGElement) {
+			inflElement = (NLGElement) word;
+		}
+
+		return inflElement;
+
 	}
 
 	/**
@@ -368,12 +420,14 @@ public class NLGFactory {
 		// InflectedWordElement - return underlying word
 		else if (element instanceof InflectedWordElement)
 			return ((InflectedWordElement) element).getBaseWord();
-		
+
 		// StringElement - look up in lexicon if it is a word
 		// otherwise return element
 		else if (element instanceof StringElement) {
-			if (stringIsWord(((StringElement) element).getRealisation(), category))
-				return createWord(((StringElement) element).getRealisation(), category);
+			if (stringIsWord(((StringElement) element).getRealisation(),
+					category))
+				return createWord(((StringElement) element).getRealisation(),
+						category);
 			else
 				return (StringElement) element;
 		}
@@ -394,7 +448,9 @@ public class NLGFactory {
 				+ " is not a valid type");
 	}
 
-	/** return true if string is a word
+	/**
+	 * return true if string is a word
+	 * 
 	 * @param string
 	 * @param category
 	 * @return
@@ -402,8 +458,8 @@ public class NLGFactory {
 	private boolean stringIsWord(String string, LexicalCategory category) {
 		return lexicon != null
 				&& (lexicon.hasWord(string, category)
-						|| PRONOUNS.contains(string) ||
-						(string.matches(WORD_REGEX)));
+						|| PRONOUNS.contains(string) || (string
+						.matches(WORD_REGEX)));
 	}
 
 	/**
@@ -457,8 +513,8 @@ public class NLGFactory {
 		setPhraseHead(phraseElement, nounElement);
 
 		if (specifier != null)
-			phraseElement.setSpecifier(specifier);		
-		
+			phraseElement.setSpecifier(specifier);
+
 		return phraseElement;
 	}
 
@@ -525,7 +581,7 @@ public class NLGFactory {
 	 * @return a <code>VPPhraseSpec</code> representing this phrase.
 	 */
 	public VPPhraseSpec createVerbPhrase(Object verb) {
-		VPPhraseSpec phraseElement = new VPPhraseSpec(this);		
+		VPPhraseSpec phraseElement = new VPPhraseSpec(this);
 		phraseElement.setVerb(verb);
 		setPhraseHead(phraseElement, phraseElement.getVerb());
 		return phraseElement;

@@ -103,7 +103,7 @@ public class SyntaxProcessor extends NLGModule {
 					}
 
 					if (word != null) {
-						((InflectedWordElement) element).setBaseWord(word);
+						((InflectedWordElement) element).setBaseWord(word);						
 					}
 				}
 
@@ -112,13 +112,14 @@ public class SyntaxProcessor extends NLGModule {
 			} else if (element instanceof WordElement) {
 				// AG: need to check if it's a word element, in which case it
 				// needs to be marked for inflection
-				InflectedWordElement infl = new InflectedWordElement((WordElement) element);
-				
-				//the inflected word inherits all features from the base word
-				for(String feature: element.getAllFeatureNames()) {
+				InflectedWordElement infl = new InflectedWordElement(
+						(WordElement) element);
+
+				// the inflected word inherits all features from the base word
+				for (String feature : element.getAllFeatureNames()) {
 					infl.setFeature(feature, element.getFeature(feature));
 				}
-				
+
 				realisedElement = realise(infl);
 
 			} else if (element instanceof CoordinatedPhraseElement) {

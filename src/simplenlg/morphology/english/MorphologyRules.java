@@ -388,9 +388,12 @@ public abstract class MorphologyRules {
 		// but prefer element.getBaseForm() to baseWord.getBaseForm() for other
 		// words (ie, "children" not mapped to "child")
 
+		// AG: changed this to get the default spelling variant
+		// needed to preserve spelling changes in the VP
+
 		if (LexicalCategory.VERB == element.getCategory()) {
-			if (baseWord != null && baseWord.getBaseForm() != null)
-				return baseWord.getBaseForm();
+			if (baseWord != null && baseWord.getDefaultSpellingVariant() != null)
+				return baseWord.getDefaultSpellingVariant();
 			else
 				return element.getBaseForm();
 		} else {
@@ -399,8 +402,22 @@ public abstract class MorphologyRules {
 			else if (baseWord == null)
 				return null;
 			else
-				return baseWord.getBaseForm();
+				return baseWord.getDefaultSpellingVariant();
 		}
+
+		// if (LexicalCategory.VERB == element.getCategory()) {
+		// if (baseWord != null && baseWord.getBaseForm() != null)
+		// return baseWord.getBaseForm();
+		// else
+		// return element.getBaseForm();
+		// } else {
+		// if (element.getBaseForm() != null)
+		// return element.getBaseForm();
+		// else if (baseWord == null)
+		// return null;
+		// else
+		// return baseWord.getBaseForm();
+		// }
 	}
 
 	/**
