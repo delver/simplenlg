@@ -202,7 +202,9 @@ public class SPhraseSpec extends PhraseElement {
 	public void setFeature(String featureName, boolean featureValue) {
 		super.setFeature(featureName, featureValue);
 		if (vpFeatures.contains(featureName)) {
-			PhraseElement verbPhrase = (PhraseElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
+			//PhraseElement verbPhrase = (PhraseElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
+			//AG: bug fix: VP could be coordinate phrase, so cast to NLGElement not PhraseElement
+			NLGElement verbPhrase = (NLGElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
 			if (verbPhrase != null || verbPhrase instanceof VPPhraseSpec)
 				verbPhrase.setFeature(featureName, featureValue);
 		}
