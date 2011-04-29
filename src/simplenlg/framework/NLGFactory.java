@@ -637,8 +637,8 @@ public class NLGFactory {
 	}
 
 	/**
-	 * Creates a clause with the given subject, verb and direct object but no
-	 * indirect object.
+	 * Creates a clause with the given subject, verb or verb phrase and direct
+	 * object but no indirect object.
 	 * 
 	 * @param subject
 	 *            the subject for the clause as a <code>NLGElement</code> or
@@ -657,8 +657,14 @@ public class NLGFactory {
 
 		SPhraseSpec phraseElement = new SPhraseSpec(this);
 
-		if (verb != null)
-			phraseElement.setVerb(verb);
+		if (verb != null) {
+			// AG: fix here: check if "verb" is a VPPhraseSpec or a Verb
+			if (verb instanceof PhraseElement) {
+				phraseElement.setVerbPhrase((PhraseElement) verb);
+			} else {
+				phraseElement.setVerb(verb);
+			}
+		}
 
 		if (subject != null)
 			phraseElement.setSubject(subject);

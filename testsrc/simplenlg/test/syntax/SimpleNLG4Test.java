@@ -22,10 +22,9 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 
-import simplenlg.framework.PhraseElement;
 import simplenlg.framework.NLGFactory;
+import simplenlg.framework.PhraseElement;
 import simplenlg.lexicon.Lexicon;
-import simplenlg.lexicon.NIHDBLexicon;
 import simplenlg.lexicon.XMLLexicon;
 import simplenlg.phrasespec.VPPhraseSpec;
 import simplenlg.realiser.english.Realiser;
@@ -74,7 +73,7 @@ public abstract class SimpleNLG4Test extends TestCase {
 	@Override
 	@Before
 	protected void setUp() {
-		//this.lexicon = new NIHDBLexicon("E:\\NIHDB\\lexAccess2009"); // NIH lexicon
+		//this.lexicon = new NIHDBLexicon("A:\\corpora\\LEX\\lexAccess2011\\data\\HSqlDb\\lexAccess2011.data"); // NIH lexicon
 		//lexicon = new XMLLexicon("E:\\NIHDB\\default-lexicon.xml");    // default XML lexicon
 		lexicon = new XMLLexicon();  // built in lexicon
 		this.phraseFactory = new NLGFactory(this.lexicon);
