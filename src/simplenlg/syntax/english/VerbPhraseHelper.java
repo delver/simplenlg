@@ -34,6 +34,7 @@ import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
+import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.StringElement;
@@ -73,8 +74,8 @@ abstract class VerbPhraseHelper {
 			realisedElement = new ListElement();
 
 			if (!phrase.hasFeature(InternalFeature.REALISE_AUXILIARY)
-					|| phrase.getFeatureAsBoolean(InternalFeature.REALISE_AUXILIARY)
-							.booleanValue()) {
+					|| phrase.getFeatureAsBoolean(
+							InternalFeature.REALISE_AUXILIARY).booleanValue()) {
 
 				realiseAuxiliaries(parent, realisedElement,
 						auxiliaryRealisation);
@@ -84,13 +85,13 @@ abstract class VerbPhraseHelper {
 
 				realiseMainVerb(parent, phrase, mainVerbRealisation,
 						realisedElement);
-				
+
 			} else if (isCopular(phrase.getHead())) {
 				realiseMainVerb(parent, phrase, mainVerbRealisation,
 						realisedElement);
 				PhraseHelper.realiseList(parent, realisedElement, phrase
 						.getPreModifiers(), DiscourseFunction.PRE_MODIFIER);
-			
+
 			} else {
 				PhraseHelper.realiseList(parent, realisedElement, phrase
 						.getPreModifiers(), DiscourseFunction.PRE_MODIFIER);
@@ -101,7 +102,7 @@ abstract class VerbPhraseHelper {
 			PhraseHelper.realiseList(parent, realisedElement, phrase
 					.getPostModifiers(), DiscourseFunction.POST_MODIFIER);
 		}
-		
+
 		return realisedElement;
 	}
 
@@ -157,7 +158,7 @@ abstract class VerbPhraseHelper {
 			main.setFeature(Feature.INTERROGATIVE_TYPE, phrase
 					.getFeature(Feature.INTERROGATIVE_TYPE));
 			currentElement = parent.realise(main);
-			
+
 			if (currentElement != null) {
 				realisedElement.addComponent(currentElement);
 			}
@@ -187,7 +188,8 @@ abstract class VerbPhraseHelper {
 		for (NLGElement complement : phrase
 				.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
 
-			discourseValue = complement.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+			discourseValue = complement
+					.getFeature(InternalFeature.DISCOURSE_FUNCTION);
 			currentElement = parent.realise(complement);
 			if (currentElement != null) {
 				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
@@ -273,10 +275,10 @@ abstract class VerbPhraseHelper {
 		if (Form.GERUND.equals(formValue) || Form.INFINITIVE.equals(formValue)) {
 			tenseValue = Tense.PRESENT;
 		}
-		
+
 		if (Form.INFINITIVE.equals(formValue)) {
 			actualModal = "to"; //$NON-NLS-1$
-		
+
 		} else if (formValue == null || Form.NORMAL.equals(formValue)) {
 			if (Tense.FUTURE.equals(tenseValue)
 					&& modal == null
@@ -284,7 +286,7 @@ abstract class VerbPhraseHelper {
 							.getHead() instanceof CoordinatedPhraseElement && interrogative))) {
 
 				actualModal = "will"; //$NON-NLS-1$
-		
+
 			} else if (modal != null) {
 				actualModal = modal;
 
@@ -293,33 +295,33 @@ abstract class VerbPhraseHelper {
 				}
 			}
 		}
-		
+
 		pushParticles(phrase, parent, vgComponents);
 		NLGElement frontVG = grabHeadVerb(phrase, tenseValue, modal != null);
 		checkImperativeInfinitive(formValue, frontVG);
-		
+
 		if (phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
 			frontVG = addBe(frontVG, vgComponents, Form.PAST_PARTICIPLE);
 		}
-	
+
 		if (phrase.getFeatureAsBoolean(Feature.PROGRESSIVE).booleanValue()) {
 			frontVG = addBe(frontVG, vgComponents, Form.PRESENT_PARTICIPLE);
 		}
-		
+
 		if (phrase.getFeatureAsBoolean(Feature.PERFECT).booleanValue()
 				|| modalPast) {
 			frontVG = addHave(frontVG, vgComponents, modal, tenseValue);
 		}
-		
+
 		frontVG = pushIfModal(actualModal != null, phrase, frontVG,
 				vgComponents);
 		frontVG = createNot(phrase, vgComponents, frontVG, modal != null);
-		
+
 		if (frontVG != null) {
 			pushFrontVerb(phrase, vgComponents, frontVG, formValue,
 					interrogative);
 		}
-		
+
 		pushModal(actualModal, phrase, vgComponents);
 		return vgComponents;
 	}
@@ -361,19 +363,19 @@ abstract class VerbPhraseHelper {
 	private static void pushFrontVerb(PhraseElement phrase,
 			Stack<NLGElement> vgComponents, NLGElement frontVG,
 			Object formValue, boolean interrogative) {
-		
+
 		if (Form.GERUND.equals(formValue)) {
 			frontVG.setFeature(Feature.FORM, Form.PRESENT_PARTICIPLE);
 			vgComponents.push(frontVG);
-		
+
 		} else if (Form.PAST_PARTICIPLE.equals(formValue)) {
 			frontVG.setFeature(Feature.FORM, Form.PAST_PARTICIPLE);
 			vgComponents.push(frontVG);
-		
+
 		} else if (Form.PRESENT_PARTICIPLE.equals(formValue)) {
 			frontVG.setFeature(Feature.FORM, Form.PRESENT_PARTICIPLE);
 			vgComponents.push(frontVG);
-		
+
 		} else if ((!(formValue == null || Form.NORMAL.equals(formValue)) || interrogative)
 				&& !isCopular(phrase.getHead()) && vgComponents.isEmpty()) {
 
@@ -382,7 +384,7 @@ abstract class VerbPhraseHelper {
 				frontVG.setFeature(InternalFeature.NON_MORPH, true);
 			}
 			vgComponents.push(frontVG);
-		
+
 		} else {
 			NumberAgreement numToUse = determineNumber(phrase.getParent(),
 					phrase);
@@ -412,6 +414,8 @@ abstract class VerbPhraseHelper {
 		NLGElement newFront = frontVG;
 
 		if (phrase.getFeatureAsBoolean(Feature.NEGATED).booleanValue()) {
+			NLGFactory factory = phrase.getFactory();
+
 			if (!vgComponents.empty() || frontVG != null && isCopular(frontVG)) {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
@@ -423,7 +427,15 @@ abstract class VerbPhraseHelper {
 
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
-				newFront = new InflectedWordElement("do", LexicalCategory.VERB); //$NON-NLS-1$
+
+				if (factory != null) {
+					newFront = factory.createInflectedWord("do",
+							LexicalCategory.VERB);
+
+				} else {
+					newFront = new InflectedWordElement(
+							"do", LexicalCategory.VERB); //$NON-NLS-1$
+				}
 			}
 		}
 		return newFront;
@@ -545,18 +557,18 @@ abstract class VerbPhraseHelper {
 	private static NLGElement grabHeadVerb(PhraseElement phrase,
 			Tense tenseValue, boolean hasModal) {
 		NLGElement frontVG = phrase.getHead();
-		
+
 		if (frontVG instanceof WordElement)
 			frontVG = new InflectedWordElement((WordElement) frontVG);
 
 		if (Tense.FUTURE.equals(tenseValue) && frontVG != null) {
 			frontVG.setFeature(Feature.TENSE, Tense.FUTURE);
 		}
-		
+
 		if (hasModal && frontVG != null) {
 			frontVG.setFeature(Feature.NEGATED, false);
 		}
-		
+
 		return frontVG;
 	}
 
@@ -577,7 +589,7 @@ abstract class VerbPhraseHelper {
 
 		if (particle instanceof String) {
 			vgComponents.push(new StringElement((String) particle));
-			
+
 		} else if (particle instanceof NLGElement) {
 			vgComponents.push(parent.realise((NLGElement) particle));
 		}
