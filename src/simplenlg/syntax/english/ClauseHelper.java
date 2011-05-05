@@ -193,6 +193,7 @@ abstract class ClauseHelper {
 				realisedElement.addComponent(parent.realise(phraseFactory
 						.createPrepositionPhrase("by"))); //$NON-NLS-1$
 			}
+			
 			for (NLGElement subject : allSubjects) {
 
 				subject.setFeature(Feature.PASSIVE, true);
@@ -336,12 +337,14 @@ abstract class ClauseHelper {
 				&& verbPhrase != null
 				&& !InterrogativeType.WHAT_OBJECT.equals(phrase
 						.getFeature(Feature.INTERROGATIVE_TYPE))) {
+			
 			// complements of a clause are stored in the VPPhraseSpec
 			for (NLGElement subject : verbPhrase
 					.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
 
-				if (subject.isA(PhraseCategory.NOUN_PHRASE)
-						&& DiscourseFunction.OBJECT
+				//AG: complement needn't be an NP
+				//subject.isA(PhraseCategory.NOUN_PHRASE) &&				
+				if (DiscourseFunction.OBJECT
 								.equals(subject
 										.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
 					subject.setFeature(Feature.PASSIVE, true);					

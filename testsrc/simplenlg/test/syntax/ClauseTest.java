@@ -31,6 +31,7 @@ import simplenlg.features.InternalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
@@ -146,16 +147,17 @@ public class ClauseTest extends SimpleNLG4Test {
 	 * Test did not
 	 */
 	public void testVPNegation() {
-		//negate the VP
+		// negate the VP
 		PhraseElement vp = phraseFactory.createVerbPhrase("lie");
 		vp.setFeature(Feature.TENSE, Tense.PAST);
 		vp.setFeature(Feature.NEGATED, true);
 		PhraseElement compl = phraseFactory.createVerbPhrase("etherize");
 		compl.setFeature(Feature.TENSE, Tense.PAST);
 		vp.setComplement(compl);
-		
-		SPhraseSpec s = phraseFactory.createClause(phraseFactory.createNounPhrase("the", "patient"), vp);
-		
+
+		SPhraseSpec s = phraseFactory.createClause(phraseFactory
+				.createNounPhrase("the", "patient"), vp);
+
 		Assert.assertEquals("the patient did not lie etherized", //$NON-NLS-1$
 				this.realiser.realise(s).getRealisation());
 
@@ -240,7 +242,6 @@ public class ClauseTest extends SimpleNLG4Test {
 
 		// infinitive
 		this.s1.setFeature(Feature.FORM, Form.INFINITIVE);
-
 		Assert
 				.assertEquals(
 						"to kiss the man", this.realiser.realise(this.s1).getRealisation()); //$NON-NLS-1$
@@ -483,6 +484,17 @@ public class ClauseTest extends SimpleNLG4Test {
 						this.realiser.realise(coord2).getRealisation());
 	}
 
+	// /**
+	// * Sentence with clausal subject with verb "be" and a progressive feature
+	// */
+	// public void testComplexSentence2() {
+	// SPhraseSpec subject = this.phraseFactory.createClause(
+	// this.phraseFactory.createNounPhrase("the", "child"),
+	// this.phraseFactory.createVerbPhrase("be"), this.phraseFactory
+	// .createWord("difficult", LexicalCategory.ADJECTIVE));
+	// subject.setFeature(Feature.PROGRESSIVE, true);
+	// }
+
 	/**
 	 * Tests recogition of strings in API.
 	 */
@@ -646,7 +658,22 @@ public class ClauseTest extends SimpleNLG4Test {
 		Assert
 				.assertEquals(
 						"I am chased by him", this.realiser.realise(_s5).getRealisation()); //$NON-NLS-1$
-
+	}
+	
+	/**
+	 * Test that complements set within the VP are raised when sentence is passivised.
+	 */
+	public void testPassiveWithInternalVPComplement() {
+		PhraseElement vp = this.phraseFactory.createVerbPhrase(phraseFactory.createWord(
+				"upset", LexicalCategory.VERB));
+		vp.addComplement(phraseFactory.createNounPhrase("the", "man"));
+		PhraseElement _s6 = this.phraseFactory.createClause(phraseFactory.createNounPhrase(
+				"the", "child"), vp);
+		_s6.setFeature(Feature.TENSE, Tense.PAST);
+		Assert.assertEquals("the child upset the man", this.realiser.realise(_s6).getRealisation());
+		
+		_s6.setFeature(Feature.PASSIVE, true);
+		Assert.assertEquals("the man was upset by the child", this.realiser.realise(_s6).getRealisation());
 	}
 
 	/**

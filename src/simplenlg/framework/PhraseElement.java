@@ -205,6 +205,13 @@ public class PhraseElement extends NLGElement {
 	 * existing discourse function exists on the complement.
 	 * </p>
 	 * 
+	 * <p>
+	 * Complements can have different functions. For example, the phrase <I>John
+	 * gave Mary a flower</I> has two complements, one a direct object and one
+	 * indirect. If a complement is not specified for its discourse function,
+	 * then this is automatically set to <code>DiscourseFunction.OBJECT</code>.
+	 * </p>
+	 * 
 	 * @param newComplement
 	 *            the new complement as an <code>NLGElement</code>.
 	 */
@@ -213,6 +220,13 @@ public class PhraseElement extends NLGElement {
 		if (complements == null) {
 			complements = new ArrayList<NLGElement>();
 		}
+
+		// check if the new complement has a discourse function; if not, assume
+		// object
+		if(!newComplement.hasFeature(InternalFeature.DISCOURSE_FUNCTION)) {
+			newComplement.setFeature(InternalFeature.DISCOURSE_FUNCTION, DiscourseFunction.OBJECT);
+		}
+
 		complements.add(newComplement);
 		setFeature(InternalFeature.COMPLEMENTS, complements);
 		if (newComplement.isA(PhraseCategory.CLAUSE)
@@ -395,11 +409,10 @@ public class PhraseElement extends NLGElement {
 		frontModifiers.add(new StringElement(newFrontModifier));
 		setFeature(InternalFeature.FRONT_MODIFIERS, frontModifiers);
 	}
-	
+
 	/**
-	 * Set the frontmodifier for this phrase. This resets all previous
-	 * front modifiers to <code>null</code> and replaces them with the given
-	 * string.
+	 * Set the frontmodifier for this phrase. This resets all previous front
+	 * modifiers to <code>null</code> and replaces them with the given string.
 	 * 
 	 * @param newFrontModifier
 	 *            the front modifier
@@ -410,9 +423,8 @@ public class PhraseElement extends NLGElement {
 	}
 
 	/**
-	 * Set the front modifier for this phrase. This resets all previous
-	 * front modifiers to <code>null</code> and replaces them with the given
-	 * string.
+	 * Set the front modifier for this phrase. This resets all previous front
+	 * modifiers to <code>null</code> and replaces them with the given string.
 	 * 
 	 * @param newFrontModifier
 	 *            the front modifier
