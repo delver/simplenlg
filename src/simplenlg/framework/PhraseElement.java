@@ -338,6 +338,32 @@ public class PhraseElement extends NLGElement {
 	}
 
 	/**
+	 * Set the postmodifier for this phrase. This resets all previous
+	 * postmodifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newPostModifier
+	 *            the postmodifier
+	 */
+	public void setPostModifier(String newPostModifier) {
+		this.setFeature(InternalFeature.POSTMODIFIERS, null);
+		addPostModifier(newPostModifier);
+	}
+
+	/**
+	 * Set the postmodifier for this phrase. This resets all previous
+	 * postmodifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newPostModifier
+	 *            the postmodifier
+	 */
+	public void setPostModifier(NLGElement newPostModifier) {
+		this.setFeature(InternalFeature.POSTMODIFIERS, null);
+		addPostModifier(newPostModifier);
+	}
+
+	/**
 	 * Adds a new front modifier to the phrase element.
 	 * 
 	 * @param newFrontModifier
@@ -368,6 +394,32 @@ public class PhraseElement extends NLGElement {
 
 		frontModifiers.add(new StringElement(newFrontModifier));
 		setFeature(InternalFeature.FRONT_MODIFIERS, frontModifiers);
+	}
+	
+	/**
+	 * Set the frontmodifier for this phrase. This resets all previous
+	 * front modifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newFrontModifier
+	 *            the front modifier
+	 */
+	public void setFrontModifier(String newFrontModifier) {
+		this.setFeature(InternalFeature.FRONT_MODIFIERS, null);
+		addFrontModifier(newFrontModifier);
+	}
+
+	/**
+	 * Set the front modifier for this phrase. This resets all previous
+	 * front modifiers to <code>null</code> and replaces them with the given
+	 * string.
+	 * 
+	 * @param newFrontModifier
+	 *            the front modifier
+	 */
+	public void setFrontModifier(NLGElement newFrontModifier) {
+		this.setFeature(InternalFeature.FRONT_MODIFIERS, null);
+		addFrontModifier(newFrontModifier);
 	}
 
 	/**
@@ -401,19 +453,21 @@ public class PhraseElement extends NLGElement {
 	 * premodifiers to <code>null</code> and replaces them with the given
 	 * string.
 	 * 
-	 * @param newPreModifier the premodifier
+	 * @param newPreModifier
+	 *            the premodifier
 	 */
 	public void setPreModifier(String newPreModifier) {
 		this.setFeature(InternalFeature.PREMODIFIERS, null);
 		addPreModifier(newPreModifier);
 	}
-	
+
 	/**
 	 * Set the premodifier for this phrase. This resets all previous
 	 * premodifiers to <code>null</code> and replaces them with the given
 	 * string.
 	 * 
-	 * @param newPreModifier the premodifier
+	 * @param newPreModifier
+	 *            the premodifier
 	 */
 	public void setPreModifier(NLGElement newPreModifier) {
 		this.setFeature(InternalFeature.PREMODIFIERS, null);

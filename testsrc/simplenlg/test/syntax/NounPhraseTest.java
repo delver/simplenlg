@@ -124,6 +124,12 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		this.dog.addPreModifier(this.stunning);
 		Assert.assertEquals("the stunning dog", this.realiser.realise(this.dog) //$NON-NLS-1$
 				.getRealisation());
+		
+		//premodification with a WordElement
+		this.man.setPreModifier(this.phraseFactory.createWord("idiotic", LexicalCategory.ADJECTIVE));
+		Assert.assertEquals("the idiotic man", this.realiser //$NON-NLS-1$
+				.realise(this.man).getRealisation());
+
 	}
 
 	/**
@@ -131,13 +137,33 @@ public class NounPhraseTest extends SimpleNLG4Test {
 	 */
 	@Test
 	public void testPostmodification() {
-		this.man.addComplement(this.onTheRock);
+		this.man.addPostModifier(this.onTheRock);
 		Assert.assertEquals("the man on the rock", this.realiser.realise( //$NON-NLS-1$
 				this.man).getRealisation());
 
-		this.woman.addComplement(this.behindTheCurtain);
+		this.woman.addPostModifier(this.behindTheCurtain);
 		Assert.assertEquals("the woman behind the curtain", this.realiser //$NON-NLS-1$
 				.realise(this.woman).getRealisation());
+		
+		//postmodification with a WordElement
+		this.man.setPostModifier(this.phraseFactory.createWord("jack", LexicalCategory.NOUN));
+		Assert.assertEquals("the man jack", this.realiser.realise( //$NON-NLS-1$
+				this.man).getRealisation());
+	}
+	
+	/**
+	 * Test nominal complementation
+	 */
+	@Test
+	public void testComplementation() {
+		//complementation with a WordElement		
+		this.man.setComplement(this.phraseFactory.createWord("jack", LexicalCategory.NOUN));
+		Assert.assertEquals("the man jack", this.realiser.realise( //$NON-NLS-1$
+				this.man).getRealisation());
+		
+		this.woman.addComplement(this.behindTheCurtain);
+		Assert.assertEquals("the woman behind the curtain", this.realiser //$NON-NLS-1$
+				.realise(this.woman).getRealisation());				
 	}
 
 	/**
