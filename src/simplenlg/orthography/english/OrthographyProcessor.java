@@ -113,13 +113,13 @@ public class OrthographyProcessor extends NLGModule {
 			} else if (element instanceof CoordinatedPhraseElement) {
 				realisedElement = realiseCoordinatedPhrase(element
 						.getChildren());
-			
+
 			} else {
 				realisedElement = element;
 			}
 
-			//make the realised element inherit the original category
-			//essential if list items are to be properly formatted later
+			// make the realised element inherit the original category
+			// essential if list items are to be properly formatted later
 			if (realisedElement != null) {
 				realisedElement.setCategory(category);
 			}
@@ -152,7 +152,7 @@ public class OrthographyProcessor extends NLGModule {
 					InternalFeature.INTERROGATIVE).booleanValue());
 
 			((DocumentElement) element).clearComponents();
-			realisation.append(' ');
+			// realisation.append(' ');
 			element.setRealisation(realisation.toString());
 			realisedElement = element;
 		}
@@ -236,13 +236,19 @@ public class OrthographyProcessor extends NLGModule {
 		for (int i = 0; i < components.size(); i++) {
 			NLGElement thisElement = components.get(i);
 			realisedChild = realise(thisElement);
-			realisation.append(realisedChild.getRealisation());
+			String childRealisation = realisedChild.getRealisation();
 
-			if (components.size() > 1 && i < components.size() - 1) {
-				realisation.append(listSeparator);
+			// check that the child realisation is non-empty
+			if (childRealisation != null && childRealisation.length() > 0
+					&& !childRealisation.matches("^[\\s\\n]+$")) {
+				realisation.append(realisedChild.getRealisation());
+
+				if (components.size() > 1 && i < components.size() - 1) {
+					realisation.append(listSeparator);
+				}
+
+				realisation.append(' ');
 			}
-
-			realisation.append(' ');
 		}
 
 		if (realisation.length() > 0) {

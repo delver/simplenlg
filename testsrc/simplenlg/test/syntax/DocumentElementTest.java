@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simplenlg.framework.DocumentElement;
+import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 
 /**
@@ -71,6 +72,31 @@ public class DocumentElementTest extends SimpleNLG4Test {
 		Assert.assertEquals("You are happy. I am sad. They are nervous.\n\n",
 				this.realiser.realise(par1).getRealisation());
 
+	}
+
+	/**
+	 * Ensure that no extra whitespace is inserted into a realisation if a
+	 * constituent is empty. (This is to check for a bug fix for addition of
+	 * spurious whitespace).
+	 */
+	public void testExtraWhitespace() {
+		NPPhraseSpec np1 = this.phraseFactory.createNounPhrase("a", "vessel");
+
+		// empty coordinate as premod
+		np1.setPreModifier(this.phraseFactory.createCoordinatedPhrase());
+		Assert.assertEquals("a vessel", this.realiser.realise(np1)
+				.getRealisation());
+		
+		// empty adjP as premod
+		np1.setPreModifier(this.phraseFactory.createAdjectivePhrase());
+		Assert.assertEquals("a vessel", this.realiser.realise(np1)
+				.getRealisation());
+		
+		// empty string
+		np1.setPreModifier("");
+		Assert.assertEquals("a vessel", this.realiser.realise(np1)
+				.getRealisation());
+		
 	}
 
 	/**
@@ -163,8 +189,11 @@ public class DocumentElementTest extends SimpleNLG4Test {
 		DocumentElement list = this.phraseFactory.createList();
 		list.addComponent(this.phraseFactory.createListItem(p1));
 		list.addComponent(this.phraseFactory.createListItem(p2));
-		list.addComponent(this.phraseFactory.createListItem(this.phraseFactory.createdCoordinatedPhrase(p1, p2)));
+		list.addComponent(this.phraseFactory.createListItem(this.phraseFactory
+				.createdCoordinatedPhrase(p1, p2)));
 		String realisation = this.realiser.realise(list).getRealisation();
-		Assert.assertEquals("* you are happy\n* I am sad\n* you are happy and I am sad\n", realisation);
+		Assert.assertEquals(
+				"* you are happy\n* I am sad\n* you are happy and I am sad\n",
+				realisation);
 	}
 }

@@ -72,9 +72,9 @@ abstract class CoordinatedPhraseHelper {
 			InflectedWordElement conjunctionElement = null;
 
 			if (children != null && children.size() > 0) {
+				
 				if (phrase.getFeatureAsBoolean(Feature.RAISE_SPECIFIER)
 						.booleanValue()) {
-
 					raiseSpecifier(children);
 				}
 

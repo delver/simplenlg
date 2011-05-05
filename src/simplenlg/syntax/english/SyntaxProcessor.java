@@ -115,7 +115,8 @@ public class SyntaxProcessor extends NLGModule {
 				InflectedWordElement infl = new InflectedWordElement(
 						(WordElement) element);
 
-				// the inflected word inherits all features from the base word
+				// // the inflected word inherits all features from the base
+				// word
 				for (String feature : element.getAllFeatureNames()) {
 					infl.setFeature(feature, element.getFeature(feature));
 				}

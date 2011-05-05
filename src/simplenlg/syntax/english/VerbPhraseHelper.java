@@ -428,7 +428,7 @@ abstract class VerbPhraseHelper {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
 
-				if (factory != null) {
+				if (factory != null) {					
 					newFront = factory.createInflectedWord("do",
 							LexicalCategory.VERB);
 
