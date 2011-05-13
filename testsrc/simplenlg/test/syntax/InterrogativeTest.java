@@ -487,7 +487,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 	 * Test for questions with "be"
 	 */
 	@Test
-	public void testBeWhatQuestions() {
+	public void testBeQuestions() {
 		SPhraseSpec p = this.phraseFactory.createClause(this.phraseFactory
 				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
 				"be", LexicalCategory.VERB), this.phraseFactory
