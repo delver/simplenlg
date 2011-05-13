@@ -25,6 +25,7 @@ package simplenlg.features;
  * questions that SimpleNLG can realise. The interrogative type is recorded in
  * the {@code Feature.INTERROGATIVE_TYPE} feature and applies to clauses.
  * </p>
+ * 
  * @author A. Gatt and D. Westwater, University of Aberdeen.
  * @version 4.0
  * 
@@ -48,6 +49,13 @@ public enum InterrogativeType {
 	 * John give Mary?</em>
 	 */
 	WHAT_OBJECT,
+
+	/**
+	 * This type of interrogative is a question pertaining to the subject of a
+	 * phrase. For example, <em>A hurricane destroyed the house</em> becomes
+	 * <em>what destroyed the house?</em> 
+	 */
+	WHAT_SUBJECT,
 
 	/**
 	 * This type of interrogative concerns the object of a verb that is to do
@@ -93,10 +101,10 @@ public enum InterrogativeType {
 	 * <em>Did John kiss Mary?</em>
 	 */
 	YES_NO,
-	
+
 	/**
-	 * This represents a "how many" questions. For example
-	 * of <em>dogs chased John/em> becomes <em>How many dogs chased John</em>
+	 * This represents a "how many" questions. For example of
+	 * <em>dogs chased John/em> becomes <em>How many dogs chased John</em>
 	 */
 	HOW_MANY;
 

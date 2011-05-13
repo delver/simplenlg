@@ -26,7 +26,6 @@ import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.InterrogativeType;
-import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Person;
 import simplenlg.features.Tense;
@@ -34,9 +33,10 @@ import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
+import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
-import simplenlg.framework.NLGFactory;
+import simplenlg.framework.WordElement;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
@@ -193,7 +193,7 @@ abstract class ClauseHelper {
 				realisedElement.addComponent(parent.realise(phraseFactory
 						.createPrepositionPhrase("by"))); //$NON-NLS-1$
 			}
-			
+
 			for (NLGElement subject : allSubjects) {
 
 				subject.setFeature(Feature.PASSIVE, true);
@@ -337,19 +337,18 @@ abstract class ClauseHelper {
 				&& verbPhrase != null
 				&& !InterrogativeType.WHAT_OBJECT.equals(phrase
 						.getFeature(Feature.INTERROGATIVE_TYPE))) {
-			
+
 			// complements of a clause are stored in the VPPhraseSpec
 			for (NLGElement subject : verbPhrase
 					.getFeatureAsElementList(InternalFeature.COMPLEMENTS)) {
 
-				//AG: complement needn't be an NP
-				//subject.isA(PhraseCategory.NOUN_PHRASE) &&				
-				if (DiscourseFunction.OBJECT
-								.equals(subject
-										.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
-					subject.setFeature(Feature.PASSIVE, true);					
+				// AG: complement needn't be an NP
+				// subject.isA(PhraseCategory.NOUN_PHRASE) &&
+				if (DiscourseFunction.OBJECT.equals(subject
+						.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
+					subject.setFeature(Feature.PASSIVE, true);
 					currentElement = parent.realise(subject);
-					
+
 					if (currentElement != null) {
 						currentElement.setFeature(
 								InternalFeature.DISCOURSE_FUNCTION,
@@ -361,13 +360,13 @@ abstract class ClauseHelper {
 							realisedElement.addComponent(currentElement);
 						}
 					}
-					
+
 					if (passiveNumber == null) {
 						passiveNumber = subject.getFeature(Feature.NUMBER);
 					} else {
 						passiveNumber = NumberAgreement.PLURAL;
 					}
-					
+
 					if (Person.FIRST.equals(subject.getFeature(Feature.PERSON))) {
 						passivePerson = Person.FIRST;
 					} else if (Person.SECOND.equals(subject
@@ -377,7 +376,7 @@ abstract class ClauseHelper {
 					} else if (passivePerson == null) {
 						passivePerson = Person.THIRD;
 					}
-					
+
 					if (Form.GERUND.equals(phrase.getFeature(Feature.FORM))
 							&& !phrase.getFeatureAsBoolean(
 									Feature.SUPPRESS_GENITIVE_IN_GERUND)
@@ -387,7 +386,7 @@ abstract class ClauseHelper {
 				}
 			}
 		}
-		
+
 		if (verbElement != null) {
 			if (passivePerson != null) {
 				verbElement.setFeature(Feature.PERSON, passivePerson);
@@ -509,8 +508,14 @@ abstract class ClauseHelper {
 						phraseFactory, realisedElement);
 				break;
 
-			case WHO_SUBJECT:
+			case WHO_SUBJECT:				
 				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
+						phraseFactory);
+				phrase.removeFeature(InternalFeature.SUBJECTS);
+				break;
+			
+			case WHAT_SUBJECT:
+				realiseInterrogativeKeyWord("what", parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
 				break;
@@ -573,15 +578,23 @@ abstract class ClauseHelper {
 			NLGFactory phraseFactory) {
 		NLGElement splitVerb = null;
 
+		// get the head and check if it's "be"
+		NLGElement head = phrase instanceof SPhraseSpec ? ((SPhraseSpec) phrase)
+				.getVerb()
+				: phrase.getHead();
+		boolean copular = (head instanceof WordElement && "be"
+				.equals(((WordElement) head).getBaseForm()));
+
 		realiseInterrogativeKeyWord("what", parent, realisedElement, //$NON-NLS-1$
 				phraseFactory);
-		if (!Tense.FUTURE.equals(phrase.getTense())) {
+
+		if (!Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE)) && !copular) {
 			addDoAuxiliary(phrase, parent, phraseFactory, realisedElement);
-		} else {
-			if (!phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
-				splitVerb = realiseSubjects(phrase, parent);
-			}
+
+		} else if (!phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
+			splitVerb = realiseSubjects(phrase, parent);
 		}
+
 		return splitVerb;
 	}
 
@@ -603,7 +616,7 @@ abstract class ClauseHelper {
 			ListElement realisedElement) {
 
 		PhraseElement doPhrase = phraseFactory.createVerbPhrase("do"); //$NON-NLS-1$
-		doPhrase.setTense(phrase.getTense());
+		doPhrase.setFeature(Feature.TENSE, phrase.getFeature(Feature.TENSE));
 		doPhrase.setFeature(Feature.PERSON, phrase.getFeature(Feature.PERSON));
 		doPhrase.setFeature(Feature.NUMBER, phrase.getFeature(Feature.NUMBER));
 		realisedElement.addComponent(parent.realise(doPhrase));

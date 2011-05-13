@@ -29,6 +29,7 @@ import simplenlg.features.InterrogativeType;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseElement;
@@ -92,7 +93,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4.addPostModifier("in the shop"); //$NON-NLS-1$
 		this.s4.setFeature(Feature.CUE_PHRASE, "however"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
 		// this.s5 = new SPhraseSpec();
 		// this.s5.setSubject(new NPPhraseSpec("the", "dog"));
 		// this.s5.setHead("be");
@@ -113,9 +114,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// simple present
 		this.s1 = this.phraseFactory.createClause(this.woman, this.kiss,
 				this.man);
-		this.s1.setFeature(Feature.TENSE,Tense.PRESENT);
-		this.s1.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s1.setFeature(Feature.TENSE, Tense.PRESENT);
+		this.s1
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 
 		NLGFactory docFactory = new NLGFactory(this.lexicon);
 		DocumentElement sent = docFactory.createSentence(this.s1);
@@ -126,9 +128,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// sentence: "the woman kissed the man"
 		this.s1 = this.phraseFactory.createClause(this.woman, this.kiss,
 				this.man);
-		this.s1.setFeature(Feature.TENSE,Tense.PAST);
-		this.s1.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s1.setFeature(Feature.TENSE, Tense.PAST);
+		this.s1
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		Assert.assertEquals("did the woman kiss the man", this.realiser //$NON-NLS-1$
 				.realise(this.s1).getRealisation());
 
@@ -136,8 +139,9 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// sentence = "there is the dog on the rock"
 		this.s2 = this.phraseFactory.createClause("there", "be", this.dog); //$NON-NLS-1$ //$NON-NLS-2$
 		this.s2.addPostModifier(this.onTheRock);
-		this.s2.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s2
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		Assert.assertEquals("is there the dog on the rock", this.realiser //$NON-NLS-1$
 				.realise(this.s2).getRealisation());
 
@@ -145,8 +149,9 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// sentence -- "there has been the dog on the rock"
 		this.s2 = this.phraseFactory.createClause("there", "be", this.dog); //$NON-NLS-1$ //$NON-NLS-2$
 		this.s2.addPostModifier(this.onTheRock);
-		this.s2.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s2
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		this.s2.setFeature(Feature.PERFECT, true);
 		Assert.assertEquals("has there been the dog on the rock", //$NON-NLS-1$
 				this.realiser.realise(this.s2).getRealisation());
@@ -161,10 +166,11 @@ public class InterrogativeTest extends SimpleNLG4Test {
 				"the", "woman"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.s3 = this.phraseFactory.createClause(this.man, this.give, flower);
 		this.s3.setIndirectObject(_woman);
-		this.s3.setFeature(Feature.TENSE,Tense.PAST);
+		this.s3.setFeature(Feature.TENSE, Tense.PAST);
 		this.s3.setFeature(Feature.PROGRESSIVE, true);
-		this.s3.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s3
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		NLGElement realised = this.realiser.realise(this.s3);
 		Assert.assertEquals("was the man giving the woman John's flower", //$NON-NLS-1$
 				realised.getRealisation());
@@ -178,9 +184,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		_woman = this.phraseFactory.createNounPhrase("the", "woman"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.s3 = this.phraseFactory.createClause(this.man, this.give, flower);
 		this.s3.setIndirectObject(_woman);
-		this.s3.setFeature(Feature.TENSE,Tense.PAST);
-		this.s3.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s3.setFeature(Feature.TENSE, Tense.PAST);
+		this.s3
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		this.s3.setFeature(Feature.MODAL, "should"); //$NON-NLS-1$
 		Assert.assertEquals(
 				"should the man have given the woman John's flower", //$NON-NLS-1$
@@ -199,9 +206,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4.addPostModifier("in the shop"); //$NON-NLS-1$
 		this.s4.setFeature(Feature.CUE_PHRASE, "however,"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
+		this.s4
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		Assert
 				.assertEquals(
 						"however, will Jane and Andrew pick up the balls in the shop tomorrow", //$NON-NLS-1$
@@ -218,12 +226,12 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.realiser.setLexicon(this.lexicon);
 
 		// sentence: "the woman did not kiss the man"
-		this.s1 = this.phraseFactory.createClause(this.woman, "kiss",
-				this.man);
-		this.s1.setFeature(Feature.TENSE,Tense.PAST);
+		this.s1 = this.phraseFactory.createClause(this.woman, "kiss", this.man);
+		this.s1.setFeature(Feature.TENSE, Tense.PAST);
 		this.s1.setNegated(true);
-		this.s1.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s1
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		Assert.assertEquals("did the woman not kiss the man", this.realiser //$NON-NLS-1$
 				.realise(this.s1).getRealisation());
 
@@ -237,10 +245,11 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4.addPostModifier("in the shop"); //$NON-NLS-1$
 		this.s4.setFeature(Feature.CUE_PHRASE, "however,"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.NEGATED,true);
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s4.setFeature(Feature.NEGATED, true);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
+		this.s4
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		Assert
 				.assertEquals(
 						"however, will Jane and Andrew not pick up the balls in the shop tomorrow", //$NON-NLS-1$
@@ -268,7 +277,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4 = this.phraseFactory.createClause(subjects, complex);
 		this.s4.setFeature(Feature.CUE_PHRASE, "however"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
 
 		Assert
 				.assertEquals(
@@ -287,9 +296,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4 = this.phraseFactory.createClause(subjects, complex);
 		this.s4.setFeature(Feature.CUE_PHRASE, "however"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
+		this.s4
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 
 		Assert
 				.assertEquals(
@@ -308,9 +318,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		this.s4 = this.phraseFactory.createClause(subjects, complex);
 		this.s4.setFeature(Feature.CUE_PHRASE, "however"); //$NON-NLS-1$
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
-		this.s4.setFeature(Feature.TENSE,Tense.FUTURE);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
+		this.s4
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.YES_NO);
 		this.s4.setFeature(Feature.PERFECT, true);
 
 		Assert
@@ -330,16 +341,14 @@ public class InterrogativeTest extends SimpleNLG4Test {
 				"the man"); //$NON-NLS-1$
 
 		// try with the simple yes/no type first
-		s.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
 		Assert.assertEquals("does the woman kiss the man", this.realiser //$NON-NLS-1$
 				.realise(s).getRealisation());
 
 		// now in the passive
 		s = this.phraseFactory.createClause("the woman", "kiss", //$NON-NLS-1$ //$NON-NLS-2$
 				"the man"); //$NON-NLS-1$
-		s.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
 		s.setFeature(Feature.PASSIVE, true);
 		Assert.assertEquals("is the man kissed by the woman", this.realiser //$NON-NLS-1$
 				.realise(s).getRealisation());
@@ -348,8 +357,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// // sentence: "the woman kisses the man"
 		s = this.phraseFactory.createClause("the woman", "kiss", //$NON-NLS-1$ //$NON-NLS-2$
 				"the man"); //$NON-NLS-1$
-		s.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.WHO_SUBJECT);
+		s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
 
 		Assert.assertEquals("who kisses the man", this.realiser.realise(s) //$NON-NLS-1$
 				.getRealisation());
@@ -357,16 +365,14 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// object interrogative with simple present
 		s = this.phraseFactory.createClause("the woman", "kiss", //$NON-NLS-1$ //$NON-NLS-2$
 				"the man"); //$NON-NLS-1$
-		s.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.WHO_OBJECT);
+		s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
 		Assert.assertEquals("who does the woman kiss", this.realiser //$NON-NLS-1$
 				.realise(s).getRealisation());
 
 		// subject interrogative with passive
 		s = this.phraseFactory.createClause("the woman", "kiss", //$NON-NLS-1$ //$NON-NLS-2$
 				"the man"); //$NON-NLS-1$
-		s.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.WHO_SUBJECT);
+		s.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
 		s.setFeature(Feature.PASSIVE, true);
 		Assert.assertEquals("who is the man kissed by", this.realiser //$NON-NLS-1$
 				.realise(s).getRealisation());
@@ -421,8 +427,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// how-question + passive
 		setUp();
 		this.s4.setFeature(Feature.PASSIVE, true);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.HOW);
+		this.s4.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.HOW);
 		Assert
 				.assertEquals(
 						"however how will the balls be picked up in the shop by Jane and Andrew tomorrow", //$NON-NLS-1$
@@ -431,8 +436,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// // why-question + passive
 		setUp();
 		this.s4.setFeature(Feature.PASSIVE, true);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.WHY);
+		this.s4.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
 		Assert
 				.assertEquals(
 						"however why will the balls be picked up in the shop by Jane and Andrew tomorrow", //$NON-NLS-1$
@@ -441,8 +445,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// how question with modal
 		setUp();
 		this.s4.setFeature(Feature.PASSIVE, true);
-		this.s4.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.HOW);
+		this.s4.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.HOW);
 		this.s4.setFeature(Feature.MODAL, "should"); //$NON-NLS-1$
 		Assert
 				.assertEquals(
@@ -468,17 +471,71 @@ public class InterrogativeTest extends SimpleNLG4Test {
 
 		PhraseElement p = this.phraseFactory.createClause("Mary", "chase", //$NON-NLS-1$ //$NON-NLS-2$
 				"George"); //$NON-NLS-1$
-		p.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.YES_NO);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
 		Assert.assertEquals("does Mary chase George", this.realiser.realise(p) //$NON-NLS-1$
 				.getRealisation());
 
 		p = this.phraseFactory.createClause("Mary", "chase", //$NON-NLS-1$ //$NON-NLS-2$
 				"George"); //$NON-NLS-1$
-		p.setFeature(Feature.INTERROGATIVE_TYPE,
-				InterrogativeType.WHO_OBJECT);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
 		Assert.assertEquals("who does Mary chase", this.realiser.realise(p) //$NON-NLS-1$
 				.getRealisation());
 
+	}
+
+	/**
+	 * Test for questions with "be"
+	 */
+	@Test
+	public void testBeWhatQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.phraseFactory
+				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
+				"be", LexicalCategory.VERB), this.phraseFactory
+				.createNounPhrase("a", "toy"));
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what is a ball", this.realiser.realise(p).getRealisation());
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
+		Assert.assertEquals("is a ball a toy", this.realiser.realise(p).getRealisation());
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what is a toy", this.realiser.realise(p).getRealisation());				
+		
+		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be", "beautiful");
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
+		Assert.assertEquals("why is Mary beautiful", this.realiser.realise(p2).getRealisation());
+		
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who is beautiful", this.realiser.realise(p2).getRealisation());
+	}
+	
+	/**
+	 * Test for questions with "be" in future tense
+	 */
+	@Test
+	public void testBeWhatQuestionsFuture() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.phraseFactory
+				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
+				"be", LexicalCategory.VERB), this.phraseFactory
+				.createNounPhrase("a", "toy"));
+		p.setFeature(Feature.TENSE, Tense.FUTURE);
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what will a ball be", this.realiser.realise(p).getRealisation());
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
+		Assert.assertEquals("will a ball be a toy", this.realiser.realise(p).getRealisation());
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what will be a toy", this.realiser.realise(p).getRealisation());				
+		
+		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be", "beautiful");
+		p2.setFeature(Feature.TENSE, Tense.FUTURE);
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
+		Assert.assertEquals("why will Mary be beautiful", this.realiser.realise(p2).getRealisation());
+		
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who will be beautiful", this.realiser.realise(p2).getRealisation());
 	}
 }
