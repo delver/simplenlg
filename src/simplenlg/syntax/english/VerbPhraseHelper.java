@@ -39,6 +39,7 @@ import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.StringElement;
 import simplenlg.framework.WordElement;
+import simplenlg.phrasespec.SPhraseSpec;
 
 /**
  * <p>
@@ -379,10 +380,14 @@ abstract class VerbPhraseHelper {
 		} else if ((!(formValue == null || Form.NORMAL.equals(formValue)) || interrogative)
 				&& !isCopular(phrase.getHead()) && vgComponents.isEmpty()) {
 
-			if (!InterrogativeType.WHO_SUBJECT.equals(phrase
-					.getFeature(Feature.INTERROGATIVE_TYPE))) {
+			// AG: fix below: if interrogative, only set non-morph feature in
+			// case it's not WHO_SUBJECT OR WHAT_SUBJECT
+			Object interrogType = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
+			if (!(InterrogativeType.WHO_SUBJECT.equals(interrogType) || InterrogativeType.WHAT_SUBJECT
+					.equals(interrogType))) {
 				frontVG.setFeature(InternalFeature.NON_MORPH, true);
 			}
+
 			vgComponents.push(frontVG);
 
 		} else {
@@ -428,7 +433,7 @@ abstract class VerbPhraseHelper {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
 
-				if (factory != null) {					
+				if (factory != null) {
 					newFront = factory.createInflectedWord("do",
 							LexicalCategory.VERB);
 
@@ -558,15 +563,23 @@ abstract class VerbPhraseHelper {
 			Tense tenseValue, boolean hasModal) {
 		NLGElement frontVG = phrase.getHead();
 
-		if (frontVG instanceof WordElement)
-			frontVG = new InflectedWordElement((WordElement) frontVG);
+		if (frontVG != null) {
+			if (frontVG instanceof WordElement) {
+				frontVG = new InflectedWordElement((WordElement) frontVG);
+			}
 
-		if (Tense.FUTURE.equals(tenseValue) && frontVG != null) {
-			frontVG.setFeature(Feature.TENSE, Tense.FUTURE);
-		}
+			//AG: tense value should always be set on frontVG 
+			if (tenseValue != null) {
+				frontVG.setFeature(Feature.TENSE, tenseValue);
+			}
 
-		if (hasModal && frontVG != null) {
-			frontVG.setFeature(Feature.NEGATED, false);
+			// if (Tense.FUTURE.equals(tenseValue) && frontVG != null) {
+			// frontVG.setFeature(Feature.TENSE, Tense.FUTURE);
+			// }
+
+			if (hasModal) {
+				frontVG.setFeature(Feature.NEGATED, false);
+			}
 		}
 
 		return frontVG;
@@ -669,13 +682,27 @@ abstract class VerbPhraseHelper {
 	 */
 	public static boolean isCopular(NLGElement element) {
 		boolean copular = false;
+
 		if (element instanceof InflectedWordElement) {
 			copular = "be".equalsIgnoreCase(((InflectedWordElement) element) //$NON-NLS-1$
 					.getBaseForm());
+
 		} else if (element instanceof WordElement) {
 			copular = "be".equalsIgnoreCase(((WordElement) element) //$NON-NLS-1$
 					.getBaseForm());
+
+		} else if (element instanceof PhraseElement) {
+			// get the head and check if it's "be"
+			NLGElement head = element instanceof SPhraseSpec ? ((SPhraseSpec) element)
+					.getVerb()
+					: ((PhraseElement) element).getHead();
+
+			if (head != null) {
+				copular = (head instanceof WordElement && "be"
+						.equals(((WordElement) head).getBaseForm()));
+			}
 		}
+
 		return copular;
 	}
 }

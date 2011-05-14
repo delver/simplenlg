@@ -36,8 +36,6 @@ import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
-import simplenlg.framework.WordElement;
-import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
 /**
@@ -66,6 +64,7 @@ abstract class ClauseHelper {
 		ListElement realisedElement = null;
 		NLGFactory phraseFactory = phrase.getFactory();
 		NLGElement splitVerb = null;
+		boolean interrogObj = false;
 
 		if (phrase != null) {
 			realisedElement = new ListElement();
@@ -83,6 +82,9 @@ abstract class ClauseHelper {
 			addCuePhrase(phrase, parent, realisedElement);
 
 			if (phrase.hasFeature(Feature.INTERROGATIVE_TYPE)) {
+				Object inter = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
+				interrogObj = InterrogativeType.WHAT_OBJECT.equals(inter)
+						|| InterrogativeType.WHO_OBJECT.equals(inter);
 				splitVerb = realiseInterrogative(phrase, parent,
 						realisedElement, phraseFactory, verbElement);
 			} else {
@@ -94,6 +96,7 @@ abstract class ClauseHelper {
 										.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
 								DiscourseFunction.FRONT_MODIFIER);
 			}
+
 			addSubjectsToFront(phrase, parent, realisedElement, splitVerb);
 
 			NLGElement passiveSplitVerb = addPassiveComplementsNumberPerson(
@@ -102,7 +105,10 @@ abstract class ClauseHelper {
 			if (passiveSplitVerb != null) {
 				splitVerb = passiveSplitVerb;
 			}
-			realiseVerb(phrase, parent, realisedElement, splitVerb, verbElement);
+
+			// realise verb needs to know if clause is object interrogative
+			realiseVerb(phrase, parent, realisedElement, splitVerb,
+					verbElement, interrogObj);
 			addPassiveSubjects(phrase, parent, realisedElement, phraseFactory);
 			addInterrogativeFrontModifiers(phrase, parent, realisedElement);
 			addEndingTo(phrase, parent, realisedElement, phraseFactory);
@@ -227,10 +233,12 @@ abstract class ClauseHelper {
 	 * @param verbElement
 	 *            the <code>NLGElement</code> representing the verb phrase for
 	 *            this clause.
+	 * @param whObj
+	 *            whether the VP is part of an object WH-interrogative
 	 */
 	private static void realiseVerb(PhraseElement phrase,
 			SyntaxProcessor parent, ListElement realisedElement,
-			NLGElement splitVerb, NLGElement verbElement) {
+			NLGElement splitVerb, NLGElement verbElement, boolean whObj) {
 
 		setVerbFeatures(phrase, verbElement);
 
@@ -241,6 +249,7 @@ abstract class ClauseHelper {
 						DiscourseFunction.VERB_PHRASE);
 
 				realisedElement.addComponent(currentElement);
+
 			} else {
 				if (currentElement instanceof ListElement) {
 					List<NLGElement> children = currentElement.getChildren();
@@ -250,6 +259,7 @@ abstract class ClauseHelper {
 							DiscourseFunction.VERB_PHRASE);
 					realisedElement.addComponent(currentElement);
 					realisedElement.addComponent(splitVerb);
+
 					for (int eachChild = 1; eachChild < children.size(); eachChild++) {
 						currentElement = children.get(eachChild);
 						currentElement.setFeature(
@@ -261,8 +271,14 @@ abstract class ClauseHelper {
 					currentElement.setFeature(
 							InternalFeature.DISCOURSE_FUNCTION,
 							DiscourseFunction.VERB_PHRASE);
-					realisedElement.addComponent(currentElement);
-					realisedElement.addComponent(splitVerb);
+
+					if (whObj) {
+						realisedElement.addComponent(currentElement);
+						realisedElement.addComponent(splitVerb);
+					} else {
+						realisedElement.addComponent(splitVerb);
+						realisedElement.addComponent(currentElement);
+					}
 				}
 			}
 		}
@@ -499,6 +515,7 @@ abstract class ClauseHelper {
 		if (phrase.getParent() != null) {
 			phrase.getParent().setFeature(InternalFeature.INTERROGATIVE, true);
 		}
+
 		Object type = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
 
 		if (type instanceof InterrogativeType) {
@@ -508,14 +525,15 @@ abstract class ClauseHelper {
 						phraseFactory, realisedElement);
 				break;
 
-			case WHO_SUBJECT:				
-				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
+			case WHO_SUBJECT:
+				realiseInterrogativeKeyWord(
+						"who", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
 				break;
-			
+
 			case WHAT_SUBJECT:
-				realiseInterrogativeKeyWord("what", parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord("what", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
 				break;
@@ -523,7 +541,7 @@ abstract class ClauseHelper {
 			case HOW:
 			case WHY:
 			case WHERE:
-				realiseInterrogativeKeyWord(type.toString().toLowerCase(),
+				realiseInterrogativeKeyWord(type.toString().toLowerCase(), LexicalCategory.PRONOUN,
 						parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				splitVerb = realiseYesNo(phrase, parent, verbElement,
@@ -531,34 +549,55 @@ abstract class ClauseHelper {
 				break;
 
 			case HOW_MANY:
-				realiseInterrogativeKeyWord("how", parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord("how", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
-				realiseInterrogativeKeyWord("many", parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord("many", LexicalCategory.ADVERB, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				break;
 
 			case WHO_OBJECT:
 			case WHO_INDIRECT_OBJECT:
-				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
-						phraseFactory);
-				addDoAuxiliary(phrase, parent, phraseFactory, realisedElement);
+				//				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
+				// phraseFactory);
+				splitVerb = realiseObjectWHInterrogative("who", phrase, parent,
+						realisedElement, phraseFactory);
+
+				// if (!hasAuxiliary(phrase)) {
+				// addDoAuxiliary(phrase, parent, phraseFactory,
+				// realisedElement);
+				// }
 				break;
 
 			case WHAT_OBJECT:
-				splitVerb = realiseWhatInterrogative(phrase, parent,
-						realisedElement, phraseFactory);
+				splitVerb = realiseObjectWHInterrogative("what", phrase,
+						parent, realisedElement, phraseFactory);
 				break;
 
 			default:
 				break;
 			}
 		}
+
 		return splitVerb;
 	}
 
+	/*
+	 * Check if a sentence has an auxiliary (needed to relise questions
+	 * correctly)
+	 */
+	private static boolean hasAuxiliary(PhraseElement phrase) {
+		return phrase.hasFeature(Feature.MODAL)
+				|| phrase.getFeatureAsBoolean(Feature.PERFECT).booleanValue()
+				|| phrase.getFeatureAsBoolean(Feature.PROGRESSIVE)
+						.booleanValue()
+				|| Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE));
+	}
+
 	/**
-	 * Controls the realisation of <em>what</em> questions.
+	 * Controls the realisation of <em>wh</em> object questions.
 	 * 
+	 * @param keyword
+	 *            the wh word
 	 * @param phrase
 	 *            the <code>PhraseElement</code> representing this clause.
 	 * @param parent
@@ -573,22 +612,16 @@ abstract class ClauseHelper {
 	 * @return an <code>NLGElement</code> representing a subject that should
 	 *         split the verb
 	 */
-	private static NLGElement realiseWhatInterrogative(PhraseElement phrase,
-			SyntaxProcessor parent, ListElement realisedElement,
-			NLGFactory phraseFactory) {
+	private static NLGElement realiseObjectWHInterrogative(String keyword,
+			PhraseElement phrase, SyntaxProcessor parent,
+			ListElement realisedElement, NLGFactory phraseFactory) {
 		NLGElement splitVerb = null;
-
-		// get the head and check if it's "be"
-		NLGElement head = phrase instanceof SPhraseSpec ? ((SPhraseSpec) phrase)
-				.getVerb()
-				: phrase.getHead();
-		boolean copular = (head instanceof WordElement && "be"
-				.equals(((WordElement) head).getBaseForm()));
-
-		realiseInterrogativeKeyWord("what", parent, realisedElement, //$NON-NLS-1$
+		realiseInterrogativeKeyWord(keyword, LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 				phraseFactory);
 
-		if (!Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE)) && !copular) {
+		// if (!Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE)) &&
+		// !copular) {
+		if (!hasAuxiliary(phrase) && !VerbPhraseHelper.isCopular(phrase)) {
 			addDoAuxiliary(phrase, parent, phraseFactory, realisedElement);
 
 		} else if (!phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
@@ -628,6 +661,9 @@ abstract class ClauseHelper {
 	 * 
 	 * @param keyWord
 	 *            the key word of the interrogative.
+	 * @param cat
+	 *            the category (usually pronoun, but not in the case of
+	 *            "how many")
 	 * @param parent
 	 *            the parent <code>SyntaxProcessor</code> that will do the
 	 *            realisation of the complementiser.
@@ -637,13 +673,13 @@ abstract class ClauseHelper {
 	 *            the phrase factory to be used.
 	 */
 	private static void realiseInterrogativeKeyWord(String keyWord,
-			SyntaxProcessor parent, ListElement realisedElement,
-			NLGFactory phraseFactory) {
+			LexicalCategory cat, SyntaxProcessor parent,
+			ListElement realisedElement, NLGFactory phraseFactory) {
 
 		if (keyWord != null) {
-			NLGElement question = phraseFactory.createWord(keyWord,
-					LexicalCategory.NOUN);
+			NLGElement question = phraseFactory.createWord(keyWord, cat);
 			NLGElement currentElement = parent.realise(question);
+
 			if (currentElement != null) {
 				realisedElement.addComponent(currentElement);
 			}
@@ -690,8 +726,8 @@ abstract class ClauseHelper {
 				&& !phrase.getFeatureAsBoolean(Feature.PROGRESSIVE)
 						.booleanValue()
 				&& !phrase.hasFeature(Feature.MODAL)
-				&& !Tense.FUTURE.equals(phrase.getTense())
-				&& !phrase.isNegated()
+				&& !Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE))
+				&& !phrase.getFeatureAsBoolean(Feature.NEGATED).booleanValue()
 				&& !phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()) {
 			addDoAuxiliary(phrase, parent, phraseFactory, realisedElement);
 		} else {

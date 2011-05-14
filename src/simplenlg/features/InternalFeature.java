@@ -328,6 +328,7 @@ public abstract class InternalFeature {
 	 * </table>
 	 */
 	public static final String DISCOURSE_FUNCTION = "discourse_function";
+	
 	public static final String NON_MORPH = "non_morph";
 	/**
 	 * <p>

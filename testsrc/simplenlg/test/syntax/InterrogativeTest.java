@@ -228,7 +228,7 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		// sentence: "the woman did not kiss the man"
 		this.s1 = this.phraseFactory.createClause(this.woman, "kiss", this.man);
 		this.s1.setFeature(Feature.TENSE, Tense.PAST);
-		this.s1.setNegated(true);
+		this.s1.setFeature(Feature.NEGATED, true);
 		this.s1
 				.setFeature(Feature.INTERROGATIVE_TYPE,
 						InterrogativeType.YES_NO);
@@ -484,6 +484,146 @@ public class InterrogativeTest extends SimpleNLG4Test {
 	}
 
 	/**
+	 * Subject WH Questions with modals
+	 */
+	@Test
+	public void testModalWHSubjectQuestion() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.dog, "upset",
+				this.man);
+		p.setFeature(Feature.TENSE, Tense.PAST);
+		Assert.assertEquals("the dog upset the man", this.realiser.realise(p)
+				.getRealisation());
+
+		// first without modal
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who upset the man", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what upset the man", this.realiser.realise(p)
+				.getRealisation());
+
+		// now with modal auxiliary
+		p.setFeature(Feature.MODAL, "may");
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who may have upset the man", this.realiser
+				.realise(p).getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.FUTURE);
+		Assert.assertEquals("who may upset the man", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.PAST);
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what may have upset the man", this.realiser
+				.realise(p).getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.FUTURE);
+		Assert.assertEquals("what may upset the man", this.realiser.realise(p)
+				.getRealisation());
+	}
+
+	/**
+	 * Subject WH Questions with modals
+	 */
+	@Test
+	public void testModalWHObjectQuestion() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.dog, "upset",
+				this.man);
+		p.setFeature(Feature.TENSE, Tense.PAST);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
+
+		Assert.assertEquals("who did the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.MODAL, "may");
+		Assert.assertEquals("who may the dog have upset", this.realiser
+				.realise(p).getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what may the dog have upset", this.realiser
+				.realise(p).getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.FUTURE);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
+		Assert.assertEquals("who may the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what may the dog upset", this.realiser.realise(p)
+				.getRealisation());
+	}
+
+	/**
+	 * Questions with tenses requiring auxiliaries + subject WH
+	 */
+	@Test
+	public void testAuxWHSubjectQuestion() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.dog, "upset",
+				this.man);
+		p.setFeature(Feature.TENSE, Tense.PRESENT);
+		p.setFeature(Feature.PERFECT, true);
+		Assert.assertEquals("the dog has upset the man", this.realiser.realise(
+				p).getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who has upset the man", this.realiser.realise(p)
+				.getRealisation());
+
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what has upset the man", this.realiser.realise(p)
+				.getRealisation());
+	}
+
+	/**
+	 * Questions with tenses requiring auxiliaries + subject WH
+	 */
+	@Test
+	public void testAuxWHObjectQuestion() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.dog, "upset",
+				this.man);
+
+		// first without any aux
+		p.setFeature(Feature.TENSE, Tense.PAST);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what did the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
+		Assert.assertEquals("who did the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.PRESENT);
+		p.setFeature(Feature.PERFECT, true);
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
+		Assert.assertEquals("who has the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what has the dog upset", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.TENSE, Tense.FUTURE);
+		p.setFeature(Feature.PERFECT, true);
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_OBJECT);
+		Assert.assertEquals("who will the dog have upset", this.realiser
+				.realise(p).getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what will the dog have upset", this.realiser
+				.realise(p).getRealisation());
+
+	}
+
+	/**
 	 * Test for questions with "be"
 	 */
 	@Test
@@ -492,50 +632,109 @@ public class InterrogativeTest extends SimpleNLG4Test {
 				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
 				"be", LexicalCategory.VERB), this.phraseFactory
 				.createNounPhrase("a", "toy"));
-		
+
 		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
-		Assert.assertEquals("what is a ball", this.realiser.realise(p).getRealisation());
-		
+		Assert.assertEquals("what is a ball", this.realiser.realise(p)
+				.getRealisation());
+
 		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
-		Assert.assertEquals("is a ball a toy", this.realiser.realise(p).getRealisation());
-		
-		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
-		Assert.assertEquals("what is a toy", this.realiser.realise(p).getRealisation());				
-		
-		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be", "beautiful");
+		Assert.assertEquals("is a ball a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what is a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be",
+				"beautiful");
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
-		Assert.assertEquals("why is Mary beautiful", this.realiser.realise(p2).getRealisation());
-		
-		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
-		Assert.assertEquals("who is beautiful", this.realiser.realise(p2).getRealisation());
+		Assert.assertEquals("why is Mary beautiful", this.realiser.realise(p2)
+				.getRealisation());
+
+		p2
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who is beautiful", this.realiser.realise(p2)
+				.getRealisation());
 	}
-	
+
 	/**
 	 * Test for questions with "be" in future tense
 	 */
 	@Test
-	public void testBeWhatQuestionsFuture() {
+	public void testBeQuestionsFuture() {
 		SPhraseSpec p = this.phraseFactory.createClause(this.phraseFactory
 				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
 				"be", LexicalCategory.VERB), this.phraseFactory
 				.createNounPhrase("a", "toy"));
 		p.setFeature(Feature.TENSE, Tense.FUTURE);
-		
+
 		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
-		Assert.assertEquals("what will a ball be", this.realiser.realise(p).getRealisation());
-		
+		Assert.assertEquals("what will a ball be", this.realiser.realise(p)
+				.getRealisation());
+
 		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
-		Assert.assertEquals("will a ball be a toy", this.realiser.realise(p).getRealisation());
-		
-		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
-		Assert.assertEquals("what will be a toy", this.realiser.realise(p).getRealisation());				
-		
-		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be", "beautiful");
+		Assert.assertEquals("will a ball be a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what will be a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be",
+				"beautiful");
 		p2.setFeature(Feature.TENSE, Tense.FUTURE);
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
-		Assert.assertEquals("why will Mary be beautiful", this.realiser.realise(p2).getRealisation());
-		
-		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
-		Assert.assertEquals("who will be beautiful", this.realiser.realise(p2).getRealisation());
+		Assert.assertEquals("why will Mary be beautiful", this.realiser
+				.realise(p2).getRealisation());
+
+		p2
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who will be beautiful", this.realiser.realise(p2)
+				.getRealisation());
+	}
+
+	/**
+	 * Tests for WH questions with be in past tense
+	 */
+	@Test
+	public void testBeQuestionsPast() {
+		SPhraseSpec p = this.phraseFactory.createClause(this.phraseFactory
+				.createNounPhrase("a", "ball"), this.phraseFactory.createWord(
+				"be", LexicalCategory.VERB), this.phraseFactory
+				.createNounPhrase("a", "toy"));
+		p.setFeature(Feature.TENSE, Tense.PAST);
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what was a ball", this.realiser.realise(p)
+				.getRealisation());
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.YES_NO);
+		Assert.assertEquals("was a ball a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("what was a toy", this.realiser.realise(p)
+				.getRealisation());
+
+		SPhraseSpec p2 = this.phraseFactory.createClause("Mary", "be",
+				"beautiful");
+		p2.setFeature(Feature.TENSE, Tense.PAST);
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
+		Assert.assertEquals("why was Mary beautiful", this.realiser.realise(p2)
+				.getRealisation());
+
+		p2
+				.setFeature(Feature.INTERROGATIVE_TYPE,
+						InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who was beautiful", this.realiser.realise(p2)
+				.getRealisation());
 	}
 }

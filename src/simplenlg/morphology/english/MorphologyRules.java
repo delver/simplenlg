@@ -85,6 +85,9 @@ public abstract class MorphologyRules {
 					{ "ours", "yours", "theirs", "theirs", "theirs" },
 					{ "our", "your", "their", "their", "their" } } };
 
+	private static final String[] WH_PRONOUNS = { "who", "what", "which",
+			"where", "why", "how", "how many" };
+
 	/**
 	 * This method performs the morphology for nouns.
 	 * 
@@ -392,7 +395,8 @@ public abstract class MorphologyRules {
 		// needed to preserve spelling changes in the VP
 
 		if (LexicalCategory.VERB == element.getCategory()) {
-			if (baseWord != null && baseWord.getDefaultSpellingVariant() != null)
+			if (baseWord != null
+					&& baseWord.getDefaultSpellingVariant() != null)
 				return baseWord.getDefaultSpellingVariant();
 			else
 				return element.getBaseForm();
@@ -815,7 +819,7 @@ public abstract class MorphologyRules {
 		String realised = null;
 
 		if (!element.getFeatureAsBoolean(InternalFeature.NON_MORPH)
-				.booleanValue()) {
+				.booleanValue() && !isWHPronoun(element)) {
 			Object genderValue = element.getFeature(LexicalFeature.GENDER);
 			Object personValue = element.getFeature(Feature.PERSON);
 			Object discourseValue = element
@@ -866,6 +870,20 @@ public abstract class MorphologyRules {
 				.getFeature(InternalFeature.DISCOURSE_FUNCTION));
 
 		return realisedElement;
+	}
+
+	private static boolean isWHPronoun(InflectedWordElement word) {
+		String base = word.getBaseForm();
+		boolean wh = false;
+
+		if (base != null) {
+			for (int i = 0; i < WH_PRONOUNS.length && !wh; i++) {
+				wh = WH_PRONOUNS[i].equals(base);
+			}
+		}
+
+		return wh;
+
 	}
 
 	/**
