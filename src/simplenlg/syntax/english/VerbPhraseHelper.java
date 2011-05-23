@@ -628,9 +628,12 @@ abstract class VerbPhraseHelper {
 			number = NumberAgreement.SINGULAR;
 		}
 
+		// Ehud Reiter = modified below to force number from VP for WHAT_SUBJECT and WHO_SUBJECT interrogatuves
 		if (parent instanceof PhraseElement) {
 			if (parent.isA(PhraseCategory.CLAUSE)
-					&& PhraseHelper.isExpletiveSubject((PhraseElement) parent)
+					&& (PhraseHelper.isExpletiveSubject((PhraseElement) parent) ||
+							InterrogativeType.WHO_SUBJECT.equals(parent.getFeature(Feature.INTERROGATIVE_TYPE)) ||
+							InterrogativeType.WHAT_SUBJECT.equals(parent.getFeature(Feature.INTERROGATIVE_TYPE)))
 					&& isCopular(phrase.getHead())) {
 
 				if (hasPluralComplement(phrase
