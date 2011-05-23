@@ -30,12 +30,17 @@ import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.InterrogativeType;
+import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
+import simplenlg.features.Person;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;
+import simplenlg.framework.InflectedWordElement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
+import simplenlg.framework.WordElement;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
@@ -425,6 +430,49 @@ public class ExternalTest extends SimpleNLG4Test {
 		SPhraseSpec s2 = phraseFactory.createClause("the man", "buy", "an apple");
 		NLGElement result = new ClauseCoordinationRule().apply(s1, s2);
 		Assert.assertEquals("The man is hungry and buys an apple.", realiser.realiseSentence(result));
+
+	}
+	
+	@Test
+	public void testLean() {
+		// A Lean's test
+		SPhraseSpec sentence = phraseFactory.createClause();
+		sentence.setVerb("be");
+		sentence.setObject("a ball");
+		sentence.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
+		Assert.assertEquals("What is a ball?", realiser.realiseSentence(sentence));
+		
+		sentence = phraseFactory.createClause();
+		sentence.setVerb("be");
+		NPPhraseSpec object = phraseFactory.createNounPhrase("example");
+		object.setPlural(true);
+		object.addModifier("of jobs");
+		sentence.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
+		sentence.setObject(object);
+		Assert.assertEquals("What are examples of jobs?", realiser.realiseSentence(sentence));
+	}
+	
+	@Test
+	public void testKalijurand() {
+		// K Kalijurand's test
+        String lemma = "walk"; 
+
+
+        WordElement word = lexicon.lookupWord(lemma,  LexicalCategory.VERB); 
+        InflectedWordElement inflectedWord = new InflectedWordElement(word); 
+
+        inflectedWord.setFeature(Feature.FORM, Form.PAST_PARTICIPLE); 
+        String form = realiser.realise(inflectedWord).getRealisation(); 
+        Assert.assertEquals("walked", form);
+
+
+        inflectedWord = new InflectedWordElement(word); 
+
+        inflectedWord.setFeature(Feature.PERSON, Person.THIRD); 
+        form = realiser.realise(inflectedWord).getRealisation(); 
+        Assert.assertEquals("walks", form);
+
+
 
 	}
 }
