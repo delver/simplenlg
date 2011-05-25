@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nlg:NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://code.google.com/p/simplenlg/schemas/version1 RealizerSchema.xsd ">
+
+	<nlg:Recording name="Clause tests">
+
+		<nlg:Record name="Interrogative WH Object">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHAT_OBJECT">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>dog</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+	</nlg:Recording>
+</nlg:NLGSpec>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nlg:NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://code.google.com/p/simplenlg/schemas/version1 RealizerSchema.xsd ">
+
+	<Recording name="NPPhraseSpec examples">
+		<Record name="Possessive Spec">
+			<Document>
+				<child xsi:type="NPPhraseSpec">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>patient</base>
+					</head>
+					<spec xsi:type="NPPhraseSpec" POSSESSIVE="true">
+						<head xsi:type="WordElement" cat="NOUN">
+							<base>John</base>
+						</head>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Determiner Spec">
+			<Document>
+				<child xsi:type="NPPhraseSpec">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>patient</base>
+					</head>
+					<spec xsi:type="WordElement" cat="DETERMINER">
+						<base>the</base>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Complex NP">
+			<Document>
+				<child xsi:type="NPPhraseSpec" number="PLURAL">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>house</base>
+					</head>
+					<spec xsi:type="CoordinatedPhraseElement" conj="and"
+						POSSESSIVE="true">
+						<coord xsi:type="NPPhraseSpec" PRONOMINAL="true">
+							<head xsi:type="WordElement" cat="NOUN">
+								<base>dog</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</coord>
+						<coord xsi:type="NPPhraseSpec">
+							<head xsi:type="WordElement" cat="NOUN">
+								<base>woman</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</coord>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Pronominal1">
+			<Document>
+				<child xsi:type="NPPhraseSpec" NUMBER="PLURAL" PRONOMINAL="true">
+					<head cat="NOUN">
+						<base>house</base>
+					</head>
+					<spec xsi:type="WordElement">
+						<base>the</base>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Pronominal2">
+			<Document>
+				<child xsi:type="NPPhraseSpec" GENDER="FEMININE" PRONOMINAL="true">
+					<head cat="NOUN">
+						<base>singer</base>
+					</head>
+					<spec xsi:type="WordElement">
+						<base>the</base>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Pronominal3">
+			<Document>
+				<child xsi:type="NPPhraseSpec" GENDER="FEMININE" PRONOMINAL="true"
+					POSSESSIVE="true">
+					<head cat="NOUN">
+						<base>singer</base>
+					</head>
+					<spec xsi:type="WordElement">
+						<base>the</base>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Plural1">
+			<Document>
+				<child xsi:type="NPPhraseSpec" NUMBER="PLURAL">
+					<head cat="NOUN">
+						<base>house</base>
+					</head>
+					<spec xsi:type="WordElement">
+						<base>the</base>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="Plural2">
+			<Document>
+				<child xsi:type="NPPhraseSpec" NUMBER="PLURAL">
+					<head cat="NOUN">
+						<base>house</base>
+					</head>
+					<spec xsi:type="CoordinatedPhraseElement" POSSESSIVE="true"
+						conj="and">
+						<coord xsi:type="NPPhraseSpec" PRONOMINAL="true">
+							<head cat="NOUN">
+								<base>dog</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</coord>
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>woman</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</coord>
+					</spec>
+				</child>
+			</Document>
+		</Record>
+
+		<Record name="NP + StringElement Premodifier">
+			<Document>
+				<child xsi:type="NPPhraseSpec">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>patient</base>
+					</head>
+					<spec xsi:type="NPPhraseSpec" POSSESSIVE="true">
+						<head xsi:type="WordElement" cat="NOUN">
+							<base>John</base>
+						</head>
+					</spec>
+					<preMod xsi:type="StringElement">
+						<val>difficult</val>
+					</preMod>
+				</child>
+			</Document>
+		</Record>
+		
+		<Record name="NP + wordElement Premodifier">
+			<Document>
+				<child xsi:type="NPPhraseSpec">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>patient</base>
+					</head>
+					<spec xsi:type="NPPhraseSpec" POSSESSIVE="true">
+						<head xsi:type="WordElement" cat="NOUN">
+							<base>John</base>
+						</head>
+					</spec>
+					<preMod xsi:type="WordElement" cat="ADJECTIVE">
+						<base>difficult</base>
+					</preMod>
+				</child>
+			</Document>
+		</Record>
+		
+		<Record name="NP + wordElement complement">
+			<Document>
+				<child xsi:type="NPPhraseSpec">
+					<head xsi:type="WordElement" cat="NOUN">
+						<base>patient</base>
+					</head>
+					<spec xsi:type="NPPhraseSpec" POSSESSIVE="true">
+						<head xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</head>
+					</spec>
+					<compl xsi:type="WordElement" cat="ADJECTIVE">
+						<base>jack</base>
+					</compl>
+				</child>
+			</Document>
+		</Record>
+
+	</Recording>
+</nlg:NLGSpec>

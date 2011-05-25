@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Recording name="Lexical variants">
+    <Record name="Spell variant1">
+      <Document cat="PARAGRAPH">
+        <child xsi:type="SPhraseSpec">
+          <subj xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>patient</base>
+            </head>
+            <spec xsi:type="WordElement" cat="DETERMINER">
+              <base>the</base>
+            </spec>
+          </subj>
+          <vp xsi:type="VPPhraseSpec" TENSE="PAST">
+            <head var="IRREGULAR" cat="VERB">
+              <base>lie</base>
+            </head>
+            <postMod xsi:type="VPPhraseSpec" TENSE="PAST">
+              <head cat="VERB">
+                <base>etherise</base>
+              </head>
+              <postMod xsi:type="PPPhraseSpec">
+                <head cat="PREPOSITION">
+                  <base>upon</base>
+                </head>
+                <compl xsi:type="NPPhraseSpec">
+                  <head cat="NOUN">
+                    <base>table</base>
+                  </head>
+                  <spec xsi:type="WordElement" cat="DETERMINER">
+                    <base>a</base>
+                  </spec>
+                </compl>
+              </postMod>
+            </postMod>
+          </vp>
+        </child>
+      </Document>
+      <Realisation>The patient lay etherised upon a table.
+
+</Realisation>
+    </Record>
+    <Record name="Spell variant2">
+      <Document cat="PARAGRAPH">
+        <child xsi:type="SPhraseSpec">
+          <subj xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>patient</base>
+            </head>
+            <spec xsi:type="WordElement" cat="DETERMINER">
+              <base>the</base>
+            </spec>
+          </subj>
+          <vp xsi:type="VPPhraseSpec" TENSE="PAST">
+            <head var="IRREGULAR" cat="VERB">
+              <base>has</base>
+            </head>
+            <compl xsi:type="NPPhraseSpec">
+              <head cat="NOUN">
+                <base>Adam-Stokes disease</base>
+              </head>
+            </compl>
+          </vp>
+        </child>
+        <child xsi:type="SPhraseSpec">
+          <subj xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>patient</base>
+            </head>
+            <spec xsi:type="WordElement" cat="DETERMINER">
+              <base>the</base>
+            </spec>
+          </subj>
+          <vp xsi:type="VPPhraseSpec" TENSE="PAST">
+            <head var="IRREGULAR" cat="VERB">
+              <base>has</base>
+            </head>
+            <compl xsi:type="NPPhraseSpec">
+              <head cat="NOUN">
+                <base>Adam Stokes disease</base>
+              </head>
+            </compl>
+          </vp>
+        </child>
+      </Document>
+      <Realisation>The patient had Adam-Stokes disease. The patient had Adam Stokes disease.
+
+</Realisation>
+    </Record>
+  </Recording>
+</NLGSpec>

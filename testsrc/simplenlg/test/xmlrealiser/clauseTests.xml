@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nlg:NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://code.google.com/p/simplenlg/schemas/version1 RealizerSchema.xsd ">
+
+	<nlg:Recording name="Clause tests">
+
+		<nlg:Record name="Negation on VP">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>patient</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec" TENSE="PAST" NEGATED="true">
+						<head cat="VERB" var="IRREGULAR">
+							<base>lie</base>
+						</head>
+						<postMod xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>etherise</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>upon</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>table</base>
+									</head>
+									<spec xsi:type="WordElement" cat="DETERMINER">
+										<base>a</base>
+									</spec>
+								</compl>
+							</postMod>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Negation on S">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" NEGATED="true">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>patient</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB" var="IRREGULAR">
+							<base>lie</base>
+						</head>
+						<postMod xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>etherise</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>upon</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>table</base>
+									</head>
+									<spec xsi:type="WordElement" cat="DETERMINER">
+										<base>a</base>
+									</spec>
+								</compl>
+							</postMod>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="S with WordElement front modifier">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<frontMod xsi:type="WordElement" cat="ADVERB">
+						<base>however</base>
+					</frontMod>
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>patient</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB" var="IRREGULAR">
+							<base>lie</base>
+						</head>
+						<postMod xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>etherise</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>upon</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>table</base>
+									</head>
+									<spec xsi:type="WordElement" cat="DETERMINER">
+										<base>a</base>
+									</spec>
+								</compl>
+							</postMod>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="S with WordElement complement and postmod">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>man</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>kill</base>
+						</head>
+						<compl xsi:type="WordElement" cat="NOUN">
+							<base>bill</base>
+						</compl>
+						<postMod xsi:type="WordElement" cat="ADVERB">
+							<base>slowly</base>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Form test 1: S + infinitive">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" FORM="INFINITIVE">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>man</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>kill</base>
+						</head>
+						<compl xsi:type="WordElement" cat="NOUN">
+							<base>bill</base>
+						</compl>
+						<postMod xsi:type="WordElement" cat="ADVERB">
+							<base>slowly</base>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Form test 2: S + GERUND">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" FORM="GERUND">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>man</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>kill</base>
+						</head>
+						<compl xsi:type="WordElement" cat="NOUN">
+							<base>bill</base>
+						</compl>
+						<postMod xsi:type="WordElement" cat="ADVERB">
+							<base>slowly</base>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Form test 2: S + IMPERATIVE">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" FORM="IMPERATIVE">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>man</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>kill</base>
+						</head>
+						<compl xsi:type="WordElement" cat="NOUN">
+							<base>bill</base>
+						</compl>
+						<postMod xsi:type="WordElement" cat="ADVERB">
+							<base>slowly</base>
+						</postMod>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Subordinate clause complement">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>man</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>said</base>
+						</head>
+						<compl xsi:type="SPhraseSpec" TENSE="PAST" PROGRESSIVE="true">
+							<subj xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>child</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>the</base>
+								</spec>
+							</subj>
+							<vp xsi:type="VPPhraseSpec">
+								<head cat="VERB">
+									<base>be</base>
+								</head>
+								<compl xsi:type="WordElement" cat="ADJECTIVE">
+									<base>difficult</base>
+								</compl>
+							</vp>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Subordinate clause subject">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="SPhraseSpec" TENSE="PAST">
+						<subj xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>child</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</subj>
+						<vp xsi:type="VPPhraseSpec">
+							<head xsi:type="WordElement" cat="VERB">
+								<base>be</base>
+							</head>
+							<compl xsi:type="WordElement" cat="ADJECTIVE">
+								<base>difficult</base>
+							</compl>
+						</vp>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Passive Sentence">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" PASSIVE="true">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>child</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec" PASSIVE="true">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Modal">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" MODAL="should">
+					<subj xsi:type="SPhraseSpec" TENSE="PAST">
+						<subj xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>child</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</subj>
+						<vp xsi:type="VPPhraseSpec">
+							<head xsi:type="WordElement" cat="VERB">
+								<base>be</base>
+							</head>
+							<compl xsi:type="WordElement" cat="ADJECTIVE">
+								<base>difficult</base>
+							</compl>
+						</vp>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Modal+Passive">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" MODAL="may"
+					PASSIVE="true">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>child</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+		
+		<nlg:Record name="Multiple complements">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>child</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>give</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="INDIRECT_OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>flower</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>a</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+		
+		<nlg:Record name="Multiple complements -- inverted linear order">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>child</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>give</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>flower</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>a</base>
+							</spec>
+						</compl>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="INDIRECT_OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>						
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record name="Interrogative WH Object">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHAT_OBJECT">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>dog</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+		
+		<nlg:Record name="Interrogative WH Subject">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHAT_SUBJECT">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>dog</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+		
+		<nlg:Record name="Interrogative WH Subject">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHO_SUBJECT">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>dog</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>upset</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
+							<head cat="NOUN">
+								<base>man</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>the</base>
+							</spec>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+
+	</nlg:Recording>
+</nlg:NLGSpec>
