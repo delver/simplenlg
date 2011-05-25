@@ -109,7 +109,7 @@ public class ForwardConjunctionReductionRule extends AggregationRule {
 			}
 		}
 
-		return success ? this.factory.createdCoordinatedPhrase(previous, next)
+		return success ? this.factory.createCoordinatedPhrase(previous, next)
 				: null;
 	}
 

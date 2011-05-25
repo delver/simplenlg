@@ -803,7 +803,7 @@ public class NLGFactory {
 	 *            = second phrase to be coordinated
 	 * @return <code>CoordinatedPhraseElement</code> for the two given elements
 	 */
-	public CoordinatedPhraseElement createdCoordinatedPhrase(Object coord1,
+	public CoordinatedPhraseElement createCoordinatedPhrase(Object coord1,
 			Object coord2) {
 		return new CoordinatedPhraseElement(coord1, coord2);
 	}

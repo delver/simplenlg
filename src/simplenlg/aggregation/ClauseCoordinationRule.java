@@ -131,7 +131,7 @@ public class ClauseCoordinationRule extends AggregationRule {
 							.getFeatureAsElement(InternalFeature.VERB_PHRASE);
 					NLGElement vp2 = next
 							.getFeatureAsElement(InternalFeature.VERB_PHRASE);
-					vp = this.factory.createdCoordinatedPhrase(vp1, vp2);
+					vp = this.factory.createCoordinatedPhrase(vp1, vp2);
 
 					// case 2.3: expletive subjects
 				}

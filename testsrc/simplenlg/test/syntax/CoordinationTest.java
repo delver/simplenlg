@@ -31,7 +31,7 @@ public class CoordinationTest extends SimpleNLG4Test {
 	@Test
 	public void testModifiedCoordVP() {
 		CoordinatedPhraseElement coord = this.phraseFactory
-				.createdCoordinatedPhrase(this.getUp, this.fallDown);
+				.createCoordinatedPhrase(this.getUp, this.fallDown);
 		coord.setFeature(Feature.TENSE, Tense.PAST);
 		Assert.assertEquals("got up and fell down", this.realiser
 				.realise(coord).getRealisation());
@@ -100,7 +100,7 @@ public class CoordinationTest extends SimpleNLG4Test {
 
 		// coordinate
 		CoordinatedPhraseElement coord = this.phraseFactory
-				.createdCoordinatedPhrase(vp1, vp2);
+				.createCoordinatedPhrase(vp1, vp2);
 		coord.setFeature(Feature.TENSE, Tense.PAST);
 		Assert
 				.assertEquals(

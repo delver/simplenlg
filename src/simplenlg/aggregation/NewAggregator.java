@@ -65,7 +65,7 @@ public class NewAggregator extends NLGModule {
 
 			applyForwardConjunctionReduction(funcSets);
 			applyBackwardConjunctionReduction(funcSets);
-			result = this._factory.createdCoordinatedPhrase(phrase1, phrase2);
+			result = this._factory.createCoordinatedPhrase(phrase1, phrase2);
 		}
 
 		return result;

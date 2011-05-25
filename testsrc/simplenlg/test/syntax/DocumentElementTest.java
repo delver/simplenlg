@@ -190,7 +190,7 @@ public class DocumentElementTest extends SimpleNLG4Test {
 		list.addComponent(this.phraseFactory.createListItem(p1));
 		list.addComponent(this.phraseFactory.createListItem(p2));
 		list.addComponent(this.phraseFactory.createListItem(this.phraseFactory
-				.createdCoordinatedPhrase(p1, p2)));
+				.createCoordinatedPhrase(p1, p2)));
 		String realisation = this.realiser.realise(list).getRealisation();
 		Assert.assertEquals(
 				"* you are happy\n* I am sad\n* you are happy and I am sad\n",

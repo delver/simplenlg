@@ -345,7 +345,7 @@ public class NounPhraseTest extends SimpleNLG4Test {
 	 */
 	public void testAAnCoord() {
 		NPPhraseSpec _dog = this.phraseFactory.createNounPhrase("a", "dog");
-		_dog.addPreModifier(this.phraseFactory.createdCoordinatedPhrase("enormous", "black"));
+		_dog.addPreModifier(this.phraseFactory.createCoordinatedPhrase("enormous", "black"));
 		String realisation = this.realiser.realise(_dog).getRealisation();
 		Assert.assertEquals("an enormous and black dog", realisation);
 	}

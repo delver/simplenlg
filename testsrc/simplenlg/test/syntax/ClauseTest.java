@@ -98,7 +98,7 @@ public class ClauseTest extends SimpleNLG4Test {
 		this.s4.addFrontModifier("tomorrow"); //$NON-NLS-1$
 
 		CoordinatedPhraseElement subject = this.phraseFactory
-				.createdCoordinatedPhrase(this.phraseFactory
+				.createCoordinatedPhrase(this.phraseFactory
 						.createNounPhrase("Jane"), this.phraseFactory //$NON-NLS-1$
 						.createNounPhrase("Andrew")); //$NON-NLS-1$
 

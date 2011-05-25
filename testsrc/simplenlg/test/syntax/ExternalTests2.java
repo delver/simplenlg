@@ -102,7 +102,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 				
 		//case 2: coordinated premods: no comma
 		VPPhraseSpec vp2 = this.phraseFactory.createVerbPhrase("eat");
-		vp2.addPreModifier(this.phraseFactory.createdCoordinatedPhrase(adv1, adv2));
+		vp2.addPreModifier(this.phraseFactory.createCoordinatedPhrase(adv1, adv2));
 		Assert.assertEquals("slowly and discretely eats", this.realiser.realise(vp2).getRealisation());
 	}
 
