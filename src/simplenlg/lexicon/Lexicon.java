@@ -201,7 +201,33 @@ public abstract class Lexicon {
 		// of this baseForm,
 		// category
 		else
-			return wordElements.get(0); // else return first match
+			return selectMatchingWord(wordElements, baseForm);
+	}
+
+	/** choose a single WordElement from a list of WordElements.  Prefer one
+	 * which exactly matches the baseForm
+	 * @param wordElements
+	 *           - list of WordElements retrieved from lexicon
+	 * @param baseForm
+	             - base form of word, eg "be" or "dog" (not "is" or "dogs")
+	 * @return single WordElement (from list)
+	 */
+	private WordElement selectMatchingWord(List<WordElement> wordElements, String baseForm) {
+		// EHUD REITER  - this method added because some DBs are case-insensitive,
+		// so a query on "man" returns both "man" and "MAN".  In such cases, the
+		// exact match (eg, "man") should be returned
+		
+		// below check is redundant, since caller should check this
+		if (wordElements == null || wordElements.isEmpty())
+			return createWord(baseForm);
+		
+		// look for exact match in base form
+		for (WordElement wordElement: wordElements)
+			if (wordElement.getBaseForm().equals(baseForm))
+				return wordElement;
+		
+		// else return first element in list
+		return wordElements.get(0);
 	}
 
 	/**
@@ -255,7 +281,7 @@ public abstract class Lexicon {
 			return createWord(baseForm); // return default WordElement of this
 		// baseForm
 		else
-			return wordElements.get(0); // else return first match
+			return selectMatchingWord(wordElements, baseForm);
 	}
 
 	/**
