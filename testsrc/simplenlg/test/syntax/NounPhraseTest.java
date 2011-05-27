@@ -29,11 +29,13 @@ import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
+import simplenlg.features.Person;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.NPPhraseSpec;
+import simplenlg.phrasespec.SPhraseSpec;
 
 /**
  * Tests for the NPPhraseSpec and CoordinateNPPhraseSpec classes.
@@ -106,6 +108,107 @@ public class NounPhraseTest extends SimpleNLG4Test {
 				DiscourseFunction.OBJECT);
 		Assert.assertEquals(
 				"them", this.realiser.realise(this.proTest2).getRealisation()); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Test the pronominalisation method for full NPs (more thorough than above)
+	 */
+	@Test
+	public void testPronominalisation2() {
+		// Ehud - added extra pronominalisation tests
+		NPPhraseSpec pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.FIRST);
+		SPhraseSpec sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"I like John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.SECOND);
+		sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"You like John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.THIRD);
+		pro.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+		sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"She likes John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.FIRST);
+		pro.setPlural(true);
+		sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"We like John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.SECOND);
+		pro.setPlural(true);
+		sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"You like John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("Mary");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.THIRD);
+		pro.setPlural(true);
+		pro.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+		sent = phraseFactory.createClause(pro,"like", "John");
+		Assert.assertEquals(
+				"They like John.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.FIRST);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes me.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.SECOND);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes you.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.THIRD);
+		pro.setFeature(LexicalFeature.GENDER, Gender.MASCULINE);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes him.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.FIRST);
+		pro.setPlural(true);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes us.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.SECOND);
+		pro.setPlural(true);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes you.", this.realiser.realiseSentence(sent));
+		
+		pro = phraseFactory.createNounPhrase("John");
+		pro.setFeature(Feature.PRONOMINAL, true);
+		pro.setFeature(Feature.PERSON, Person.THIRD);
+		pro.setFeature(LexicalFeature.GENDER, Gender.MASCULINE);
+		pro.setPlural(true);
+		sent = phraseFactory.createClause("Mary", "like", pro);
+		Assert.assertEquals(
+				"Mary likes them.", this.realiser.realiseSentence(sent));
 	}
 
 	/**

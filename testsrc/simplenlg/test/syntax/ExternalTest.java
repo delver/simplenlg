@@ -28,6 +28,7 @@ import org.junit.Test;
 import simplenlg.aggregation.ClauseCoordinationRule;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
+import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.InterrogativeType;
 import simplenlg.features.LexicalFeature;
@@ -450,6 +451,22 @@ public class ExternalTest extends SimpleNLG4Test {
 		sentence.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_SUBJECT);
 		sentence.setObject(object);
 		Assert.assertEquals("What are examples of jobs?", realiser.realiseSentence(sentence));
+		
+		SPhraseSpec p = phraseFactory.createClause(); 
+        NPPhraseSpec sub1 = phraseFactory.createNounPhrase("Mary"); 
+           
+        sub1.setFeature(LexicalFeature.GENDER, Gender.FEMININE); 
+        sub1.setFeature(Feature.PRONOMINAL, true); 
+        sub1.setFeature(Feature.PERSON, Person.FIRST); 
+        p.setSubject(sub1); 
+        p.setVerb("chase"); 
+        p.setObject("the monkey"); 
+
+
+        String output2 = realiser.realiseSentence(p); // Realiser created earlier. 
+        Assert.assertEquals("I chase the monkey.", output2);
+
+
 	}
 	
 	@Test
