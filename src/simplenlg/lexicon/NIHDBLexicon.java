@@ -157,7 +157,7 @@ public class NIHDBLexicon extends Lexicon {
 	 * simplenlg.features.LexicalCategory)
 	 */
 	@Override
-	public List<WordElement> getWords(String baseForm, LexicalCategory category) {
+	public synchronized List<WordElement> getWords(String baseForm, LexicalCategory category) {
 		// get words from DB
 		try {
 			LexAccessApiResult lexResult = lexdb.GetLexRecordsByBase(baseForm,
@@ -176,7 +176,7 @@ public class NIHDBLexicon extends Lexicon {
 	 * @see simplenlg.lexicon.Lexicon#getWordsByID(java.lang.String)
 	 */
 	@Override
-	public List<WordElement> getWordsByID(String id) {
+	public synchronized List<WordElement> getWordsByID(String id) {
 		// get words from DB
 		try {
 			LexAccessApiResult lexResult = lexdb.GetLexRecords(id);
@@ -195,7 +195,7 @@ public class NIHDBLexicon extends Lexicon {
 	 * simplenlg.features.LexicalCategory)
 	 */
 	@Override
-	public List<WordElement> getWordsFromVariant(String variant,
+	public synchronized List<WordElement> getWordsFromVariant(String variant,
 			LexicalCategory category) {
 		// get words from DB
 		try {

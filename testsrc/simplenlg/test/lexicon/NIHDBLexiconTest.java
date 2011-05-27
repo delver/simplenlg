@@ -20,6 +20,9 @@
 package simplenlg.test.lexicon;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -108,6 +111,48 @@ public class NIHDBLexiconTest extends TestCase {
 		lexicon.setKeepStandardInflections(keepInflectionsFlag);
 	}
 
+	/**
+	 * Test for NIHDBLexicon functionality when several threads are using the
+	 * same Lexicon
+	 */
+	@SuppressWarnings("static-access")
+	public void testMultiThreadApp() {
+
+		LexThread runner1 = new LexThread("lie");
+		LexThread runner2 = new LexThread("bark");
+		
+		//schedule them and run them
+		ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
+		service.schedule(runner1, 0, TimeUnit.MILLISECONDS);
+		service.schedule(runner2, 0, TimeUnit.MILLISECONDS);
+
+		try {
+			Thread.currentThread().sleep(500);
+		} catch(InterruptedException ie) {
+			;//do nothing
+		}
+		
+		service.shutdownNow();
+		
+		//check that the right words have been retrieved
+		Assert.assertEquals( "lie", runner1.word.getBaseForm());
+		Assert.assertEquals("bark", runner2.word.getBaseForm());
+	}
 	
+	/*
+	 * Class that implements a thread from which a lexical item can be retrieved
+	 */
+	private class LexThread extends Thread {
+		WordElement word;
+		String base;
+		
+		public LexThread(String base) {
+			this.base = base;
+		}
+		
+		public void run() {
+			word = lexicon.getWord(base, LexicalCategory.VERB);
+		}
+	}
 
 }
