@@ -30,6 +30,7 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -132,7 +133,7 @@ public class Recording {
 	 * @param output
 	 *            the realisation
 	 */
-	public void addRecord(simplenlg.xmlrealiser.wrapper.DocumentElement input,
+	public void addRecord(simplenlg.xmlrealiser.wrapper.XmlDocumentElement input,
 			String output) {
 		if (!recordingOn) {
 			return;

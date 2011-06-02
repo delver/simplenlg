@@ -43,7 +43,7 @@ import simplenlg.realiser.english.Realiser;
 /**
  * Tests for NIHDBLexicon
  * 
- * @author Ehud Reiter
+ * @author Ehud Reiter, Albert Gatt
  */
 public class NIHDBLexiconTest extends TestCase {
 

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 	<!--
 		Schema for simplenlg edited by Christopher Howell (Agfa Healthcare
-		Corporation)
+		Corporation) and Albert Gatt (University of Malta)
 	-->
 <xs:schema targetNamespace="http://code.google.com/p/simplenlg/schemas/version1"
 	elementFormDefault="qualified" attributeFormDefault="unqualified"
 	version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1">
+	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
+
 	<xs:element name="NLGSpec">
 		<xs:complexType>
 			<xs:choice>
@@ -15,11 +17,13 @@
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
+
 	<xs:complexType name="RequestType">
 		<xs:sequence>
 			<xs:element name="Document" type="nlg:DocumentElement"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
 	<xs:complexType name="RecordSet">
 		<xs:sequence>
 			<xs:element name="Record" type="nlg:DocumentRealisation"
@@ -27,6 +31,7 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" />
 	</xs:complexType>
+
 	<xs:complexType name="DocumentRealisation">
 		<xs:sequence>
 			<xs:element name="Document" type="nlg:DocumentElement"
@@ -36,7 +41,13 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" />
 	</xs:complexType>
+
 	<xs:complexType name="DocumentElement">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlDocumentElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:NLGElement">
 				<xs:sequence>
@@ -47,11 +58,18 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="docAtts">
 		<xs:attribute name="cat" type="nlg:documentCategory" />
 		<xs:attribute name="title" type="xs:string" />
 	</xs:attributeGroup>
+
 	<xs:complexType name="SPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlSPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence>
@@ -65,6 +83,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="sPhraseAtts">
 		<xs:attribute name="CLAUSE_STATUS" type="nlg:clauseStatus" />
 		<xs:attribute name="COMPLEMENTISER" type="xs:string" />
@@ -77,9 +96,14 @@
 		<xs:attribute name="PERSON" type="nlg:person" />
 		<xs:attribute name="PROGRESSIVE" type="xs:boolean" />
 		<xs:attribute name="TENSE" type="nlg:tense" />
-
 	</xs:attributeGroup>
+
 	<xs:complexType name="VPPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlVPPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence />
@@ -87,6 +111,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="vpPhraseAtts">
 		<xs:attribute name="FORM" type="nlg:form" />
 		<xs:attribute name="MODAL" type="xs:string" />
@@ -97,7 +122,13 @@
 		<xs:attribute name="PROGRESSIVE" type="xs:boolean" />
 		<xs:attribute name="TENSE" type="nlg:tense" />
 	</xs:attributeGroup>
+
 	<xs:complexType name="NPPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlNPPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence>
@@ -107,6 +138,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="npPhraseAtts">
 		<xs:attribute name="ADJECTIVE_ORDERING" type="xs:boolean" />
 		<xs:attribute name="ELIDED" type="xs:boolean" />
@@ -116,7 +148,13 @@
 		<xs:attribute name="POSSESSIVE" type="xs:boolean" />
 		<xs:attribute name="PRONOMINAL" type="xs:boolean" />
 	</xs:attributeGroup>
+
 	<xs:complexType name="AdjPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlAdjPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence />
@@ -124,11 +162,18 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="adjAdvPhraseAtts">
 		<xs:attribute name="IS_COMPARATIVE" type="xs:boolean" />
 		<xs:attribute name="IS_SUPERLATIVE" type="xs:boolean" />
 	</xs:attributeGroup>
+
 	<xs:complexType name="AdvPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlAdvPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence />
@@ -136,14 +181,26 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:complexType name="PPPhraseSpec">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlPPPhraseSpec" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:PhraseElement">
 				<xs:sequence />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:complexType name="CoordinatedPhraseElement">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlCoordinatedPhraseElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:NLGElement">
 				<xs:sequence>
@@ -154,13 +211,20 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="CoordinatedPhraseAtts">
 		<xs:attribute name="conj" type="xs:string" default="and" />
 		<xs:attribute name="cat" type="nlg:phraseCategory" />
 		<xs:attribute name="PERSON" type="nlg:person" />
 		<xs:attribute name="POSSESSIVE" type="xs:boolean"></xs:attribute>
 	</xs:attributeGroup>
+
 	<xs:complexType name="PhraseElement" abstract="true">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlPhraseElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:NLGElement">
 				<xs:sequence>
@@ -180,7 +244,13 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:complexType name="StringElement">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlStringElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:NLGElement">
 				<xs:sequence>
@@ -189,10 +259,22 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:complexType name="NLGElement" abstract="true">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlNLGElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:sequence />
 	</xs:complexType>
+
 	<xs:complexType name="WordElement">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="XmlWordElement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="nlg:NLGElement">
 				<xs:sequence>
@@ -202,6 +284,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
 	<xs:attributeGroup name="wordAtts">
 		<xs:attribute name="cat" type="nlg:lexicalCategory" />
 		<xs:attribute name="id" type="xs:string" />
@@ -209,7 +292,13 @@
 		<xs:attribute name="PROPER" type="xs:boolean" />
 		<xs:attribute name="var" type="nlg:inflection" />
 	</xs:attributeGroup>
+
 	<xs:simpleType name="phraseCategory">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlPhraseCategory" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="CLAUSE" />
 			<xs:enumeration value="ADJECTIVE_PHRASE" />
@@ -220,20 +309,38 @@
 			<xs:enumeration value="CANNED_TEXT" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="tense">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlTense" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="FUTURE" />
 			<xs:enumeration value="PAST" />
 			<xs:enumeration value="PRESENT" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="clauseStatus">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlClauseStatus" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="MATRIX" />
 			<xs:enumeration value="SUBORDINATE" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="discourseFunction">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlDiscourseFunction" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="AUXILIARY" />
 			<xs:enumeration value="COMPLEMENT" />
@@ -250,7 +357,13 @@
 			<xs:enumeration value="VERB_PHRASE" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="documentCategory">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlDocumentCategory" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="DOCUMENT" />
 			<xs:enumeration value="SECTION" />
@@ -260,7 +373,13 @@
 			<xs:enumeration value="LIST_ITEM" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="form">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlForm" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="BARE_INFINITIVE" />
 			<xs:enumeration value="GERUND" />
@@ -271,14 +390,26 @@
 			<xs:enumeration value="PRESENT_PARTICIPLE" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="gender">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlGender" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="MASCULINE" />
 			<xs:enumeration value="FEMININE" />
 			<xs:enumeration value="NEUTER" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="lexicalCategory">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlLexicalCategory" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ANY" />
 			<xs:enumeration value="SYMBOL" />
@@ -295,21 +426,39 @@
 			<xs:enumeration value="AUXILIARY" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="numberAgreement">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlNumberAgreement" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="BOTH" />
 			<xs:enumeration value="PLURAL" />
 			<xs:enumeration value="SINGULAR" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="person">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlPerson" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="FIRST" />
 			<xs:enumeration value="SECOND" />
 			<xs:enumeration value="THIRD" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="interrogativeType">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlInterrogativeType" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="HOW" />
 			<xs:enumeration value="WHAT_OBJECT" />
@@ -322,7 +471,13 @@
 			<xs:enumeration value="YES_NO" />
 		</xs:restriction>
 	</xs:simpleType>
+
 	<xs:simpleType name="inflection">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:typesafeEnumClass name="XmlInflection" />
+			</xs:appinfo>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="GRECO_LATIN_REGULAR" />
 			<xs:enumeration value="IRREGULAR" />
@@ -332,4 +487,5 @@
 			<xs:enumeration value="INVARIANT" />
 		</xs:restriction>
 	</xs:simpleType>
+
 </xs:schema>

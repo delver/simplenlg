@@ -238,7 +238,7 @@ public class XMLRealiser {
 	 *             the xML realiser exception
 	 */
 	public static String realise(
-			simplenlg.xmlrealiser.wrapper.DocumentElement wt)
+			simplenlg.xmlrealiser.wrapper.XmlDocumentElement wt)
 			throws XMLRealiserException {
 		String output = "";
 		if (wt != null) {
