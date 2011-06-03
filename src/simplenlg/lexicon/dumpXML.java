@@ -18,11 +18,9 @@
  */
 package simplenlg.lexicon;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.LineNumberReader;
-import java.io.PrintWriter;
 
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.WordElement;

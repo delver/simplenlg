@@ -30,7 +30,7 @@ public class DeterminerAgrHelper {
 	 * Check whether this string starts with a number that needs "an" (e.g.
 	 * "an 18% increase")
 	 * 
-	 * @param num
+	 * @param string
 	 *            the string
 	 * @return <code>true</code> if this string starts with 11, 18, or 8,
 	 *         excluding strings that start with 180 or 110

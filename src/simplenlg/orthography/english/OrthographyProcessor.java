@@ -21,8 +21,6 @@ package simplenlg.orthography.english;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.lang.model.element.ElementKind;
-
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.InternalFeature;
 import simplenlg.framework.CoordinatedPhraseElement;

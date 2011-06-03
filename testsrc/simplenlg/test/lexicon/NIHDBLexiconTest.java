@@ -34,11 +34,8 @@ import org.junit.Test;
 import simplenlg.features.LexicalFeature;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
-import simplenlg.framework.NLGFactory;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.NIHDBLexicon;
-import simplenlg.phrasespec.NPPhraseSpec;
-import simplenlg.realiser.english.Realiser;
 
 /**
  * Tests for NIHDBLexicon

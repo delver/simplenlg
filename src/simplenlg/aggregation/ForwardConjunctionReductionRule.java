@@ -29,7 +29,7 @@ import simplenlg.framework.PhraseCategory;
  * <code>s1</code> and <code>s2</code>, this rule elides any constituent in the
  * left periphery of <code>s2</code> which is also in <code>s1</code>. The left
  * periphery in simplenlg is roughly defined as the subjects, front modifiers
- * and cue phrase of an {@link simplenlg.realiser.SPhraseSpec}.
+ * and cue phrase of an {@link simplenlg.phrasespec.SPhraseSpec}.
  * </P>
  * 
  * <P>

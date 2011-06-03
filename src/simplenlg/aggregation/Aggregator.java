@@ -93,7 +93,6 @@ public class Aggregator extends NLGModule {
 	 * Apply aggregation to a single phrase. This will only work if the phrase
 	 * is a coordinated phrase, whose children can be further aggregated.
 	 * 
-	 * @see {@link AggregationRule#apply(NLGElement)}
 	 */
 	@Override
 	public NLGElement realise(NLGElement element) {

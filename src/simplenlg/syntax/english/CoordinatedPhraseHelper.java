@@ -159,13 +159,13 @@ abstract class CoordinatedPhraseHelper {
 			child.setFeature(Feature.NUMBER, phrase.getFeature(Feature.NUMBER));
 		}
 		if (phrase.hasFeature(Feature.TENSE)) {
-			child.setTense(phrase.getTense());
+			child.setFeature(Feature.TENSE, phrase.getFeature(Feature.TENSE));
 		}
 		if (phrase.hasFeature(Feature.PERSON)) {
 			child.setFeature(Feature.PERSON, phrase.getFeature(Feature.PERSON));
 		}
 		if (phrase.hasFeature(Feature.NEGATED)) {
-			child.setNegated(phrase.isNegated());
+			child.setFeature(Feature.NEGATED, phrase.getFeature(Feature.NEGATED));
 		}
 		if (phrase.hasFeature(Feature.MODAL)) {
 			child.setFeature(Feature.MODAL, phrase.getFeature(Feature.MODAL));

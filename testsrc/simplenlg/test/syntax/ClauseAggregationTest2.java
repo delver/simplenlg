@@ -18,10 +18,7 @@
  */
 package simplenlg.test.syntax;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
-import org.junit.Test;
 
 import simplenlg.aggregation.NewAggregator;
 import simplenlg.features.Feature;

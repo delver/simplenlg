@@ -55,8 +55,8 @@ public class PhraseSpecTest extends SimpleNLG4Test {
 		c1.setSubject("John");
 		c1.setObject("an apple");
 		c1.setIndirectObject("Mary");
-		c1.setTense(Tense.PAST);
-		c1.setNegated(true);
+		c1.setFeature(Feature.TENSE, Tense.PAST);
+		c1.setFeature(Feature.NEGATED, true);
 		
 		// check getXXX methods
 		Assert.assertEquals("give",  getBaseForm(c1.getVerb()));

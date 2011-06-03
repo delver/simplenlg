@@ -91,7 +91,7 @@ public enum Inflection {
 	 * "irreg|woman|women" to retrieve the first element, which is the code
 	 * itself, then maps it to the value of <code>Inflection</code>.
 	 * 
-	 * @param variant
+	 * @param code
 	 *            -- the string representing the inflection. The strings are
 	 *            those defined in the NIH Lexicon.
 	 * @return the Inflection

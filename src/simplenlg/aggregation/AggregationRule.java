@@ -24,12 +24,11 @@ import java.util.List;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
-import simplenlg.phrasespec.SPhraseSpec;
 
 /**
  * This class represents an aggregation rule. All such rules need to implement
- * an {@link #apply(SPhraseSpec...)} which takes an arbitrary number of
- * {@link simplenlg.phrasespec.SPhraseSpec}s and perform some form of aggregation
+ * an {@link #apply(NLGElement, NLGElement)} which takes an arbitrary number of
+ * {@link simplenlg.framework.NLGElement}s and perform some form of aggregation
  * on them, returning an <code>SPhraseSpec</code> as a result, or
  * <code>null</code> if the operation fails.
  * 

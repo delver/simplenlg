@@ -126,7 +126,7 @@ public class VerbPhraseTest extends SimpleNLG4Test {
 				.realise(this.kick).getRealisation());
 
 		// will not have been being kicked
-		this.kick.setNegated(true);
+		this.kick.setFeature(Feature.NEGATED, true);
 		Assert.assertEquals("will not have been being kicked", this.realiser //$NON-NLS-1$
 				.realise(this.kick).getRealisation());
 
@@ -434,7 +434,7 @@ public class VerbPhraseTest extends SimpleNLG4Test {
 				.realise(coord1).getRealisation());
 
 		// with negation: should be inherited by all components
-		coord1.setNegated(true);
+		coord1.setFeature(Feature.NEGATED, true);
 		this.realiser.setLexicon(this.lexicon);
 		Assert.assertEquals("did not kiss the dog and did not kick the boy", //$NON-NLS-1$
 				this.realiser.realise(coord1).getRealisation());

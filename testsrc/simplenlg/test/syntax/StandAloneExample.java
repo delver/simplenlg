@@ -18,24 +18,17 @@
  */
 package simplenlg.test.syntax;
 
-import java.util.ArrayList;
-
 import simplenlg.features.Feature;
-import simplenlg.features.LexicalFeature;
 import simplenlg.features.Tense;
 import simplenlg.framework.DocumentElement;
 import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.ListElement;
 import simplenlg.framework.NLGElement;
-import simplenlg.framework.PhraseElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.StringElement;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.Lexicon;
-import simplenlg.lexicon.NIHDBLexicon;
 import simplenlg.lexicon.XMLLexicon;
-import simplenlg.morphology.english.MorphologyProcessor;
 import simplenlg.phrasespec.AdjPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.PPPhraseSpec;

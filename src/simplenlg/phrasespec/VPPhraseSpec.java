@@ -99,8 +99,8 @@ public class VPPhraseSpec extends PhraseElement {
 		setFeature(Feature.PERFECT, false);
 		setFeature(Feature.PROGRESSIVE, false);
 		setFeature(Feature.PASSIVE, false);
-		setNegated(false);
-		setTense(Tense.PRESENT);
+		setFeature(Feature.NEGATED, false);
+		setFeature(Feature.TENSE, Tense.PRESENT);
 		setFeature(Feature.PERSON, Person.THIRD);
 		setPlural(false);
 		setFeature(Feature.FORM, Form.NORMAL);

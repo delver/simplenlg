@@ -29,7 +29,6 @@ import simplenlg.aggregation.ClauseCoordinationRule;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.Gender;
-import simplenlg.features.InternalFeature;
 import simplenlg.features.InterrogativeType;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
@@ -42,9 +41,8 @@ import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.WordElement;
-import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
-import simplenlg.phrasespec.VPPhraseSpec;
+import simplenlg.phrasespec.SPhraseSpec;
 
 /**
  * Tests from third parties

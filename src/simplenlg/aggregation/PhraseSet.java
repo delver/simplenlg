@@ -31,7 +31,7 @@ import simplenlg.framework.NLGElement;
 /**
  * This class wraps an ordered list of phrases which are constituents of two or
  * more (different) clauses and have the same discourse function in their parent
- * clause. FunctionPairs are used by {@link EllipsisRule}s to collect candidate
+ * clause. FunctionPairs are used by {@link AggregationRule}s to collect candidate
  * phrase for elision.
  * 
  * @author agatt
@@ -116,9 +116,7 @@ public class PhraseSet {
 	 * <code>true</code> in the following cases:
 	 * 
 	 * <OL>
-	 * <LI>All phrases are {@link simplenlg.phrasespec.StringPhraseSpec}s and they
-	 * have identical String content</LI>
-	 * <LI>All phrases are {@link simplenlg.framework.PhraseElement}s and they
+	 * <LI>All phrases are {@link simplenlg.framework.NLGElement}s and they
 	 * have the same lexical head, irrespective of inflectional variations.</LI>
 	 * </OL>
 	 * 

@@ -23,7 +23,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
-import simplenlg.features.NumberAgreement;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentElement;

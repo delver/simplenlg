@@ -18,17 +18,12 @@
  */
 package simplenlg.test.lexicon;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import simplenlg.features.Inflection;
-import simplenlg.features.LexicalFeature;
-import simplenlg.framework.LexicalCategory;
-import simplenlg.framework.WordElement;
 import simplenlg.lexicon.XMLLexicon;
 
 /**
