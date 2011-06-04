@@ -337,6 +337,7 @@ public class NIHDBLexicon extends Lexicon {
 	 *            syntactic category
 	 * @return true if standard (regular) inflection
 	 */
+	@SuppressWarnings("unused")
 	private boolean standardInflections(LexRecord record,
 			LexicalCategory category) {
 		List<String> variants = null;

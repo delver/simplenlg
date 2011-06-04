@@ -45,7 +45,7 @@ import simplenlg.xmlrealiser.wrapper.RecordSet;
 import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 
 /**
- * A recoding is a utility class that holds xml objects for testing the
+ * A recording is a utility class that holds xml objects for testing the
  * xmlrealiser.
  * 
  * @author Christopher Howell Agfa Healthcare Corporation

@@ -317,6 +317,7 @@ public class NLGFactory {
 	 * @param wordElement
 	 *            the created element representing the word.
 	 */
+	@SuppressWarnings("unused")
 	private void doLexiconLookUp(LexicalCategory category, String word,
 			NLGElement wordElement) {
 		WordElement baseWord = null;

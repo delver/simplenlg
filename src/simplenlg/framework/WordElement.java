@@ -19,7 +19,6 @@
 package simplenlg.framework;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +54,7 @@ public class WordElement extends NLGElement {
 	 */
 	private class InflectionSet {
 		// the infl type
+		@SuppressWarnings("unused")
 		Inflection infl;
 
 		// the forms, mapping values of LexicalFeature to actual word forms
@@ -82,21 +82,6 @@ public class WordElement extends NLGElement {
 		String getForm(String feature) {
 			return this.forms.get(feature);
 		}
-
-		/*
-		 * get the names of the inflectional variants
-		 */
-		Collection<String> getFormNames() {
-			return this.forms.keySet();
-		}
-
-		/*
-		 * get the inflection code associated with this set
-		 */
-		Inflection getType() {
-			return this.infl;
-		}
-
 	}
 
 	// Words have baseForm, category, id, and features
