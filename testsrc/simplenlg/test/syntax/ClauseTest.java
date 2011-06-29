@@ -35,8 +35,11 @@ import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
+import simplenlg.phrasespec.AdjPhraseSpec;
+import simplenlg.phrasespec.AdvPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
+import simplenlg.phrasespec.VPPhraseSpec;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -720,6 +723,26 @@ public class ClauseTest extends SimpleNLG4Test {
 				"the man should have been giving the woman John's flower", //$NON-NLS-1$
 				this.realiser.realise(this.s3).getRealisation());
 
+	}
+	
+	/**
+	 * Test for passivisation with mdoals
+	 */
+	@Test
+	public void testModalWithPassive() {
+		NPPhraseSpec object = this.phraseFactory.createNounPhrase("the", "pizza");
+		AdjPhraseSpec post = this.phraseFactory.createAdjectivePhrase("good");
+		AdvPhraseSpec as = this.phraseFactory.createAdverbPhrase("as");
+		as.addComplement(post);
+		VPPhraseSpec verb = this.phraseFactory.createVerbPhrase("classify");
+		verb.addPostModifier(as);
+		verb.addComplement(object);
+		SPhraseSpec s = this.phraseFactory.createClause();		
+		s.setVerbPhrase(verb);
+		s.setFeature(Feature.MODAL, "can");
+		//s.setFeature(Feature.FORM, Form.INFINITIVE);
+		s.setFeature(Feature.PASSIVE, true);
+		Assert.assertEquals("the pizza can be classified as good", this.realiser.realise(s).getRealisation());
 	}
 
 }

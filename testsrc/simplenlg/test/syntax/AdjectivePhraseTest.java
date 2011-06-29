@@ -23,13 +23,16 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
+import simplenlg.features.Form;
 import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.StringElement;
 
 /**
  * This class incorporates a few tests for adjectival phrases. Also tests for
  * adverbial phrase specs, which are very similar
+ * 
  * @author agatt
  */
 public class AdjectivePhraseTest extends SimpleNLG4Test {
@@ -52,7 +55,8 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 	public void testAdj() {
 
 		// form the adjphrase "incredibly salacious"
-		this.salacious.addPreModifier(this.phraseFactory.createAdverbPhrase("incredibly")); //$NON-NLS-1$
+		this.salacious.addPreModifier(this.phraseFactory
+				.createAdverbPhrase("incredibly")); //$NON-NLS-1$
 		Assert.assertEquals("incredibly salacious", this.realiser //$NON-NLS-1$
 				.realise(this.salacious).getRealisation());
 
@@ -121,4 +125,12 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 				sent).getRealisation());
 
 	}
+
+	public void testParticipleAdj() {
+		PhraseElement ap = this.phraseFactory
+				.createAdjectivePhrase(this.lexicon.getWord("associated", LexicalCategory.ADJECTIVE));
+		Assert.assertEquals("associated", this.realiser.realise(ap)
+				.getRealisation());
+	}
+
 }
