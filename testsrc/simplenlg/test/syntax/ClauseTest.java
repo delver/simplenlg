@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import simplenlg.features.ClauseStatus;
+import simplenlg.features.DiscourseFunction;
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
 import simplenlg.features.InternalFeature;
@@ -38,6 +39,7 @@ import simplenlg.framework.PhraseElement;
 import simplenlg.phrasespec.AdjPhraseSpec;
 import simplenlg.phrasespec.AdvPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
+import simplenlg.phrasespec.PPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
@@ -662,21 +664,24 @@ public class ClauseTest extends SimpleNLG4Test {
 				.assertEquals(
 						"I am chased by him", this.realiser.realise(_s5).getRealisation()); //$NON-NLS-1$
 	}
-	
+
 	/**
-	 * Test that complements set within the VP are raised when sentence is passivised.
+	 * Test that complements set within the VP are raised when sentence is
+	 * passivised.
 	 */
 	public void testPassiveWithInternalVPComplement() {
-		PhraseElement vp = this.phraseFactory.createVerbPhrase(phraseFactory.createWord(
-				"upset", LexicalCategory.VERB));
+		PhraseElement vp = this.phraseFactory.createVerbPhrase(phraseFactory
+				.createWord("upset", LexicalCategory.VERB));
 		vp.addComplement(phraseFactory.createNounPhrase("the", "man"));
-		PhraseElement _s6 = this.phraseFactory.createClause(phraseFactory.createNounPhrase(
-				"the", "child"), vp);
+		PhraseElement _s6 = this.phraseFactory.createClause(phraseFactory
+				.createNounPhrase("the", "child"), vp);
 		_s6.setFeature(Feature.TENSE, Tense.PAST);
-		Assert.assertEquals("the child upset the man", this.realiser.realise(_s6).getRealisation());
-		
+		Assert.assertEquals("the child upset the man", this.realiser.realise(
+				_s6).getRealisation());
+
 		_s6.setFeature(Feature.PASSIVE, true);
-		Assert.assertEquals("the man was upset by the child", this.realiser.realise(_s6).getRealisation());
+		Assert.assertEquals("the man was upset by the child", this.realiser
+				.realise(_s6).getRealisation());
 	}
 
 	/**
@@ -724,25 +729,75 @@ public class ClauseTest extends SimpleNLG4Test {
 				this.realiser.realise(this.s3).getRealisation());
 
 	}
-	
+
 	/**
 	 * Test for passivisation with mdoals
 	 */
 	@Test
 	public void testModalWithPassive() {
-		NPPhraseSpec object = this.phraseFactory.createNounPhrase("the", "pizza");
+		NPPhraseSpec object = this.phraseFactory.createNounPhrase("the",
+				"pizza");
 		AdjPhraseSpec post = this.phraseFactory.createAdjectivePhrase("good");
 		AdvPhraseSpec as = this.phraseFactory.createAdverbPhrase("as");
 		as.addComplement(post);
 		VPPhraseSpec verb = this.phraseFactory.createVerbPhrase("classify");
 		verb.addPostModifier(as);
 		verb.addComplement(object);
-		SPhraseSpec s = this.phraseFactory.createClause();		
+		SPhraseSpec s = this.phraseFactory.createClause();
 		s.setVerbPhrase(verb);
 		s.setFeature(Feature.MODAL, "can");
-		//s.setFeature(Feature.FORM, Form.INFINITIVE);
+		// s.setFeature(Feature.FORM, Form.INFINITIVE);
 		s.setFeature(Feature.PASSIVE, true);
-		Assert.assertEquals("the pizza can be classified as good", this.realiser.realise(s).getRealisation());
+		Assert.assertEquals("the pizza can be classified as good",
+				this.realiser.realise(s).getRealisation());
+	}
+
+	@Test
+	public void testPassiveWithPPCompl() {
+		// passive with just complement
+		NPPhraseSpec subject = this.phraseFactory.createNounPhrase("wave");
+		subject.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		NPPhraseSpec object = this.phraseFactory.createNounPhrase("surfer");
+		object.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+		SPhraseSpec _s1 = this.phraseFactory.createClause(subject,
+				"carry", object); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		// add a PP complement
+		PPPhraseSpec pp = this.phraseFactory.createPrepositionPhrase("to",
+				this.phraseFactory.createNounPhrase("the", "shore"));
+		pp.setFeature(InternalFeature.DISCOURSE_FUNCTION,
+				DiscourseFunction.INDIRECT_OBJECT);
+		_s1.addComplement(pp);
+
+		_s1.setFeature(Feature.PASSIVE, true);
+
+		Assert.assertEquals(
+				"surfers are carried to the shore by waves", this.realiser //$NON-NLS-1$
+						.realise(_s1).getRealisation());
+	}
+
+	@Test
+	public void testPassiveWithPPMod() {
+		// passive with just complement
+		NPPhraseSpec subject = this.phraseFactory.createNounPhrase("wave");
+		subject.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		NPPhraseSpec object = this.phraseFactory.createNounPhrase("surfer");
+		object.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+		SPhraseSpec _s1 = this.phraseFactory.createClause(subject,
+				"carry", object); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		// add a PP complement
+		PPPhraseSpec pp = this.phraseFactory.createPrepositionPhrase("to",
+				this.phraseFactory.createNounPhrase("the", "shore"));
+		_s1.addPostModifier(pp);
+
+		_s1.setFeature(Feature.PASSIVE, true);
+
+		Assert.assertEquals(
+				"surfers are carried to the shore by waves", this.realiser //$NON-NLS-1$
+						.realise(_s1).getRealisation());
 	}
 
 }
