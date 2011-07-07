@@ -145,6 +145,7 @@ public class MorphologyProcessor extends NLGModule {
 			realisedElement = new StringElement(element.getBaseForm());
 			realisedElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
 					element.getFeature(InternalFeature.DISCOURSE_FUNCTION));
+		
 		} else {
 			NLGElement baseWord = element
 					.getFeatureAsElement(InternalFeature.BASE_WORD);
@@ -152,7 +153,9 @@ public class MorphologyProcessor extends NLGModule {
 			if (baseWord == null && this.lexicon != null) {
 				baseWord = this.lexicon.lookupWord(element.getBaseForm());
 			}
+			
 			ElementCategory category = element.getCategory();
+			
 			if (category instanceof LexicalCategory) {
 				switch ((LexicalCategory) category) {
 				case PRONOUN:

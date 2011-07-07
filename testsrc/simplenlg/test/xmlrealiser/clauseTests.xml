@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<nlg:NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1"
-	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+<nlg:NLGSpec xmlns="http://simplenlg.googlecode.com/svn/trunk/res/xml"
+	xmlns:nlg="http://simplenlg.googlecode.com/svn/trunk/res/xml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://code.google.com/p/simplenlg/schemas/version1 RealizerSchema.xsd ">
+	xsi:schemaLocation="http://simplenlg.googlecode.com/svn/trunk/res/xml ">
 
 	<nlg:Recording name="Clause tests">
 
@@ -397,7 +397,7 @@
 				</child>
 			</Document>
 		</nlg:Record>
-		
+
 		<nlg:Record name="Multiple complements">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec" TENSE="PAST">
@@ -433,7 +433,7 @@
 				</child>
 			</Document>
 		</nlg:Record>
-		
+
 		<nlg:Record name="Multiple complements -- inverted linear order">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec" TENSE="PAST">
@@ -464,7 +464,7 @@
 							<spec xsi:type="WordElement" cat="DETERMINER">
 								<base>the</base>
 							</spec>
-						</compl>						
+						</compl>
 					</vp>
 				</child>
 			</Document>
@@ -497,7 +497,7 @@
 				</child>
 			</Document>
 		</nlg:Record>
-		
+
 		<nlg:Record name="Interrogative WH Subject">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHAT_SUBJECT">
@@ -525,7 +525,7 @@
 				</child>
 			</Document>
 		</nlg:Record>
-		
+
 		<nlg:Record name="Interrogative WH Subject">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec" TENSE="PAST" INTERROGATIVE_TYPE="WHO_SUBJECT">
@@ -554,6 +554,39 @@
 			</Document>
 		</nlg:Record>
 
+		<nlg:Record name="Incorrect predicative passive">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>transfusion of whole blood</base>
+						</head>
+					</subj>
+					<vp xsi:type="VPPhraseSpec" PASSIVE="true" TENSE="PRESENT">
+						<head cat="VERB">
+							<base>indicate</base>
+						</head>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+		
+		<nlg:Record name="Correct predicative passive">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec">
+					<compl xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>transfusion of whole blood</base>
+						</head>
+					</compl>
+					<vp xsi:type="VPPhraseSpec" PASSIVE="true" TENSE="PRESENT">
+						<head cat="VERB">
+							<base>indicate</base>
+						</head>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
 
 	</nlg:Recording>
 </nlg:NLGSpec>

@@ -3,12 +3,12 @@
 		Schema for simplenlg edited by Christopher Howell (Agfa Healthcare
 		Corporation) and Albert Gatt (University of Malta)
 	-->
-<xs:schema targetNamespace="http://code.google.com/p/simplenlg/schemas/version1"
-	elementFormDefault="qualified" attributeFormDefault="unqualified"
-	version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
-
+<xs:schema targetNamespace="http://simplenlg.googlecode.com/svn/trunk/res/xml"
+        elementFormDefault="qualified" attributeFormDefault="unqualified"
+        version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:nlg="http://simplenlg.googlecode.com/svn/trunk/res/xml"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0"> 
+        
 	<xs:element name="NLGSpec">
 		<xs:complexType>
 			<xs:choice>

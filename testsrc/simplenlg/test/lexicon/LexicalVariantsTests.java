@@ -194,7 +194,13 @@ public class LexicalVariantsTests extends TestCase {
 		Assert.assertEquals("the Adams Stokes disease", this.realiser.realise(
 				np).getRealisation());
 
+		//default infl for this word is uncount
 		np.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		Assert.assertEquals("the Adams Stokes disease", this.realiser.realise(
+				np).getRealisation());
+		
+		//change default infl for this word
+		asd.setDefaultInflectionalVariant(Inflection.REGULAR);
 		Assert.assertEquals("the Adams Stokes diseases", this.realiser.realise(
 				np).getRealisation());
 	}
@@ -212,6 +218,25 @@ public class LexicalVariantsTests extends TestCase {
 		SPhraseSpec s = this.factory.createClause(this.factory
 				.createNounPhrase("the", "doctor"), eth, this.factory.createNounPhrase("the patient"));
 		Assert.assertEquals("the doctor etherises the patient", this.realiser.realise(s).getRealisation());
+	}
+	
+	/**
+	 * Test the difference between an uncount and a count noun
+	 */
+	public void testUncountInflectionalVariant() {
+		WordElement calc = (WordElement) factory.createWord("calcification", LexicalCategory.NOUN);
+		NPPhraseSpec theCalc = this.factory.createNounPhrase("the", calc);
+		theCalc.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		
+		String r1 = this.realiser.realise(theCalc).getRealisation();
+		Assert.assertEquals("the calcifications", r1);
+		
+		calc.setDefaultInflectionalVariant(Inflection.UNCOUNT);
+		NPPhraseSpec theCalc2 = this.factory.createNounPhrase("the", calc);
+		theCalc2.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		String r2 = this.realiser.realise(theCalc2).getRealisation();
+		Assert.assertEquals("the calcification", r2);
+		
 	}
 
 }

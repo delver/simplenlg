@@ -116,11 +116,13 @@ public abstract class MorphologyRules {
 			// if (element.getFeatureAsBoolean(LexicalFeature.NON_COUNT)
 			// .booleanValue()) {
 			// pluralForm = baseForm;
-			String elementDefaultInfl = element
-					.getFeatureAsString(LexicalFeature.DEFAULT_INFL);
+			Object elementDefaultInfl = element
+					.getFeature(LexicalFeature.DEFAULT_INFL);
+			
 			if (elementDefaultInfl != null
-					&& elementDefaultInfl.equals("uncount")) {
+					&& Inflection.UNCOUNT.equals(elementDefaultInfl)) {
 				pluralForm = baseForm;
+				
 			} else {
 				pluralForm = element.getFeatureAsString(LexicalFeature.PLURAL);
 			}

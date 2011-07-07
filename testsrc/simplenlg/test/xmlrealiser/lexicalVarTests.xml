@@ -1,10 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<nlg:NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1"
-	xmlns:nlg="http://code.google.com/p/simplenlg/schemas/version1"
+<nlg:NLGSpec xmlns="http://simplenlg.googlecode.com/svn/trunk/res/xml"
+	xmlns:nlg="http://simplenlg.googlecode.com/svn/trunk/res/xml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://code.google.com/p/simplenlg/schemas/version1 RealizerSchema.xsd ">
+	xsi:schemaLocation="http://simplenlg.googlecode.com/svn/trunk/res/xml ">
 
 	<Recording name="Lexical variants">
+
+		<Record name="InflVariantiUncount">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>right coronary artery</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>have</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" NUMBER="PLURAL">
+							<preMod xsi:type="AdjPhraseSpec">
+								<head cat="ADJECTIVE">
+									<base>mild</base>
+								</head>
+							</preMod>
+							<head cat="NOUN" var="UNCOUNT">
+								<base>calcification</base>
+							</head>
+						</compl>
+					</vp>
+				</child>
+
+				<child xsi:type="SPhraseSpec">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>right coronary artery</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>have</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec" NUMBER="PLURAL">
+							<preMod xsi:type="AdjPhraseSpec">
+								<head cat="ADJECTIVE">
+									<base>mild</base>
+								</head>
+							</preMod>
+							<head>
+								<base>calcification</base>
+							</head>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</Record>
 
 		<Record name="Spell variant1">
 			<Document cat="PARAGRAPH">
@@ -43,7 +99,7 @@
 				</child>
 			</Document>
 		</Record>
-		
+
 		<Record name="Spell variant2">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">

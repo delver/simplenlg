@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<NLGSpec xmlns="http://simplenlg.googlecode.com/svn/trunk/res/xml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Recording name="Clause tests">
     <Record name="Negation on VP">
       <Document cat="PARAGRAPH">
@@ -579,6 +579,44 @@
         </child>
       </Document>
       <Realisation>Who upset the man?
+
+</Realisation>
+    </Record>
+    <Record name="Incorrect predicative passive">
+      <Document cat="PARAGRAPH">
+        <child xsi:type="SPhraseSpec">
+          <subj xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>transfusion of whole blood</base>
+            </head>
+          </subj>
+          <vp xsi:type="VPPhraseSpec" TENSE="PRESENT" PASSIVE="true">
+            <head cat="VERB">
+              <base>indicate</base>
+            </head>
+          </vp>
+        </child>
+      </Document>
+      <Realisation>Is indicated by transfusion of whole blood.
+
+</Realisation>
+    </Record>
+    <Record name="Correct predicative passive">
+      <Document cat="PARAGRAPH">
+        <child xsi:type="SPhraseSpec">
+          <compl xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>transfusion of whole blood</base>
+            </head>
+          </compl>
+          <vp xsi:type="VPPhraseSpec" TENSE="PRESENT" PASSIVE="true">
+            <head cat="VERB">
+              <base>indicate</base>
+            </head>
+          </vp>
+        </child>
+      </Document>
+      <Realisation>Transfusion of whole blood is indicated.
 
 </Realisation>
     </Record>
