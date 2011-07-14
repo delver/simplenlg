@@ -121,7 +121,7 @@ public class SPhraseSpec extends PhraseElement {
 
 	// intercept and override setFeature, to set VP features as needed
 
-	/*
+	/**
 	 * adds a feature, possibly to the underlying VP as well as the SPhraseSpec
 	 * itself
 	 * 
@@ -131,8 +131,9 @@ public class SPhraseSpec extends PhraseElement {
 	@Override
 	public void setFeature(String featureName, Object featureValue) {
 		super.setFeature(featureName, featureValue);
-		if (vpFeatures.contains(featureName)) {
-			PhraseElement verbPhrase = (PhraseElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
+		
+		if (vpFeatures.contains(featureName)) {									
+			NLGElement verbPhrase = (NLGElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
 			if (verbPhrase != null || verbPhrase instanceof VPPhraseSpec)
 				verbPhrase.setFeature(featureName, featureValue);
 		}

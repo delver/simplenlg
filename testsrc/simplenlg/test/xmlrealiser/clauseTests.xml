@@ -570,7 +570,7 @@
 				</child>
 			</Document>
 		</nlg:Record>
-		
+
 		<nlg:Record name="Correct predicative passive">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">
@@ -588,29 +588,222 @@
 			</Document>
 		</nlg:Record>
 
-	<nlg:Record name="Coordinate complement passive">
-    <Document cat="PARAGRAPH">
-      <child xsi:type="SPhraseSpec">
-        <compl xsi:type="CoordinatedPhraseElement" conj="and">
-          <coord xsi:type="NPPhraseSpec">
-            <head cat="NOUN">
-              <base>cardiovascular therapy</base>
-            </head>
-          </coord>
-          <coord xsi:type="NPPhraseSpec">
-            <head cat="NOUN">
-              <base>endomyocardial biopsy</base>
-            </head>
-          </coord>
-        </compl>
-        <vp xsi:type="VPPhraseSpec" PASSIVE="true" TENSE="PRESENT">
-          <head cat="VERB">
-            <base>recommend</base>
-          </head>
-        </vp>
-      </child>
-    </Document>
-  </nlg:Record>
+		<nlg:Record name="Coordinate complement passive">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec">
+					<compl xsi:type="CoordinatedPhraseElement" conj="and">
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>cardiovascular therapy</base>
+							</head>
+						</coord>
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>endomyocardial biopsy</base>
+							</head>
+						</coord>
+					</compl>
+					<vp xsi:type="VPPhraseSpec" PASSIVE="true" TENSE="PRESENT">
+						<head cat="VERB">
+							<base>recommend</base>
+						</head>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
+		<nlg:Record>
+
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<frontMod xsi:type="AdvPhraseSpec">
+						<head cat="ADVERB">
+							<base>as</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>result</base>
+							</head>
+							<compl xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>of</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>procedure</base>
+									</head>
+									<spec xsi:type="WordElement" cat="DETERMINER">
+										<base>the</base>
+									</spec>
+								</compl>
+							</compl>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>a</base>
+							</spec>
+						</compl>
+					</frontMod>
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>patient</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="CoordinatedPhraseElement" conj="and">
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>adverse contrast media reaction</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>decreased platelet count</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec">
+							<head cat="VERB">
+								<base>go</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>into</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>cardiogenic shock</base>
+									</head>
+								</compl>
+							</postMod>
+						</coord>
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<preMod xsi:type="AdjPhraseSpec">
+									<head cat="ADJECTIVE">
+										<base>cardiac</base>
+									</head>
+								</preMod>
+								<head cat="NOUN">
+									<base>tamponade</base>
+								</head>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>vascular complication requiring treatment</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>hemorrhagic cerebral infarction</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec">
+							<head cat="VERB">
+								<base>go</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>into</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>renal failure</base>
+									</head>
+								</compl>
+							</postMod>
+						</coord>
+						<coord xsi:type="VPPhraseSpec" TENSE="PAST">
+							<head cat="VERB">
+								<base>have</base>
+							</head>
+							<compl xsi:type="NPPhraseSpec">
+								<head cat="NOUN">
+									<base>myocardial infarction</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</compl>
+						</coord>
+						<coord xsi:type="VPPhraseSpec">
+							<head cat="VERB">
+								<base>go</base>
+							</head>
+							<postMod xsi:type="PPPhraseSpec">
+								<head cat="PREPOSITION">
+									<base>into</base>
+								</head>
+								<compl xsi:type="NPPhraseSpec">
+									<head cat="NOUN">
+										<base>congestive heart failure</base>
+									</head>
+								</compl>
+							</postMod>
+						</coord>
+					</vp>
+				</child>
+				<child xsi:type="SPhraseSpec" PASSIVE="true" TENSE="PRESENT">
+					<compl xsi:type="CoordinatedPhraseElement" conj="and">
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>emergency percutaneous coronary intervention</base>
+							</head>
+						</coord>
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>renal dialysis</base>
+							</head>
+						</coord>
+						<coord xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>transfusion of whole blood</base>
+							</head>
+						</coord>
+					</compl>
+					<vp xsi:type="VPPhraseSpec">
+						<head cat="VERB">
+							<base>indicate</base>
+						</head>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
 
 	</nlg:Recording>
 </nlg:NLGSpec>
