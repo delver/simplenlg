@@ -349,6 +349,10 @@ abstract class ClauseHelper {
 		NLGElement verbPhrase = phrase
 				.getFeatureAsElement(InternalFeature.VERB_PHRASE);
 
+		// count complements to set plural feature if more than one
+		int numComps = 0;
+		boolean coordSubj = false;
+
 		if (phrase.getFeatureAsBoolean(Feature.PASSIVE).booleanValue()
 				&& verbPhrase != null
 				&& !InterrogativeType.WHAT_OBJECT.equals(phrase
@@ -363,6 +367,7 @@ abstract class ClauseHelper {
 				if (DiscourseFunction.OBJECT.equals(subject
 						.getFeature(InternalFeature.DISCOURSE_FUNCTION))) {
 					subject.setFeature(Feature.PASSIVE, true);
+					numComps++;
 					currentElement = parent.realise(subject);
 
 					if (currentElement != null) {
@@ -375,6 +380,14 @@ abstract class ClauseHelper {
 						} else {
 							realisedElement.addComponent(currentElement);
 						}
+					}
+
+					// flag if passive subject is coordinated with an "and"
+					if (!coordSubj
+							&& subject instanceof CoordinatedPhraseElement) {
+						String conj = ((CoordinatedPhraseElement) subject)
+								.getConjunction();
+						coordSubj = (conj != null && conj.equals("and"));
 					}
 
 					if (passiveNumber == null) {
@@ -412,7 +425,10 @@ abstract class ClauseHelper {
 				// verbElement.setFeature(Feature.PERSON, phrase
 				// .getFeature(Feature.PERSON));
 			}
-			if (passiveNumber != null) {
+
+			if (numComps > 1 || coordSubj) {
+				verbElement.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+			} else if (passiveNumber != null) {
 				verbElement.setFeature(Feature.NUMBER, passiveNumber);
 			}
 		}
@@ -533,7 +549,8 @@ abstract class ClauseHelper {
 				break;
 
 			case WHAT_SUBJECT:
-				realiseInterrogativeKeyWord("what", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord(
+						"what", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
 				break;
@@ -541,17 +558,19 @@ abstract class ClauseHelper {
 			case HOW:
 			case WHY:
 			case WHERE:
-				realiseInterrogativeKeyWord(type.toString().toLowerCase(), LexicalCategory.PRONOUN,
-						parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord(type.toString().toLowerCase(),
+						LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				splitVerb = realiseYesNo(phrase, parent, verbElement,
 						phraseFactory, realisedElement);
 				break;
 
 			case HOW_MANY:
-				realiseInterrogativeKeyWord("how", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord(
+						"how", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
-				realiseInterrogativeKeyWord("many", LexicalCategory.ADVERB, parent, realisedElement, //$NON-NLS-1$
+				realiseInterrogativeKeyWord(
+						"many", LexicalCategory.ADVERB, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				break;
 
@@ -616,7 +635,8 @@ abstract class ClauseHelper {
 			PhraseElement phrase, SyntaxProcessor parent,
 			ListElement realisedElement, NLGFactory phraseFactory) {
 		NLGElement splitVerb = null;
-		realiseInterrogativeKeyWord(keyword, LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
+		realiseInterrogativeKeyWord(keyword, LexicalCategory.PRONOUN, parent,
+				realisedElement, //$NON-NLS-1$
 				phraseFactory);
 
 		// if (!Tense.FUTURE.equals(phrase.getFeature(Feature.TENSE)) &&

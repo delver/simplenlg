@@ -588,5 +588,29 @@
 			</Document>
 		</nlg:Record>
 
+	<nlg:Record name="Coordinate complement passive">
+    <Document cat="PARAGRAPH">
+      <child xsi:type="SPhraseSpec">
+        <compl xsi:type="CoordinatedPhraseElement" conj="and">
+          <coord xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>cardiovascular therapy</base>
+            </head>
+          </coord>
+          <coord xsi:type="NPPhraseSpec">
+            <head cat="NOUN">
+              <base>endomyocardial biopsy</base>
+            </head>
+          </coord>
+        </compl>
+        <vp xsi:type="VPPhraseSpec" PASSIVE="true" TENSE="PRESENT">
+          <head cat="VERB">
+            <base>recommend</base>
+          </head>
+        </vp>
+      </child>
+    </Document>
+  </nlg:Record>
+
 	</nlg:Recording>
 </nlg:NLGSpec>

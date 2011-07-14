@@ -44,7 +44,7 @@ public class SyntaxTests {
 		suite.addTestSuite(NounPhraseTest.class);
 		suite.addTestSuite(PhraseSpecTest.class);
 		suite.addTestSuite(PrepositionalPhraseTest.class);
-		suite.addTestSuite(TutorialTest.class);
+		//suite.addTestSuite(TutorialTest.class);
 		suite.addTestSuite(VerbPhraseTest.class);
 		// $JUnit-END$
 		return suite;

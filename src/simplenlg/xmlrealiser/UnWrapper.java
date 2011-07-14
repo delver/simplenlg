@@ -84,6 +84,7 @@ public class UnWrapper {
 					.newInstance(simplenlg.xmlrealiser.wrapper.NLGSpec.class);
 			Unmarshaller u = jc.createUnmarshaller();
 			Object obj = u.unmarshal(xmlReader);
+			
 			if (obj instanceof simplenlg.xmlrealiser.wrapper.NLGSpec) {
 				wt = (simplenlg.xmlrealiser.wrapper.NLGSpec) obj;
 			}
