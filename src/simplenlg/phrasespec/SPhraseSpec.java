@@ -209,6 +209,21 @@ public class SPhraseSpec extends PhraseElement {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see simplenlg.framework.NLGElement#getFeature(java.lang.String)
+	 */
+	@Override
+	public Object getFeature(String featureName) {
+		if (super.getFeature(featureName) != null)
+			return super.getFeature(featureName);
+		if (vpFeatures.contains(featureName)) {
+			NLGElement verbPhrase = (NLGElement) getFeatureAsElement(InternalFeature.VERB_PHRASE);
+			if (verbPhrase != null || verbPhrase instanceof VPPhraseSpec)
+				return verbPhrase.getFeature(featureName);
+		}
+		return null;
+	}
+
 	/**
 	 * @return VP for this clause
 	 */

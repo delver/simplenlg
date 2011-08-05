@@ -36,6 +36,7 @@ import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseCategory;
 import simplenlg.framework.PhraseElement;
+import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
 /**
@@ -947,7 +948,8 @@ abstract class ClauseHelper {
 						&& ((CoordinatedPhraseElement) currentElement)
 								.checkIfPlural())
 					pluralSubjects = true;
-				else if (currentElement.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL)
+				else if ((currentElement.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL) &&
+						! (currentElement instanceof SPhraseSpec))  // ER mod- clauses are singular as NPs, even if they are plural internally
 					pluralSubjects = true;
 				else if (currentElement.isA(PhraseCategory.NOUN_PHRASE)) {
 					NLGElement currentHead = currentElement

@@ -43,6 +43,7 @@ import simplenlg.framework.PhraseElement;
 import simplenlg.framework.WordElement;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
+import simplenlg.phrasespec.VPPhraseSpec;
 
 /**
  * Tests from third parties
@@ -463,6 +464,31 @@ public class ExternalTest extends SimpleNLG4Test {
 
         String output2 = realiser.realiseSentence(p); // Realiser created earlier. 
         Assert.assertEquals("I chase the monkey.", output2);
+        
+        SPhraseSpec test = phraseFactory.createClause();
+        NPPhraseSpec subject = phraseFactory.createNounPhrase("Mary");
+        
+        subject.setFeature(Feature.PRONOMINAL, true);
+        subject.setFeature(Feature.PERSON, Person.SECOND);
+        test.setSubject(subject);
+        test.setVerb("cry");
+        
+        test.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
+        test.setFeature(Feature.TENSE, Tense.PRESENT);
+        Assert.assertEquals("Why do you cry?", realiser.realiseSentence(test));
+        
+        test = phraseFactory.createClause();
+        subject = phraseFactory.createNounPhrase("Mary");
+        
+        subject.setFeature(Feature.PRONOMINAL, true);
+        subject.setFeature(Feature.PERSON, Person.SECOND);
+        test.setSubject(subject);
+        test.setVerb("be");
+        test.setObject("crying");
+        
+        test.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
+        test.setFeature(Feature.TENSE, Tense.PRESENT);
+        Assert.assertEquals("Why are you crying?", realiser.realiseSentence(test));
 
 
 	}

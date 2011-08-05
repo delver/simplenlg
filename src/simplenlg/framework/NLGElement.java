@@ -205,7 +205,7 @@ public abstract class NLGElement {
 	 *         taken by calling the object's <code>toString()</code> method.
 	 */
 	public String getFeatureAsString(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		String stringValue = null;
 
 		if (value != null) {
@@ -232,7 +232,7 @@ public abstract class NLGElement {
 	public List<NLGElement> getFeatureAsElementList(String featureName) {
 		List<NLGElement> list = new ArrayList<NLGElement>();
 
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		if (value instanceof NLGElement) {
 			list.add((NLGElement) value);
 		} else if (value instanceof Collection<?>) {
@@ -265,7 +265,7 @@ public abstract class NLGElement {
 	 */
 	public List<Object> getFeatureAsList(String featureName) {
 		List<Object> values = new ArrayList<Object>();
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		
 		if (value != null) {
 			if (value instanceof Collection<?>) {
@@ -301,7 +301,7 @@ public abstract class NLGElement {
 	 */
 	public List<String> getFeatureAsStringList(String featureName) {
 		List<String> values = new ArrayList<String>();
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 
 		if (value != null) {
 			if (value instanceof Collection<?>) {
@@ -331,7 +331,7 @@ public abstract class NLGElement {
 	 *         values. Any other type will return <code>null</code>.
 	 */
 	public Integer getFeatureAsInteger(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		Integer intValue = null;
 		if (value instanceof Integer) {
 			intValue = (Integer) value;
@@ -359,7 +359,7 @@ public abstract class NLGElement {
 	 *         other type will return <code>null</code>.
 	 */
 	public Long getFeatureAsLong(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		Long longValue = null;
 		if (value instanceof Long) {
 			longValue = (Long) value;
@@ -387,7 +387,7 @@ public abstract class NLGElement {
 	 *         Any other type will return <code>null</code>.
 	 */
 	public Float getFeatureAsFloat(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		Float floatValue = null;
 		if (value instanceof Float) {
 			floatValue = (Float) value;
@@ -415,7 +415,7 @@ public abstract class NLGElement {
 	 *         Any other type will return <code>null</code>.
 	 */
 	public Double getFeatureAsDouble(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		Double doubleValue = null;
 		if (value instanceof Double) {
 			doubleValue = (Double) value;
@@ -442,7 +442,7 @@ public abstract class NLGElement {
 	 *         non-Boolean type will return <code>Boolean.FALSE</code>.
 	 */
 	public Boolean getFeatureAsBoolean(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		Boolean boolValue = Boolean.FALSE;
 		if (value instanceof Boolean) {
 			boolValue = (Boolean) value;
@@ -461,7 +461,7 @@ public abstract class NLGElement {
 	 * @return the <code>NLGElement</code>.
 	 */
 	public NLGElement getFeatureAsElement(String featureName) {
-		Object value = this.features.get(featureName);
+		Object value = getFeature(featureName);
 		NLGElement elementValue = null;
 
 		if (value instanceof NLGElement) {
