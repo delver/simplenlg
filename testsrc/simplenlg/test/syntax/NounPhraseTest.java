@@ -109,7 +109,7 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		Assert.assertEquals(
 				"them", this.realiser.realise(this.proTest2).getRealisation()); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Test the pronominalisation method for full NPs (more thorough than above)
 	 */
@@ -119,96 +119,97 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		NPPhraseSpec pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.FIRST);
-		SPhraseSpec sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"I like John.", this.realiser.realiseSentence(sent));
-		
+		SPhraseSpec sent = phraseFactory.createClause(pro, "like", "John");
+		Assert
+				.assertEquals("I like John.", this.realiser
+						.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.SECOND);
-		sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"You like John.", this.realiser.realiseSentence(sent));
-		
+		sent = phraseFactory.createClause(pro, "like", "John");
+		Assert.assertEquals("You like John.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.THIRD);
 		pro.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"She likes John.", this.realiser.realiseSentence(sent));
-		
+		sent = phraseFactory.createClause(pro, "like", "John");
+		Assert.assertEquals("She likes John.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.FIRST);
 		pro.setPlural(true);
-		sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"We like John.", this.realiser.realiseSentence(sent));
-		
+		sent = phraseFactory.createClause(pro, "like", "John");
+		Assert.assertEquals("We like John.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.SECOND);
 		pro.setPlural(true);
-		sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"You like John.", this.realiser.realiseSentence(sent));
-		
+		sent = phraseFactory.createClause(pro, "like", "John");
+		Assert.assertEquals("You like John.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("Mary");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.THIRD);
 		pro.setPlural(true);
 		pro.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		sent = phraseFactory.createClause(pro,"like", "John");
-		Assert.assertEquals(
-				"They like John.", this.realiser.realiseSentence(sent));
-		
+		sent = phraseFactory.createClause(pro, "like", "John");
+		Assert.assertEquals("They like John.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.FIRST);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes me.", this.realiser.realiseSentence(sent));
-		
+		Assert.assertEquals("Mary likes me.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.SECOND);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes you.", this.realiser.realiseSentence(sent));
-		
+		Assert.assertEquals("Mary likes you.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.THIRD);
 		pro.setFeature(LexicalFeature.GENDER, Gender.MASCULINE);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes him.", this.realiser.realiseSentence(sent));
-		
+		Assert.assertEquals("Mary likes him.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.FIRST);
 		pro.setPlural(true);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes us.", this.realiser.realiseSentence(sent));
-		
+		Assert.assertEquals("Mary likes us.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.SECOND);
 		pro.setPlural(true);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes you.", this.realiser.realiseSentence(sent));
-		
+		Assert.assertEquals("Mary likes you.", this.realiser
+				.realiseSentence(sent));
+
 		pro = phraseFactory.createNounPhrase("John");
 		pro.setFeature(Feature.PRONOMINAL, true);
 		pro.setFeature(Feature.PERSON, Person.THIRD);
 		pro.setFeature(LexicalFeature.GENDER, Gender.MASCULINE);
 		pro.setPlural(true);
 		sent = phraseFactory.createClause("Mary", "like", pro);
-		Assert.assertEquals(
-				"Mary likes them.", this.realiser.realiseSentence(sent));
+		Assert.assertEquals("Mary likes them.", this.realiser
+				.realiseSentence(sent));
 	}
 
 	/**
@@ -227,9 +228,10 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		this.dog.addPreModifier(this.stunning);
 		Assert.assertEquals("the stunning dog", this.realiser.realise(this.dog) //$NON-NLS-1$
 				.getRealisation());
-		
-		//premodification with a WordElement
-		this.man.setPreModifier(this.phraseFactory.createWord("idiotic", LexicalCategory.ADJECTIVE));
+
+		// premodification with a WordElement
+		this.man.setPreModifier(this.phraseFactory.createWord("idiotic",
+				LexicalCategory.ADJECTIVE));
 		Assert.assertEquals("the idiotic man", this.realiser //$NON-NLS-1$
 				.realise(this.man).getRealisation());
 
@@ -247,26 +249,28 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		this.woman.addPostModifier(this.behindTheCurtain);
 		Assert.assertEquals("the woman behind the curtain", this.realiser //$NON-NLS-1$
 				.realise(this.woman).getRealisation());
-		
-		//postmodification with a WordElement
-		this.man.setPostModifier(this.phraseFactory.createWord("jack", LexicalCategory.NOUN));
+
+		// postmodification with a WordElement
+		this.man.setPostModifier(this.phraseFactory.createWord("jack",
+				LexicalCategory.NOUN));
 		Assert.assertEquals("the man jack", this.realiser.realise( //$NON-NLS-1$
 				this.man).getRealisation());
 	}
-	
+
 	/**
 	 * Test nominal complementation
 	 */
 	@Test
 	public void testComplementation() {
-		//complementation with a WordElement		
-		this.man.setComplement(this.phraseFactory.createWord("jack", LexicalCategory.NOUN));
+		// complementation with a WordElement
+		this.man.setComplement(this.phraseFactory.createWord("jack",
+				LexicalCategory.NOUN));
 		Assert.assertEquals("the man jack", this.realiser.realise( //$NON-NLS-1$
 				this.man).getRealisation());
-		
+
 		this.woman.addComplement(this.behindTheCurtain);
 		Assert.assertEquals("the woman behind the curtain", this.realiser //$NON-NLS-1$
-				.realise(this.woman).getRealisation());				
+				.realise(this.woman).getRealisation());
 	}
 
 	/**
@@ -442,87 +446,86 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		Assert.assertEquals("some enormous dogs", this.realiser.realise(_dog) //$NON-NLS-1$
 				.getRealisation());
 	}
-	
+
 	/**
 	 * Further tests for a/an agreement with coordinated premodifiers
 	 */
 	public void testAAnCoord() {
 		NPPhraseSpec _dog = this.phraseFactory.createNounPhrase("a", "dog");
-		_dog.addPreModifier(this.phraseFactory.createCoordinatedPhrase("enormous", "black"));
+		_dog.addPreModifier(this.phraseFactory.createCoordinatedPhrase(
+				"enormous", "black"));
 		String realisation = this.realiser.realise(_dog).getRealisation();
 		Assert.assertEquals("an enormous and black dog", realisation);
 	}
-	
+
 	/**
 	 * Test for a/an agreement with numbers
 	 */
 	public void testAAnWithNumbers() {
 		NPPhraseSpec num = this.phraseFactory.createNounPhrase("a", "change");
 		String realisation;
-		
-		//no an with "one"
+
+		// no an with "one"
 		num.setPreModifier("one percent");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("a one percent change", realisation);
-		
-		//an with "eighty"
+
+		// an with "eighty"
 		num.setPreModifier("eighty percent");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an eighty percent change", realisation);
-		
-		
-		//an with 80
+
+		// an with 80
 		num.setPreModifier("80%");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 80% change", realisation);
-		
-		//an with 80000
+
+		// an with 80000
 		num.setPreModifier("80000");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 80000 change", realisation);
-		
-		//an with 11,000
+
+		// an with 11,000
 		num.setPreModifier("11,000");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 11,000 change", realisation);
-		
-		//an with 18
+
+		// an with 18
 		num.setPreModifier("18%");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 18% change", realisation);
-		
-		//a with 180
+
+		// a with 180
 		num.setPreModifier("180");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("a 180 change", realisation);
-		
-		//a with 1100
+
+		// a with 1100
 		num.setPreModifier("1100");
 		realisation = this.realiser.realise(num).getRealisation();
-		Assert.assertEquals("a 1100 change", realisation);			
-		
-		//a with 180,000
+		Assert.assertEquals("a 1100 change", realisation);
+
+		// a with 180,000
 		num.setPreModifier("180,000");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("a 180,000 change", realisation);
-		
-		//an with 11000
+
+		// an with 11000
 		num.setPreModifier("11000");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 11000 change", realisation);
 
-		
-		//an with 18000
+		// an with 18000
 		num.setPreModifier("18000");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 18000 change", realisation);
-		
-		//an with 18.1
+
+		// an with 18.1
 		num.setPreModifier("18.1%");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 18.1% change", realisation);
-		
-		//an with 11.1
+
+		// an with 11.1
 		num.setPreModifier("11.1%");
 		realisation = this.realiser.realise(num).getRealisation();
 		Assert.assertEquals("an 11.1% change", realisation);
@@ -554,5 +557,18 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		Assert.assertEquals("an angry cat in the park", this.realiser.realise( //$NON-NLS-1$
 				cat).getRealisation());
 
+	}
+	
+	/**
+	 * Test for appositive postmodifiers
+	 */
+	@Test
+	public void testAppositivePostmodifier() {
+		PhraseElement _dog = this.phraseFactory.createNounPhrase("the", "dog");
+		PhraseElement _rott = this.phraseFactory.createNounPhrase("a", "rottweiler");
+		_rott.setFeature(Feature.APPOSITIVE, true);
+		_dog.addPostModifier(_rott);
+		SPhraseSpec _sent = this.phraseFactory.createClause(_dog, "ran");		
+		Assert.assertEquals("The dog, a rottweiler, runs.", this.realiser.realiseSentence(_sent));
 	}
 }

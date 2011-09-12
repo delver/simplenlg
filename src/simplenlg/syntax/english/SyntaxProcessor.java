@@ -206,6 +206,7 @@ public class SyntaxProcessor extends NLGModule {
 				}
 			}
 		}
+		
 		return realisedElement;
 	}
 }

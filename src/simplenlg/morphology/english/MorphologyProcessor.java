@@ -204,12 +204,22 @@ public class MorphologyProcessor extends NLGModule {
 
 		if (elements != null) {
 			for (NLGElement eachElement : elements) {
-				currentElement = realise(eachElement);
-
+				currentElement = realise(eachElement);				
+				
 				if (currentElement != null) {
+					//pass the discourse function and appositive features -- important for orth processor
+					currentElement.setFeature(Feature.APPOSITIVE, eachElement.getFeature(Feature.APPOSITIVE));
+					Object function = eachElement.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+										
+					if(function != null) {
+						currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION, function);
+					}
+										
 					// realisedElements.add(realise(currentElement));
 					realisedElements.add(currentElement);
 
+					
+					
 					if (determiner == null
 							&& DiscourseFunction.SPECIFIER
 									.equals(currentElement

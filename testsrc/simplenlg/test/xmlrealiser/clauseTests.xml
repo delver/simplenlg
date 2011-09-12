@@ -805,5 +805,42 @@
 			</Document>
 		</nlg:Record>
 
+
+		<nlg:Record name="non-restrictive modifier">
+			<Document cat="PARAGRAPH">
+				<child xsi:type="SPhraseSpec" TENSE="PAST">
+					<subj xsi:type="NPPhraseSpec">
+						<head cat="NOUN">
+							<base>doctor</base>
+						</head>
+						<spec xsi:type="WordElement" cat="DETERMINER">
+							<base>the</base>
+						</spec>
+					</subj>
+					<vp xsi:type="VPPhraseSpec" PASSIVE="true">
+						<head cat="VERB">
+							<base>deploy</base>
+						</head>
+						<compl xsi:type="NPPhraseSpec">
+							<head cat="NOUN">
+								<base>device</base>
+							</head>
+							<spec xsi:type="WordElement" cat="DETERMINER">
+								<base>a</base>
+							</spec>
+							<postMod xsi:type="NPPhraseSpec" appositive="true">
+								<head cat="NOUN">
+									<base>Howell's Roto-Rootor</base>
+								</head>
+								<spec xsi:type="WordElement" cat="DETERMINER">
+									<base>a</base>
+								</spec>
+							</postMod>
+						</compl>
+					</vp>
+				</child>
+			</Document>
+		</nlg:Record>
+
 	</nlg:Recording>
 </nlg:NLGSpec>

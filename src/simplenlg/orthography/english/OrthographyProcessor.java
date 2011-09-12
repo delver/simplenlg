@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simplenlg.features.DiscourseFunction;
+import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.DocumentCategory;
@@ -61,7 +62,7 @@ public class OrthographyProcessor extends NLGModule {
 	@Override
 	public NLGElement realise(NLGElement element) {
 		NLGElement realisedElement = null;
-
+		
 		if (element != null) {
 			ElementCategory category = element.getCategory();
 
@@ -94,13 +95,28 @@ public class OrthographyProcessor extends NLGModule {
 			} else if (element instanceof ListElement) {
 				// AG: changes here: if we have a premodifier, then we ask the
 				// realiseList method to separate with a comma.
+				// if it's a postmod, we need commas at the start and end only if it's appositive
 				StringBuffer buffer = new StringBuffer();
 				List<NLGElement> children = element.getChildren();
-				Object function = children.isEmpty() ? null : children.get(0)
-						.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+				Object function = null;
+				Boolean appositive = false;
+
+				if (!children.isEmpty()) {
+					NLGElement firstChild = children.get(0);
+					function = firstChild
+							.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+					appositive = firstChild
+							.getFeatureAsBoolean(Feature.APPOSITIVE);
+				}
 
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
 					realiseList(buffer, element.getChildren(), ",");
+
+				} else if (DiscourseFunction.POST_MODIFIER.equals(function)	&& appositive) {										
+					buffer.append(", ");
+					realiseList(buffer, element.getChildren(), ",");
+					buffer.append(", ");
+
 				} else {
 					realiseList(buffer, element.getChildren(), "");
 				}
@@ -123,9 +139,23 @@ public class OrthographyProcessor extends NLGModule {
 			}
 		}
 
+		removePunctSpace(realisedElement);
 		return realisedElement;
 	}
-
+	
+	/**
+	 * removes extra spaces preceding punctuation from a realised element
+	 * @param realisedElement
+	 */
+	private void removePunctSpace(NLGElement realisedElement) {
+		String realisation =realisedElement.getRealisation();
+		
+		if(realisation != null) {
+			realisation = realisation.replaceAll(" ,", ",");			
+			realisedElement.setRealisation(realisation);
+		}
+	}
+	
 	/**
 	 * Performs the realisation on a sentence. This includes adding the
 	 * terminator and capitalising the first letter.
@@ -154,6 +184,7 @@ public class OrthographyProcessor extends NLGModule {
 			element.setRealisation(realisation.toString());
 			realisedElement = element;
 		}
+		
 		return realisedElement;
 	}
 

@@ -90,6 +90,7 @@ abstract class NounPhraseHelper {
 						.getPostModifiers(), DiscourseFunction.POST_MODIFIER);
 			}
 		}
+
 		return realisedElement;
 	}
 

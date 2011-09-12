@@ -294,7 +294,13 @@ public class UnWrapper {
 						simplenlg.features.DiscourseFunction.class, we
 								.getDiscourseFunction().toString()));
 			}
-
+			
+			//check the appositive feature
+			Boolean appositive = we.isAppositive();
+			if(appositive != null) {
+				hp.setFeature(Feature.APPOSITIVE, appositive);
+			}
+			
 			return hp;
 		}
 
@@ -508,6 +514,7 @@ public class UnWrapper {
 	private void setNPFeatures(
 			simplenlg.xmlrealiser.wrapper.XmlNPPhraseSpec wp,
 			simplenlg.phrasespec.NPPhraseSpec p) {
+		
 		if (wp.getNUMBER() != null) {
 			// map number feature from wrapper ~NumberAgr to actual NumberAgr
 			String numString = wp.getNUMBER().toString();

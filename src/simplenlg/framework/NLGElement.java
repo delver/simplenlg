@@ -444,9 +444,11 @@ public abstract class NLGElement {
 	public Boolean getFeatureAsBoolean(String featureName) {
 		Object value = getFeature(featureName);
 		Boolean boolValue = Boolean.FALSE;
+		
 		if (value instanceof Boolean) {
 			boolValue = (Boolean) value;
 		}
+		
 		return boolValue;
 	}
 

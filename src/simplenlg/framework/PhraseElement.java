@@ -330,6 +330,7 @@ public class PhraseElement extends NLGElement {
 		if (postModifiers == null) {
 			postModifiers = new ArrayList<NLGElement>();
 		}
+		newPostModifier.setFeature(InternalFeature.DISCOURSE_FUNCTION, DiscourseFunction.POST_MODIFIER);
 		postModifiers.add(newPostModifier);
 		setFeature(InternalFeature.POSTMODIFIERS, postModifiers);
 	}

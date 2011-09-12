@@ -24,15 +24,18 @@ package simplenlg.features;
  * This class defines a list of features which can be set up users of SimpleNLG.
  * Note that there are three feature classes in SimpleNLG.
  * <UL>
- * <LI> <code>Feature</code>: features typically set up developers invoking SimpleNLG
- * <LI> <code>LexicalFeature</code>: features typically set up the SimpleNLG lexicon
- * <LI> <code>InternalFeature</code>: features typically used internally by SimpleNLG
+ * <LI> <code>Feature</code>: features typically set up developers invoking
+ * SimpleNLG
+ * <LI> <code>LexicalFeature</code>: features typically set up the SimpleNLG
+ * lexicon
+ * <LI> <code>InternalFeature</code>: features typically used internally by
+ * SimpleNLG
  * </UL>
  * 
  * Elements in the system can, in theory, take any kind of feature. Some
- * features will only be expected by certain processors, however. 
- * Developers can define their own features but should
- * choose names that do not conflict with those presented here.
+ * features will only be expected by certain processors, however. Developers can
+ * define their own features but should choose names that do not conflict with
+ * those presented here.
  * </p>
  * <p>
  * The details for each feature are supplied in a table. The entries are:
@@ -71,6 +74,7 @@ package simplenlg.features;
  * </tr>
  * <tr>
  * </table>
+ * 
  * @author E. Reiter and D. Westwater, University of Aberdeen.
  * @version 4.0
  * 
@@ -85,7 +89,7 @@ abstract public class Feature {
 	private Feature() {
 		// do nothing
 	}
-	
+
 	/**
 	 * <p>
 	 * This feature determines if the adjectives should be reordered. Some
@@ -159,14 +163,12 @@ abstract public class Feature {
 	 */
 	public static final String AGGREGATE_AUXILIARY = "aggregate_auxiliary";
 
-
 	/**
 	 * <p>
 	 * The complementiser is the word that joins a subordinate clause to the
-	 * parent clause. For example, the two clauses:
-	 * <em>Timmy sang a song</em> and 
-	 * <em>moved Elizabeth to tears</em> can be joined with the complementiser
-	 * <em>that</em> to form:
+	 * parent clause. For example, the two clauses: <em>Timmy sang a song</em>
+	 * and <em>moved Elizabeth to tears</em> can be joined with the
+	 * complementiser <em>that</em> to form:
 	 * <em>Timmy sang a song <b>that</b> moved Elizabeth to
 	 * tears</em>.
 	 * </p>
@@ -276,6 +278,47 @@ abstract public class Feature {
 	 * </table>
 	 */
 	public static final String CONJUNCTION_TYPE = "conjunction_type";
+
+	/**
+	 * <p>
+	 * An appositive is a type of postmodifying phrase which is quasi-synonymous
+	 * with, or a possible replacement of, the phrase it modifies. A typical
+	 * example occurs with NPs, e.g.:
+	 * <em>his house, <b>a large villa</b>, is on the hill</em> where the phrase
+	 * <em>a large villa</em> is an appositive postmodifier of
+	 * <em>his house</em>. Note that appositives are usually realised surrounded
+	 * by commas. Accordingly, this feature is primarily used by the orthography
+	 * processor to determine whether commas should be placed around a
+	 * postmodifying phrase.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>appositive</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>boolean</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>The user.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>The orthography processor to determine comma placement.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Any phrase which is a postmodifier of another phrase.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>false</code> or <code>null</code></td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String APPOSITIVE = "appositive";
 
 	/**
 	 * <p>
@@ -611,42 +654,20 @@ abstract public class Feature {
 	public static final String NUMBER = "number";
 
 	/*
-	 * <p>
-	 * This feature represents the pattern that a particular word follows when
-	 * being inflected. These can be <em>regular</em>, <em>irregular</em>,
-	 * <em>regular 
-	 * double</em> and in the case of nouns, <em>Greco-Latin regular</em>.
-	 * </p>
-	 * <table border="1">
-	 * <tr>
-	 * <td><b>Feature name</b></td>
-	 * <td><em>pattern</em></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Expected type</b></td>
-	 * <td><code>Pattern</code></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Created by</b></td>
-	 * <td>The user.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Used by</b></td>
-	 * <td>The morphology processor uses this feature to correctly inflect words
-	 * following a simple set of rules when no lexicon or user-defined form is
-	 * supplied.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Applies to</b></td>
-	 * <td>Adjectives, nouns and verbs.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Default</b></td>
-	 * <td><code>null</code>.</td>
-	 * </tr>
+	 * <p> This feature represents the pattern that a particular word follows
+	 * when being inflected. These can be <em>regular</em>, <em>irregular</em>,
+	 * <em>regular double</em> and in the case of nouns, <em>Greco-Latin
+	 * regular</em>. </p> <table border="1"> <tr> <td><b>Feature name</b></td>
+	 * <td><em>pattern</em></td> </tr> <tr> <td><b>Expected type</b></td>
+	 * <td><code>Pattern</code></td> </tr> <tr> <td><b>Created by</b></td>
+	 * <td>The user.</td> </tr> <tr> <td><b>Used by</b></td> <td>The morphology
+	 * processor uses this feature to correctly inflect words following a simple
+	 * set of rules when no lexicon or user-defined form is supplied.</td> </tr>
+	 * <tr> <td><b>Applies to</b></td> <td>Adjectives, nouns and verbs.</td>
+	 * </tr> <tr> <td><b>Default</b></td> <td><code>null</code>.</td> </tr>
 	 * </table>
 	 */
-	//public static final String PATTERN = "pattern";
+	// public static final String PATTERN = "pattern";
 
 	/**
 	 * <p>
@@ -667,8 +688,8 @@ abstract public class Feature {
 	 * <td><b>Created by</b></td>
 	 * <td>The phrase factory will automatically check verbs to see if they
 	 * contain more than one word. In such a case, the first word becomes the
-	 * verb while additional words form the particle. The user can also explicitly
-	 * specify a particle</td>
+	 * verb while additional words form the particle. The user can also
+	 * explicitly specify a particle</td>
 	 * </tr>
 	 * <tr>
 	 * <td><b>Used by</b></td>

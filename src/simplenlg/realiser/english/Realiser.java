@@ -86,8 +86,7 @@ public class Realiser extends NLGModule {
 		if (this.debug) {
 			System.out.println("\nPOST-MORPHOLOGY TREE\n"); //$NON-NLS-1$
 			System.out.println(postMorphology.printTree(null));
-		}			
-				
+		}							
 		
 		NLGElement postOrthography = this.orthography.realise(postMorphology);
 		if (this.debug) {

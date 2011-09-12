@@ -66,6 +66,7 @@ abstract class PhraseHelper {
 			PhraseHelper.realiseList(parent, realisedElement, phrase
 					.getPostModifiers(), DiscourseFunction.POST_MODIFIER);
 		}
+		
 		return realisedElement;
 	}
 
@@ -163,12 +164,18 @@ abstract class PhraseHelper {
 		// orthography and morphology processing later.
 		ListElement realisedList = new ListElement();
 		NLGElement currentElement = null;
+
 		for (NLGElement eachElement : elementList) {
 			currentElement = parent.realise(eachElement);
 
 			if (currentElement != null) {
 				currentElement.setFeature(InternalFeature.DISCOURSE_FUNCTION,
 						function);
+
+				if (eachElement.getFeatureAsBoolean(Feature.APPOSITIVE).booleanValue()) {
+					currentElement.setFeature(Feature.APPOSITIVE, true);
+				}
+
 				// realisedElement.addComponent(currentElement);
 				realisedList.addComponent(currentElement);
 			}

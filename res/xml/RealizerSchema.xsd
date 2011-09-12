@@ -240,7 +240,10 @@
 						minOccurs="0" maxOccurs="unbounded" />
 				</xs:sequence>
 				<xs:attribute name="cat" type="nlg:phraseCategory" />
-				<xs:attribute name="discourseFunction" type="nlg:discourseFunction"></xs:attribute>
+				<xs:attribute name="discourseFunction"
+					type="nlg:discourseFunction">
+				</xs:attribute>
+				<xs:attribute name="appositive" type="xs:boolean"></xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
