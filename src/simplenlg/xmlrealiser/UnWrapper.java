@@ -51,6 +51,8 @@ import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.PPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
+import simplenlg.xmlrealiser.wrapper.XmlStringElement;
+import simplenlg.xmlrealiser.wrapper.XmlWordElement;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -84,7 +86,7 @@ public class UnWrapper {
 					.newInstance(simplenlg.xmlrealiser.wrapper.NLGSpec.class);
 			Unmarshaller u = jc.createUnmarshaller();
 			Object obj = u.unmarshal(xmlReader);
-			
+
 			if (obj instanceof simplenlg.xmlrealiser.wrapper.NLGSpec) {
 				wt = (simplenlg.xmlrealiser.wrapper.NLGSpec) obj;
 			}
@@ -220,9 +222,23 @@ public class UnWrapper {
 		// Phrases
 		else if (wps instanceof simplenlg.xmlrealiser.wrapper.XmlPhraseElement) {
 			simplenlg.xmlrealiser.wrapper.XmlPhraseElement we = (simplenlg.xmlrealiser.wrapper.XmlPhraseElement) wps;
-			PhraseElement hp = null;
-			simplenlg.xmlrealiser.wrapper.XmlWordElement w = we.getHead();
-			NLGElement head = UnwrapWordElement(w);
+			PhraseElement hp = null;			
+//			simplenlg.xmlrealiser.wrapper.XmlNLGElement w = we.getHead();
+//			NLGElement head = UnwrapNLGElement(w);
+			
+			NLGElement head;
+			simplenlg.xmlrealiser.wrapper.XmlNLGElement w = we.getHeadstring();
+			
+			//check whether we have a stringelement or wordelement as head
+			if(w == null) {
+				w = we.getHeadword();
+				head = UnwrapWordElement((XmlWordElement) w);
+				
+			} else {
+				head = factory.createStringElement(((XmlStringElement) w).getVal());
+			}
+			
+
 
 			// Noun Phrase
 			if (wps instanceof simplenlg.xmlrealiser.wrapper.XmlNPPhraseSpec) {
@@ -294,13 +310,13 @@ public class UnWrapper {
 						simplenlg.features.DiscourseFunction.class, we
 								.getDiscourseFunction().toString()));
 			}
-			
-			//check the appositive feature
+
+			// check the appositive feature
 			Boolean appositive = we.isAppositive();
-			if(appositive != null) {
+			if (appositive != null) {
 				hp.setFeature(Feature.APPOSITIVE, appositive);
 			}
-			
+
 			return hp;
 		}
 
@@ -514,7 +530,7 @@ public class UnWrapper {
 	private void setNPFeatures(
 			simplenlg.xmlrealiser.wrapper.XmlNPPhraseSpec wp,
 			simplenlg.phrasespec.NPPhraseSpec p) {
-		
+
 		if (wp.getNUMBER() != null) {
 			// map number feature from wrapper ~NumberAgr to actual NumberAgr
 			String numString = wp.getNUMBER().toString();

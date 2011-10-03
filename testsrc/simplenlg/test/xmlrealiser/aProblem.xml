@@ -8,42 +8,42 @@
 			<Document>
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="ADVERB">
+						<headword cat="ADVERB">
 							<base>there</base>
-						</head>
+						</headword>
 					</subj>
 					<vp xsi:type="VPPhraseSpec">
-						<head cat="VERB">
+						<headword cat="VERB">
 							<base>be</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec">
 							<preMod xsi:type="CoordinatedPhraseElement" conj=",">
 								<coord xsi:type="AdjPhraseSpec">
-									<head cat="ADJECTIVE">
+									<headword cat="ADJECTIVE">
 										<base>eccentric</base>
-									</head>
+									</headword>
 								</coord>
 								<coord xsi:type="AdjPhraseSpec">
-									<head cat="ADJECTIVE">
+									<headword cat="ADJECTIVE">
 										<base>tubular</base>
-									</head>
+									</headword>
 								</coord>
 							</preMod>
-							<head cat="NOUN">
+							<headword cat="NOUN">
 								<base>stenosis</base>
-							</head>
+							</headword>
 							<spec xsi:type="WordElement" cat="DETERMINER">
 								<base>a</base>
 							</spec>
 						</compl>
 						<postMod xsi:type="PPPhraseSpec">
-							<head cat="PREPOSITION">
+							<headword cat="PREPOSITION">
 								<base>in</base>
-							</head>
+							</headword>
 							<compl xsi:type="NPPhraseSpec">
-								<head cat="NOUN">
+								<headword cat="NOUN">
 									<base>third obtuse marginal branch</base>
-								</head>
+								</headword>
 								<spec xsi:type="WordElement" cat="DETERMINER">
 									<base>the</base>
 								</spec>
@@ -53,14 +53,14 @@
 				</child>
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="ADVERB">
+						<headword cat="ADVERB">
 							<base>there</base>
-						</head>
+						</headword>
 					</subj>
 					<vp xsi:type="VPPhraseSpec">
-						<head cat="VERB">
+						<headword cat="VERB">
 							<base>be</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec">
 							<spec xsi:type="StringElement">
 								<val>an</val>
@@ -68,23 +68,23 @@
 							<preMod xsi:type="StringElement">
 								<val>80 %</val>
 							</preMod>
-							<head cat="NOUN">
+							<headword cat="NOUN">
 								<base>stenosis</base>
-							</head>
+							</headword>
 						</compl>
 						<postMod xsi:type="PPPhraseSpec">
-							<head cat="PREPOSITION">
+							<headword cat="PREPOSITION">
 								<base>in</base>
-							</head>
+							</headword>
 							<compl xsi:type="NPPhraseSpec">
 								<preMod xsi:type="AdjPhraseSpec">
-									<head cat="ADJECTIVE">
+									<headword cat="ADJECTIVE">
 										<base>proximal</base>
-									</head>
+									</headword>
 								</preMod>
-								<head cat="NOUN">
+								<headword cat="NOUN">
 									<base>right coronary artery</base>
-								</head>
+								</headword>
 								<spec xsi:type="WordElement" cat="DETERMINER">
 									<base>the</base>
 								</spec>

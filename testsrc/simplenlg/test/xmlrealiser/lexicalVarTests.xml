@@ -10,52 +10,52 @@
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="NOUN">
+						<headword cat="NOUN">
 							<base>right coronary artery</base>
-						</head>
+						</headword>
 						<spec xsi:type="WordElement" cat="DETERMINER">
 							<base>the</base>
 						</spec>
 					</subj>
 					<vp xsi:type="VPPhraseSpec">
-						<head cat="VERB">
+						<headword cat="VERB">
 							<base>have</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec" NUMBER="PLURAL">
 							<preMod xsi:type="AdjPhraseSpec">
-								<head cat="ADJECTIVE">
+								<headword cat="ADJECTIVE">
 									<base>mild</base>
-								</head>
+								</headword>
 							</preMod>
-							<head cat="NOUN" var="UNCOUNT">
+							<headword cat="NOUN" var="UNCOUNT">
 								<base>calcification</base>
-							</head>
+							</headword>
 						</compl>
 					</vp>
 				</child>
 
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="NOUN">
+						<headword cat="NOUN">
 							<base>right coronary artery</base>
-						</head>
+						</headword>
 						<spec xsi:type="WordElement" cat="DETERMINER">
 							<base>the</base>
 						</spec>
 					</subj>
 					<vp xsi:type="VPPhraseSpec">
-						<head cat="VERB">
+						<headword cat="VERB">
 							<base>have</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec" NUMBER="PLURAL">
 							<preMod xsi:type="AdjPhraseSpec">
-								<head cat="ADJECTIVE">
+								<headword cat="ADJECTIVE">
 									<base>mild</base>
-								</head>
+								</headword>
 							</preMod>
-							<head>
+							<headword>
 								<base>calcification</base>
-							</head>
+							</headword>
 						</compl>
 					</vp>
 				</child>
@@ -66,29 +66,29 @@
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="NOUN">
+						<headword cat="NOUN">
 							<base>patient</base>
-						</head>
+						</headword>
 						<spec xsi:type="WordElement" cat="DETERMINER">
 							<base>the</base>
 						</spec>
 					</subj>
 					<vp xsi:type="VPPhraseSpec" TENSE="PAST">
-						<head cat="VERB" var="IRREGULAR">
+						<headword cat="VERB" var="IRREGULAR">
 							<base>lie</base>
-						</head>
+						</headword>
 						<postMod xsi:type="VPPhraseSpec" TENSE="PAST">
-							<head cat="VERB">
+							<headword cat="VERB">
 								<base>etherise</base>
-							</head>
+							</headword>
 							<postMod xsi:type="PPPhraseSpec">
-								<head cat="PREPOSITION">
+								<headword cat="PREPOSITION">
 									<base>upon</base>
-								</head>
+								</headword>
 								<compl xsi:type="NPPhraseSpec">
-									<head cat="NOUN">
+									<headword cat="NOUN">
 										<base>table</base>
-									</head>
+									</headword>
 									<spec xsi:type="WordElement" cat="DETERMINER">
 										<base>a</base>
 									</spec>
@@ -104,41 +104,41 @@
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="NOUN">
+						<headword cat="NOUN">
 							<base>patient</base>
-						</head>
+						</headword>
 						<spec xsi:type="WordElement" cat="DETERMINER">
 							<base>the</base>
 						</spec>
 					</subj>
 					<vp xsi:type="VPPhraseSpec" TENSE="PAST">
-						<head cat="VERB" var="IRREGULAR">
+						<headword cat="VERB" var="IRREGULAR">
 							<base>has</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec">
-							<head cat="NOUN">
+							<headword cat="NOUN">
 								<base>Adam-Stokes disease</base>
-							</head>
+							</headword>
 						</compl>
 					</vp>
 				</child>
 				<child xsi:type="SPhraseSpec">
 					<subj xsi:type="NPPhraseSpec">
-						<head cat="NOUN">
+						<headword cat="NOUN">
 							<base>patient</base>
-						</head>
+						</headword>
 						<spec xsi:type="WordElement" cat="DETERMINER">
 							<base>the</base>
 						</spec>
 					</subj>
 					<vp xsi:type="VPPhraseSpec" TENSE="PAST">
-						<head cat="VERB" var="IRREGULAR">
+						<headword cat="VERB" var="IRREGULAR">
 							<base>has</base>
-						</head>
+						</headword>
 						<compl xsi:type="NPPhraseSpec">
-							<head cat="NOUN">
+							<headword cat="NOUN">
 								<base>Adam Stokes disease</base>
-							</head>
+							</headword>
 						</compl>
 					</vp>
 				</child>
