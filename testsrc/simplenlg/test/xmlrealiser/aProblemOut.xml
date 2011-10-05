@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<NLGSpec xmlns="http://simplenlg.googlecode.com/svn/trunk/res/xml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<NLGSpec xmlns="http://code.google.com/p/simplenlg/schemas/version1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Recording name="">
     <Record name="">
       <Document>
         <child xsi:type="SPhraseSpec">
           <subj xsi:type="NPPhraseSpec">
-            <headword cat="ADVERB">
+            <head cat="ADVERB">
               <base>there</base>
-            </headword>
+            </head>
           </subj>
           <vp xsi:type="VPPhraseSpec">
+            <head cat="VERB">
+              <base>be</base>
+            </head>
             <compl xsi:type="NPPhraseSpec">
               <preMod xsi:type="CoordinatedPhraseElement" conj=",">
                 <coord xsi:type="AdjPhraseSpec">
-                  <headword cat="ADJECTIVE">
+                  <head cat="ADJECTIVE">
                     <base>eccentric</base>
-                  </headword>
+                  </head>
                 </coord>
                 <coord xsi:type="AdjPhraseSpec">
-                  <headword cat="ADJECTIVE">
+                  <head cat="ADJECTIVE">
                     <base>tubular</base>
-                  </headword>
+                  </head>
                 </coord>
               </preMod>
-              <headword cat="NOUN">
+              <head cat="NOUN">
                 <base>stenosis</base>
-              </headword>
+              </head>
               <spec xsi:type="WordElement" cat="DETERMINER">
                 <base>a</base>
               </spec>
             </compl>
             <postMod xsi:type="PPPhraseSpec">
+              <head cat="PREPOSITION">
+                <base>in</base>
+              </head>
               <compl xsi:type="NPPhraseSpec">
-                <headword cat="NOUN">
+                <head cat="NOUN">
                   <base>third obtuse marginal branch</base>
-                </headword>
+                </head>
                 <spec xsi:type="WordElement" cat="DETERMINER">
                   <base>the</base>
                 </spec>
               </compl>
-              <headword cat="PREPOSITION">
-                <base>in</base>
-              </headword>
             </postMod>
-            <headword cat="VERB">
-              <base>be</base>
-            </headword>
           </vp>
         </child>
         <child xsi:type="SPhraseSpec">
           <subj xsi:type="NPPhraseSpec">
-            <headword cat="ADVERB">
+            <head cat="ADVERB">
               <base>there</base>
-            </headword>
+            </head>
           </subj>
           <vp xsi:type="VPPhraseSpec">
+            <head cat="VERB">
+              <base>be</base>
+            </head>
             <compl xsi:type="NPPhraseSpec">
               <preMod xsi:type="StringElement">
                 <val>80 %</val>
               </preMod>
-              <headword cat="NOUN">
+              <head cat="NOUN">
                 <base>stenosis</base>
-              </headword>
+              </head>
               <spec xsi:type="StringElement">
                 <val>an</val>
               </spec>
             </compl>
             <postMod xsi:type="PPPhraseSpec">
+              <head cat="PREPOSITION">
+                <base>in</base>
+              </head>
               <compl xsi:type="NPPhraseSpec">
                 <preMod xsi:type="AdjPhraseSpec">
-                  <headword cat="ADJECTIVE">
+                  <head cat="ADJECTIVE">
                     <base>proximal</base>
-                  </headword>
+                  </head>
                 </preMod>
-                <headword cat="NOUN">
+                <head cat="NOUN">
                   <base>right coronary artery</base>
-                </headword>
+                </head>
                 <spec xsi:type="WordElement" cat="DETERMINER">
                   <base>the</base>
                 </spec>
               </compl>
-              <headword cat="PREPOSITION">
-                <base>in</base>
-              </headword>
             </postMod>
-            <headword cat="VERB">
-              <base>be</base>
-            </headword>
           </vp>
         </child>
       </Document>
