@@ -236,14 +236,7 @@
 						minOccurs="0" maxOccurs="unbounded" />
 					<xs:element name="postMod" type="nlg:NLGElement"
 						minOccurs="0" maxOccurs="unbounded" />
-					<xs:choice>
-						<xs:element name="headstring" minOccurs="0"
-							type="nlg:StringElement">
-						</xs:element>
-						<xs:element name="headword" minOccurs="0"
-							type="nlg:WordElement">
-						</xs:element>
-					</xs:choice>
+					<xs:element name="head" type="nlg:WordElement" minOccurs="0"/>
 				</xs:sequence>
 				<xs:attribute name="cat" type="nlg:phraseCategory" />
 				<xs:attribute name="discourseFunction" type="nlg:discourseFunction">
@@ -299,6 +292,7 @@
 		<xs:attribute name="EXPLETIVE_SUBJECT" type="xs:boolean" />
 		<xs:attribute name="PROPER" type="xs:boolean" />
 		<xs:attribute name="var" type="nlg:inflection" />
+		<xs:attribute name="canned" type="xs:boolean"></xs:attribute>
 	</xs:attributeGroup>
 
 	<xs:simpleType name="phraseCategory">

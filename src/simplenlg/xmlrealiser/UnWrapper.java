@@ -51,7 +51,6 @@ import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.PPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
-import simplenlg.xmlrealiser.wrapper.XmlStringElement;
 import simplenlg.xmlrealiser.wrapper.XmlWordElement;
 
 // TODO: Auto-generated Javadoc
@@ -222,23 +221,23 @@ public class UnWrapper {
 		// Phrases
 		else if (wps instanceof simplenlg.xmlrealiser.wrapper.XmlPhraseElement) {
 			simplenlg.xmlrealiser.wrapper.XmlPhraseElement we = (simplenlg.xmlrealiser.wrapper.XmlPhraseElement) wps;
-			PhraseElement hp = null;			
-//			simplenlg.xmlrealiser.wrapper.XmlNLGElement w = we.getHead();
-//			NLGElement head = UnwrapNLGElement(w);
-			
-			NLGElement head;
-			simplenlg.xmlrealiser.wrapper.XmlNLGElement w = we.getHeadstring();
-			
-			//check whether we have a stringelement or wordelement as head
-			if(w == null) {
-				w = we.getHeadword();
-				head = UnwrapWordElement((XmlWordElement) w);
-				
-			} else {
-				head = factory.createStringElement(((XmlStringElement) w).getVal());
-			}
-			
+			PhraseElement hp = null;
+			XmlWordElement w = we.getHead();
+			NLGElement head = UnwrapWordElement(w);
 
+			// NLGElement head;
+			// simplenlg.xmlrealiser.wrapper.XmlNLGElement w =
+			// we.getHeadstring();
+
+			// check whether we have a stringelement or wordelement as head
+			// if(w == null) {
+			// w = we.getHeadword();
+			// head = UnwrapWordElement((XmlWordElement) w);
+			//				
+			// } else {
+			// head = factory.createStringElement(((XmlStringElement)
+			// w).getVal());
+			// }
 
 			// Noun Phrase
 			if (wps instanceof simplenlg.xmlrealiser.wrapper.XmlNPPhraseSpec) {
@@ -441,46 +440,55 @@ public class UnWrapper {
 	 */
 	private NLGElement UnwrapWordElement(
 			simplenlg.xmlrealiser.wrapper.XmlWordElement wordElement) {
-		if (wordElement == null) {
-			return null;
-		}
-		LexicalCategory lexCat = LexicalCategory.ANY;
-		ElementCategory cat = UnwrapCategory(wordElement.getCat());
-
-		if (cat != null && cat instanceof LexicalCategory) {
-			lexCat = (LexicalCategory) cat;
-		}
-
-		// String baseForm = getBaseWord(wordElement);
-		String baseForm = wordElement.getBase();
 		NLGElement word = null;
+		
+		if (wordElement != null) {
+			
+			if (Boolean.TRUE.equals(wordElement.isCanned())) {
+				word = this.factory.createStringElement(wordElement.getBase());
 
-		if (baseForm != null) {
-			word = factory.createWord(baseForm, lexCat);
+			} else {
 
-			if (word instanceof InflectedWordElement
-					&& ((InflectedWordElement) word).getBaseWord()
-							.getBaseForm().isEmpty()) {
-				word = null; // cch TESTING
+				LexicalCategory lexCat = LexicalCategory.ANY;
+				ElementCategory cat = UnwrapCategory(wordElement.getCat());
 
-			} else if (word instanceof WordElement) {
-				WordElement we = (WordElement) word;
-
-				// Inflection
-				if (wordElement.getVar() != null) {
-					Inflection defaultInflection = Enum.valueOf(
-							Inflection.class, wordElement.getVar().toString());
-					we.setDefaultInflectionalVariant(defaultInflection);
+				if (cat != null && cat instanceof LexicalCategory) {
+					lexCat = (LexicalCategory) cat;
 				}
 
-				// Spelling variant may have been given as base form in xml.
-				// If so, use that variant.
-				if (!baseForm.matches(we.getBaseForm())) {
-					we.setDefaultSpellingVariant(baseForm);
+				// String baseForm = getBaseWord(wordElement);
+				String baseForm = wordElement.getBase();
+
+				if (baseForm != null) {
+					word = factory.createWord(baseForm, lexCat);
+
+					if (word instanceof InflectedWordElement
+							&& ((InflectedWordElement) word).getBaseWord()
+									.getBaseForm().isEmpty()) {
+						word = null; // cch TESTING
+
+					} else if (word instanceof WordElement) {
+						WordElement we = (WordElement) word;
+
+						// Inflection
+						if (wordElement.getVar() != null) {
+							Inflection defaultInflection = Enum.valueOf(
+									Inflection.class, wordElement.getVar()
+											.toString());
+							we.setDefaultInflectionalVariant(defaultInflection);
+						}
+
+						// Spelling variant may have been given as base form in
+						// xml.
+						// If so, use that variant.
+						if (!baseForm.matches(we.getBaseForm())) {
+							we.setDefaultSpellingVariant(baseForm);
+						}
+					}
 				}
 			}
 		}
-
+		
 		return word;
 	}
 
