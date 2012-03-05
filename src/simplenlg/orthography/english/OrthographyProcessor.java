@@ -105,8 +105,8 @@ public class OrthographyProcessor extends NLGModule {
 					NLGElement firstChild = children.get(0);
 					function = firstChild
 							.getFeature(InternalFeature.DISCOURSE_FUNCTION);
-					appositive = firstChild
-							.getFeatureAsBoolean(Feature.APPOSITIVE);
+					// appositive = firstChild
+					// .getFeatureAsBoolean(Feature.APPOSITIVE);
 				}
 
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
