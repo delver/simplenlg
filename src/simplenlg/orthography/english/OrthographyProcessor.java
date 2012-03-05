@@ -99,7 +99,7 @@ public class OrthographyProcessor extends NLGModule {
 				StringBuffer buffer = new StringBuffer();
 				List<NLGElement> children = element.getChildren();
 				Object function = null;
-				Boolean appositive = false;
+				//Boolean appositive = false;
 
 				if (!children.isEmpty()) {
 					NLGElement firstChild = children.get(0);
@@ -112,10 +112,24 @@ public class OrthographyProcessor extends NLGModule {
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
 					realiseList(buffer, element.getChildren(), ",");
 
-				} else if (DiscourseFunction.POST_MODIFIER.equals(function)	&& appositive) {										
-					buffer.append(", ");
-					realiseList(buffer, element.getChildren(), ",");
-					buffer.append(", ");
+				} else if (DiscourseFunction.POST_MODIFIER.equals(function)	) {//&& appositive) {										
+
+					for(NLGElement postmod: element.getChildren()) {
+						
+						//if the postmod is appositive, it's sandwiched in commas
+						if(postmod.getFeatureAsBoolean(Feature.APPOSITIVE)) {
+							buffer.append(", ");
+							buffer.append(realise(postmod));
+							buffer.append(", ");
+						} else {
+							buffer.append(realise(postmod));
+							buffer.append(" ");
+						}
+					}
+					
+					//buffer.append(", ");
+					//realiseList(buffer, element.getChildren(), ",");
+					//buffer.append(", ");
 
 				} else {
 					realiseList(buffer, element.getChildren(), "");

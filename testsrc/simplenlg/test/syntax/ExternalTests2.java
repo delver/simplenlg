@@ -20,6 +20,7 @@ package simplenlg.test.syntax;
 
 import junit.framework.Assert;
 import simplenlg.features.Feature;
+import simplenlg.features.Form;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.phrasespec.AdvPhraseSpec;
@@ -145,5 +146,45 @@ public class ExternalTests2 extends SimpleNLG4Test {
 		s.setObject("a wolf");
 		Assert.assertEquals("I see a wolf", this.realiser.realise(s).getRealisation());
 
+	}
+	
+	/**
+	 * Test for subclauses involving WH-complements
+	 * Based on a query by Owen Bennett
+	 */
+	public void testSubclauses() {
+		//Once upon a time, there was an Accountant, called Jeff, who lived in a forest.
+		
+		//main sentence
+		NPPhraseSpec acct =this.phraseFactory.createNounPhrase("a", "accountant");
+		
+		//first postmodifier of "an accountant" 
+		VPPhraseSpec sub1 = this.phraseFactory.createVerbPhrase("call");
+		sub1.addComplement("Jeff");
+		sub1.setFeature(Feature.FORM, Form.PAST_PARTICIPLE);
+		//this is an appositive modifier, which makes simplenlg put it between commas
+		sub1.setFeature(Feature.APPOSITIVE, true);
+		acct.addPostModifier(sub1);
+		
+		//second postmodifier of "an accountant" is "who lived in a forest"
+		SPhraseSpec sub2 = this.phraseFactory.createClause();
+		VPPhraseSpec subvp = this.phraseFactory.createVerbPhrase("live");
+		subvp.setFeature(Feature.TENSE, Tense.PAST);
+		subvp.setComplement(this.phraseFactory.createPrepositionPhrase("in", this.phraseFactory.createNounPhrase("a", "forest")));
+		sub2.setVerbPhrase(subvp);
+		//simplenlg can't yet handle wh-clauses in NPs, so we need to hack it by setting the subject to "who"
+		sub2.setSubject("who");
+		acct.addPostModifier(sub2);
+		
+		//main sentence		
+		SPhraseSpec s = this.phraseFactory.createClause("there", "be", acct);
+		s.setFeature(Feature.TENSE, Tense.PAST);
+		
+		//add front modifier "once upon a time"
+		s.addFrontModifier("once upon a time");
+		
+		Assert.assertEquals("once upon a time there was an accountant, called Jeff, who lived in a forest", this.realiser.realise(s).getRealisation());
+		
+		
 	}
 }

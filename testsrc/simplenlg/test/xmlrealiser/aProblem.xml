@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <nlg:NLGSpec xmlns="http://simplenlg.googlecode.com/svn/trunk/res/xml"
 	xmlns:nlg="http://simplenlg.googlecode.com/svn/trunk/res/xml"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://simplenlg.googlecode.com/svn/trunk/res/xml ">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://simplenlg.googlecode.com/svn/trunk/res/xml/ RealizerSchema.xsd">
 	<nlg:Recording name="">
 		<nlg:Record name="">
 			<Document>
