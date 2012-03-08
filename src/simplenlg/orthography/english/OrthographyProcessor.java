@@ -62,7 +62,7 @@ public class OrthographyProcessor extends NLGModule {
 	@Override
 	public NLGElement realise(NLGElement element) {
 		NLGElement realisedElement = null;
-		
+
 		if (element != null) {
 			ElementCategory category = element.getCategory();
 
@@ -95,11 +95,12 @@ public class OrthographyProcessor extends NLGModule {
 			} else if (element instanceof ListElement) {
 				// AG: changes here: if we have a premodifier, then we ask the
 				// realiseList method to separate with a comma.
-				// if it's a postmod, we need commas at the start and end only if it's appositive
+				// if it's a postmod, we need commas at the start and end only
+				// if it's appositive
 				StringBuffer buffer = new StringBuffer();
 				List<NLGElement> children = element.getChildren();
 				Object function = null;
-				//Boolean appositive = false;
+				// Boolean appositive = false;
 
 				if (!children.isEmpty()) {
 					NLGElement firstChild = children.get(0);
@@ -112,24 +113,35 @@ public class OrthographyProcessor extends NLGModule {
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
 					realiseList(buffer, element.getChildren(), ",");
 
-				} else if (DiscourseFunction.POST_MODIFIER.equals(function)	) {//&& appositive) {										
+				} else if (DiscourseFunction.POST_MODIFIER.equals(function)) {// &&
+																				// appositive)
+																				// {
+					List<NLGElement> postmods = element.getChildren();
+					// bug fix due to Owen Bennett
+					int len = postmods.size();
 
-					for(NLGElement postmod: element.getChildren()) {
-						
-						//if the postmod is appositive, it's sandwiched in commas
-						if(postmod.getFeatureAsBoolean(Feature.APPOSITIVE)) {
+					for (int i = 0; i < len; i++) {
+						// for(NLGElement postmod: element.getChildren()) {
+						NLGElement postmod = postmods.get(i);
+
+						// if the postmod is appositive, it's sandwiched in
+						// commas
+						if (postmod.getFeatureAsBoolean(Feature.APPOSITIVE)) {
 							buffer.append(", ");
 							buffer.append(realise(postmod));
-							buffer.append(", ");
+
+							if (i < len - 1) {
+								buffer.append(", ");
+							}
 						} else {
 							buffer.append(realise(postmod));
 							buffer.append(" ");
 						}
 					}
-					
-					//buffer.append(", ");
-					//realiseList(buffer, element.getChildren(), ",");
-					//buffer.append(", ");
+
+					// buffer.append(", ");
+					// realiseList(buffer, element.getChildren(), ",");
+					// buffer.append(", ");
 
 				} else {
 					realiseList(buffer, element.getChildren(), "");
@@ -156,20 +168,21 @@ public class OrthographyProcessor extends NLGModule {
 		removePunctSpace(realisedElement);
 		return realisedElement;
 	}
-	
+
 	/**
 	 * removes extra spaces preceding punctuation from a realised element
+	 * 
 	 * @param realisedElement
 	 */
 	private void removePunctSpace(NLGElement realisedElement) {
-		String realisation =realisedElement.getRealisation();
-		
-		if(realisation != null) {
-			realisation = realisation.replaceAll(" ,", ",");			
+		String realisation = realisedElement.getRealisation();
+
+		if (realisation != null) {
+			realisation = realisation.replaceAll(" ,", ",");
 			realisedElement.setRealisation(realisation);
 		}
 	}
-	
+
 	/**
 	 * Performs the realisation on a sentence. This includes adding the
 	 * terminator and capitalising the first letter.
@@ -198,7 +211,7 @@ public class OrthographyProcessor extends NLGModule {
 			element.setRealisation(realisation.toString());
 			realisedElement = element;
 		}
-		
+
 		return realisedElement;
 	}
 

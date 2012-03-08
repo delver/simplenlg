@@ -18,6 +18,7 @@
  */
  // package simplenlg.format.english;
 
+package simplenlg.format.english;
 import java.util.ArrayList;
 import java.util.List;
 
