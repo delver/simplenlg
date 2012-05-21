@@ -118,11 +118,11 @@ public abstract class MorphologyRules {
 			// pluralForm = baseForm;
 			Object elementDefaultInfl = element
 					.getFeature(LexicalFeature.DEFAULT_INFL);
-			
+
 			if (elementDefaultInfl != null
 					&& Inflection.UNCOUNT.equals(elementDefaultInfl)) {
 				pluralForm = baseForm;
-				
+
 			} else {
 				pluralForm = element.getFeatureAsString(LexicalFeature.PLURAL);
 			}
@@ -324,7 +324,8 @@ public abstract class MorphologyRules {
 					} else if (Inflection.REGULAR_DOUBLE.equals(patternValue)) {
 						realised = buildDoublePastVerb(baseForm);
 					} else {
-						realised = buildRegularPastVerb(baseForm, numberValue);
+						realised = buildRegularPastVerb(baseForm, numberValue,
+								personValue);
 					}
 				}
 
@@ -339,7 +340,8 @@ public abstract class MorphologyRules {
 					if (Inflection.REGULAR_DOUBLE.equals(patternValue)) {
 						realised = buildDoublePastVerb(baseForm);
 					} else {
-						realised = buildRegularPastVerb(baseForm, numberValue);
+						realised = buildRegularPastVerb(baseForm, numberValue,
+								personValue);
 					}
 				}
 			}
@@ -489,7 +491,8 @@ public abstract class MorphologyRules {
 	 * <li>If the verb is <em>be</em> and the number agreement is plural then
 	 * the realised form is <em>were</em>.</li>
 	 * <li>If the verb is <em>be</em> and the number agreement is singular then
-	 * the realised form is <em>was</em>.</li>
+	 * the realised form is <em>was</em>, unless the person is second, in which
+	 * case it's <em>were</em>.</li>
 	 * <li>For verbs ending <em>-e</em> the ending becomes <em>-ed</em>. For
 	 * example, <em>chased</em> becomes <em>chased</em>.</li>
 	 * <li>For verbs ending <em>-Cy</em>, where C is any consonant, the ending
@@ -501,16 +504,24 @@ public abstract class MorphologyRules {
 	 *            the base form of the word.
 	 * @param number
 	 *            the number agreement for the word.
+	 * @param person
+	 *            the person
 	 * @return the inflected word.
 	 */
-	private static String buildRegularPastVerb(String baseForm, Object number) {
+	private static String buildRegularPastVerb(String baseForm, Object number,
+			Object person) {
 		String morphology = null;
 		if (baseForm != null) {
 			if (baseForm.equalsIgnoreCase("be")) { //$NON-NLS-1$
 				if (NumberAgreement.PLURAL.equals(number)) {
 					morphology = "were"; //$NON-NLS-1$
+
+					// AG - bug fix to handle second person past (courtesy of
+					// Minh Le)
+				} else if (Person.SECOND.equals(person)) {
+					morphology = "were"; //$NON-NLS-1$
 				} else {
-					morphology = "was"; //$NON-NLS-1$
+					morphology = "was";
 				}
 			} else if (baseForm.endsWith("e")) { //$NON-NLS-1$
 				morphology = baseForm + "d"; //$NON-NLS-1$
@@ -679,13 +690,13 @@ public abstract class MorphologyRules {
 	 * Builds the comparative form for regular adjectives. The rules are
 	 * performed in this order:
 	 * <ul>
-	 * <li>For verbs ending <em>-Cy</em>, where C is any consonant, the ending
-	 * becomes <em>-ier</em>. For example, <em>brainy</em> becomes
+	 * <li>For adjectives ending <em>-Cy</em>, where C is any consonant, the
+	 * ending becomes <em>-ier</em>. For example, <em>brainy</em> becomes
 	 * <em>brainier</em>.</li>
-	 * <li>For verbs ending <em>-e</em> the ending becomes <em>-er</em>. For
-	 * example, <em>fine</em> becomes <em>finer</em>.</li>
-	 * <li>For all other verbs, <em>-er</em> is added to the end. For example,
-	 * <em>clear</em> becomes <em>clearer</em>.</li>
+	 * <li>For adjectives ending <em>-e</em> the ending becomes <em>-er</em>.
+	 * For example, <em>fine</em> becomes <em>finer</em>.</li>
+	 * <li>For all other adjectives, <em>-er</em> is added to the end. For
+	 * example, <em>clear</em> becomes <em>clearer</em>.</li>
 	 * </ul>
 	 * 
 	 * @param baseForm
@@ -821,7 +832,8 @@ public abstract class MorphologyRules {
 		String realised = null;
 
 		if (!element.getFeatureAsBoolean(InternalFeature.NON_MORPH)
-				.booleanValue() && !isWHPronoun(element)) {
+				.booleanValue()
+				&& !isWHPronoun(element)) {
 			Object genderValue = element.getFeature(LexicalFeature.GENDER);
 			Object personValue = element.getFeature(Feature.PERSON);
 			Object discourseValue = element

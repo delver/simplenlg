@@ -31,11 +31,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simplenlg.features.Feature;
 import simplenlg.features.LexicalFeature;
+import simplenlg.features.NumberAgreement;
+import simplenlg.features.Person;
+import simplenlg.features.Tense;
+import simplenlg.framework.InflectedWordElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.NIHDBLexicon;
+import simplenlg.realiser.english.Realiser;
 
 /**
  * Tests for NIHDBLexicon
@@ -74,6 +80,75 @@ public class NIHDBLexiconTest extends TestCase {
 	@Test
 	public void testBasics() {
 		SharedLexiconTests.doBasicTests(lexicon);
+	}
+
+	public void testBEInflection() {
+		Realiser r = new Realiser();
+		WordElement word = lexicon.getWord("be", LexicalCategory.VERB);
+		InflectedWordElement inflWord = new InflectedWordElement(word);
+		
+		//1st person sg past
+		inflWord.setFeature(Feature.PERSON, Person.FIRST);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("was", r.realise(inflWord).toString());
+		
+		//2nd person sg past
+		inflWord.setFeature(Feature.PERSON, Person.SECOND);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("were", r.realise(inflWord).toString());
+		
+		//3rd person sg past
+		inflWord.setFeature(Feature.PERSON, Person.THIRD);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("was", r.realise(inflWord).toString());
+		
+		//1st person sg present
+		inflWord.setFeature(Feature.PERSON, Person.FIRST);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);		
+		assertEquals("am", r.realise(inflWord).toString());
+		
+		//2nd person sg present
+		inflWord.setFeature(Feature.PERSON, Person.SECOND);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);
+		assertEquals("are", r.realise(inflWord).toString());
+		
+		//3rd person sg present
+		inflWord.setFeature(Feature.PERSON, Person.THIRD);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);
+		assertEquals("is", r.realise(inflWord).toString());
+		
+		inflWord.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		
+		//1st person pl past
+		inflWord.setFeature(Feature.PERSON, Person.FIRST);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("were", r.realise(inflWord).toString());
+		
+		//2nd person pl past
+		inflWord.setFeature(Feature.PERSON, Person.SECOND);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("were", r.realise(inflWord).toString());
+		
+		//3rd person pl past
+		inflWord.setFeature(Feature.PERSON, Person.THIRD);
+		inflWord.setFeature(Feature.TENSE, Tense.PAST);
+		assertEquals("were", r.realise(inflWord).toString());
+		
+		//1st person pl present
+		inflWord.setFeature(Feature.PERSON, Person.FIRST);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);		
+		assertEquals("are", r.realise(inflWord).toString());
+		
+		//2nd person pl present
+		inflWord.setFeature(Feature.PERSON, Person.SECOND);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);
+		assertEquals("are", r.realise(inflWord).toString());
+		
+		//3rd person pl present
+		inflWord.setFeature(Feature.PERSON, Person.THIRD);
+		inflWord.setFeature(Feature.TENSE, Tense.PRESENT);
+		assertEquals("are", r.realise(inflWord).toString());
+		
 	}
 
 	@Test
@@ -117,36 +192,36 @@ public class NIHDBLexiconTest extends TestCase {
 
 		LexThread runner1 = new LexThread("lie");
 		LexThread runner2 = new LexThread("bark");
-		
-		//schedule them and run them
+
+		// schedule them and run them
 		ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
 		service.schedule(runner1, 0, TimeUnit.MILLISECONDS);
 		service.schedule(runner2, 0, TimeUnit.MILLISECONDS);
 
 		try {
 			Thread.currentThread().sleep(500);
-		} catch(InterruptedException ie) {
-			;//do nothing
+		} catch (InterruptedException ie) {
+			;// do nothing
 		}
-		
+
 		service.shutdownNow();
-		
-		//check that the right words have been retrieved
-		Assert.assertEquals( "lie", runner1.word.getBaseForm());
+
+		// check that the right words have been retrieved
+		Assert.assertEquals("lie", runner1.word.getBaseForm());
 		Assert.assertEquals("bark", runner2.word.getBaseForm());
 	}
-	
+
 	/*
 	 * Class that implements a thread from which a lexical item can be retrieved
 	 */
 	private class LexThread extends Thread {
 		WordElement word;
 		String base;
-		
+
 		public LexThread(String base) {
 			this.base = base;
 		}
-		
+
 		public void run() {
 			word = lexicon.getWord(base, LexicalCategory.VERB);
 		}
