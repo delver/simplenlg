@@ -516,4 +516,23 @@ public class ExternalTest extends SimpleNLG4Test {
 
 
 	}
+	
+	@Test
+	public void testLay() {
+		// Richard Lay's test
+	      String lemma = "slap"; 
+
+	      WordElement word = this.lexicon.lookupWord(lemma,  LexicalCategory.VERB); 
+	      InflectedWordElement inflectedWord = new InflectedWordElement(word);
+	      inflectedWord.setFeature(Feature.FORM, Form.PRESENT_PARTICIPLE); 
+	      String form = realiser.realise(inflectedWord).getRealisation(); 
+	      Assert.assertEquals("slapping", form);
+
+
+		
+		VPPhraseSpec v = this.phraseFactory.createVerbPhrase("slap");
+		v.setFeature(Feature.PROGRESSIVE, true);
+		String progressive = this.realiser.realise(v).getRealisation();
+		Assert.assertEquals("is slapping", progressive);
+	}
 }
