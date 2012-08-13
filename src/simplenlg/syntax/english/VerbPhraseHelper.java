@@ -261,13 +261,12 @@ abstract class VerbPhraseHelper {
 	 * @return the verb group as a <code>Stack</code> of <code>NLGElement</code>
 	 *         s.
 	 */
-	@SuppressWarnings("deprecation")
 	static final private Stack<NLGElement> createVerbGroup(
 			SyntaxProcessor parent, PhraseElement phrase) {
 
 		String actualModal = null;
 		Object formValue = phrase.getFeature(Feature.FORM);
-		Tense tenseValue = phrase.getTense();
+		Tense tenseValue = (Tense) phrase.getFeature(Feature.TENSE);
 		String modal = phrase.getFeatureAsString(Feature.MODAL);
 		boolean modalPast = false;
 		Stack<NLGElement> vgComponents = new Stack<NLGElement>();
@@ -364,7 +363,8 @@ abstract class VerbPhraseHelper {
 	private static void pushFrontVerb(PhraseElement phrase,
 			Stack<NLGElement> vgComponents, NLGElement frontVG,
 			Object formValue, boolean interrogative) {
-
+		Object interrogType = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
+		
 		if (Form.GERUND.equals(formValue)) {
 			frontVG.setFeature(Feature.FORM, Form.PRESENT_PARTICIPLE);
 			vgComponents.push(frontVG);
@@ -381,8 +381,7 @@ abstract class VerbPhraseHelper {
 				&& !isCopular(phrase.getHead()) && vgComponents.isEmpty()) {
 
 			// AG: fix below: if interrogative, only set non-morph feature in
-			// case it's not WHO_SUBJECT OR WHAT_SUBJECT
-			Object interrogType = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
+			// case it's not WHO_SUBJECT OR WHAT_SUBJECT			
 			if (!(InterrogativeType.WHO_SUBJECT.equals(interrogType) || InterrogativeType.WHAT_SUBJECT
 					.equals(interrogType))) {
 				frontVG.setFeature(InternalFeature.NON_MORPH, true);
@@ -397,7 +396,13 @@ abstract class VerbPhraseHelper {
 			frontVG.setFeature(Feature.PERSON, phrase
 					.getFeature(Feature.PERSON));
 			frontVG.setFeature(Feature.NUMBER, numToUse);
-			vgComponents.push(frontVG);
+			
+			//don't push the front VG if it's a negated interrogative WH object question
+			if (!(phrase.getFeatureAsBoolean(Feature.NEGATED).booleanValue() && (InterrogativeType.WHO_OBJECT
+					.equals(interrogType) || InterrogativeType.WHAT_OBJECT
+					.equals(interrogType)))) {
+				vgComponents.push(frontVG);
+			}
 		}
 	}
 
@@ -421,6 +426,14 @@ abstract class VerbPhraseHelper {
 		if (phrase.getFeatureAsBoolean(Feature.NEGATED).booleanValue()) {
 			NLGFactory factory = phrase.getFactory();
 
+			// before adding "do", check if this is an object WH
+			// interrogative
+			// in which case, don't add anything as it's already done by
+			// ClauseHelper
+			Object interrType = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
+			boolean addDo = !(InterrogativeType.WHAT_OBJECT.equals(interrType) || InterrogativeType.WHO_OBJECT
+					.equals(interrType));
+
 			if (!vgComponents.empty() || frontVG != null && isCopular(frontVG)) {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
@@ -433,16 +446,19 @@ abstract class VerbPhraseHelper {
 				vgComponents.push(new InflectedWordElement(
 						"not", LexicalCategory.ADVERB)); //$NON-NLS-1$
 
-				if (factory != null) {
-					newFront = factory.createInflectedWord("do",
-							LexicalCategory.VERB);
+				if (addDo) {
+					if (factory != null) {
+						newFront = factory.createInflectedWord("do",
+								LexicalCategory.VERB);
 
-				} else {
-					newFront = new InflectedWordElement(
-							"do", LexicalCategory.VERB); //$NON-NLS-1$
+					} else {
+						newFront = new InflectedWordElement(
+								"do", LexicalCategory.VERB); //$NON-NLS-1$
+					}
 				}
 			}
 		}
+
 		return newFront;
 	}
 
@@ -568,7 +584,7 @@ abstract class VerbPhraseHelper {
 				frontVG = new InflectedWordElement((WordElement) frontVG);
 			}
 
-			//AG: tense value should always be set on frontVG 
+			// AG: tense value should always be set on frontVG
 			if (tenseValue != null) {
 				frontVG.setFeature(Feature.TENSE, tenseValue);
 			}
@@ -628,12 +644,15 @@ abstract class VerbPhraseHelper {
 			number = NumberAgreement.SINGULAR;
 		}
 
-		// Ehud Reiter = modified below to force number from VP for WHAT_SUBJECT and WHO_SUBJECT interrogatuves
+		// Ehud Reiter = modified below to force number from VP for WHAT_SUBJECT
+		// and WHO_SUBJECT interrogatuves
 		if (parent instanceof PhraseElement) {
 			if (parent.isA(PhraseCategory.CLAUSE)
-					&& (PhraseHelper.isExpletiveSubject((PhraseElement) parent) ||
-							InterrogativeType.WHO_SUBJECT.equals(parent.getFeature(Feature.INTERROGATIVE_TYPE)) ||
-							InterrogativeType.WHAT_SUBJECT.equals(parent.getFeature(Feature.INTERROGATIVE_TYPE)))
+					&& (PhraseHelper.isExpletiveSubject((PhraseElement) parent)
+							|| InterrogativeType.WHO_SUBJECT.equals(parent
+									.getFeature(Feature.INTERROGATIVE_TYPE)) || InterrogativeType.WHAT_SUBJECT
+							.equals(parent
+									.getFeature(Feature.INTERROGATIVE_TYPE)))
 					&& isCopular(phrase.getHead())) {
 
 				if (hasPluralComplement(phrase

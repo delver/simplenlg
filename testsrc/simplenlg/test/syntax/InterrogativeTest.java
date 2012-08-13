@@ -462,6 +462,74 @@ public class InterrogativeTest extends SimpleNLG4Test {
 	}
 
 	/**
+	 * WH movement in the progressive
+	 */
+	@Test
+	public void testProgrssiveWHSubjectQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause();
+		p.setSubject("Mary");
+		p.setVerb("eat");
+		p.setObject(this.phraseFactory.createNounPhrase("the", "pie"));
+		p.setFeature(Feature.PROGRESSIVE, true);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who is eating the pie", //$NON-NLS-1$
+				this.realiser.realise(p).getRealisation());
+	}
+
+	/**
+	 * WH movement in the progressive
+	 */
+	@Test
+	public void testProgrssiveWHObjectQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause();
+		p.setSubject("Mary");
+		p.setVerb("eat");
+		p.setObject(this.phraseFactory.createNounPhrase("the", "pie"));
+		p.setFeature(Feature.PROGRESSIVE, true);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		Assert.assertEquals("what is Mary eating", //$NON-NLS-1$
+				this.realiser.realise(p).getRealisation());
+
+		// AG -- need to check this; it doesn't work
+		// p.setFeature(Feature.NEGATED, true);
+		//		Assert.assertEquals("what is Mary not eating", //$NON-NLS-1$
+		// this.realiser.realise(p).getRealisation());
+
+	}
+
+	/**
+	 * Negation with WH movement for subject
+	 */
+	@Test
+	public void testNegatedWHSubjQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause();
+		p.setSubject("Mary");
+		p.setVerb("eat");
+		p.setObject(this.phraseFactory.createNounPhrase("the", "pie"));
+		p.setFeature(Feature.NEGATED, true);
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
+		Assert.assertEquals("who does not eat the pie", //$NON-NLS-1$
+				this.realiser.realise(p).getRealisation());
+	}
+
+	/**
+	 * Negation with WH movement for object
+	 */
+	@Test
+	public void testNegatedWHObjQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause();
+		p.setSubject("Mary");
+		p.setVerb("eat");
+		p.setObject(this.phraseFactory.createNounPhrase("the", "pie"));
+		p.setFeature(Feature.NEGATED, true);
+
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHAT_OBJECT);
+		NLGElement realisation = this.realiser.realise(p);
+		Assert.assertEquals("what does Mary not eat", //$NON-NLS-1$
+				realisation.getRealisation());
+	}
+
+	/**
 	 * Test questyions in the tutorial.
 	 */
 	@Test
@@ -499,7 +567,8 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		Assert.assertEquals("who upset the man", this.realiser.realise(p)
 				.getRealisation());
 
-		p.setFeature(Feature.INTERROGATIVE_TYPE,
+		p
+				.setFeature(Feature.INTERROGATIVE_TYPE,
 						InterrogativeType.WHAT_SUBJECT);
 		Assert.assertEquals("what upset the man", this.realiser.realise(p)
 				.getRealisation());
