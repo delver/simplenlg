@@ -755,7 +755,7 @@ public abstract class LexicalFeature {
 	 * </tr>
 	 * </table>
 	 */
-	public static final String PRESENT_PARTICIPLE = "present_participle";
+	public static final String PRESENT_PARTICIPLE = "presentParticiple";
 	/**
 	 * <p>
 	 * This feature gives the present third person singular form of a verb. For
