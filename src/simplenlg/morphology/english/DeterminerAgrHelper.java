@@ -37,12 +37,14 @@ public class DeterminerAgrHelper {
 	 */
 	public static boolean requiresAn(String string) {
 		boolean req = false;
+		
+		String lowercaseInput = string.toLowerCase();
 
-		if (string.matches(AN_AGREEMENT) && !isAnException(string)) {
+		if (lowercaseInput.matches(AN_AGREEMENT) && !isAnException(lowercaseInput)) {
 			req = true;
 
 		} else {
-			String numPref = getNumericPrefix(string);
+			String numPref = getNumericPrefix(lowercaseInput);
 
 			if (numPref != null && numPref.length() > 0
 					&& numPref.matches("^(8|11|18).*$")) {
