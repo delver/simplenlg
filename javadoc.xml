@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="javadoc">
     <target name="javadoc">
-        <javadoc access="public" author="true" classpath="lib/lexAccess2009dist.jar;lib/junit-4.4.jar;lib/aries-2.1.3.jar;lib/lexCheck2006api.jar" destdir="doc" doctitle="SimpleNLG v4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="simplenlg.*" source="1.5" sourcepath="src" splitindex="true" use="true" version="true"/>
+        <javadoc access="public" author="true" classpath="lib/lexAccess2009dist.jar;lib/junit-4.4.jar;lib/aries-2.1.3.jar;lib/lexCheck2006api.jar" destdir="doc" doctitle="SimpleNLG v4.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="simplenlg.*" source="1.5" sourcepath="src" splitindex="true" use="true" version="true"/>
     </target>
 </project>
