@@ -54,9 +54,33 @@ import simplenlg.framework.StringElement;
  */
 public class OrthographyProcessor extends NLGModule {
 
+	private boolean commaSepPremodifiers; // set whether to separate
+											// premodifiers using commas
+
 	@Override
 	public void initialise() {
-		// No initialisation.
+		this.commaSepPremodifiers = true;
+	}
+
+	/**
+	 * Check whether this processor separates premodifiers using a comma.
+	 * 
+	 * @return <code>true</code> if premodifiers in the noun phrase are comma-separated.
+	 */
+	public boolean isCommaSepPremodifiers() {
+		return commaSepPremodifiers;
+	}
+
+	/**
+	 * Set whether to separate premodifiers using a comma. If <code>true</code>,
+	 * premodifiers will be comma-separated, as in <i>the long, dark
+	 * road</i>. If <code>false</code>, they won't.
+	 * 
+	 * @param commaSepPremodifiers
+	 *            the commaSepPremodifiers to set
+	 */
+	public void setCommaSepPremodifiers(boolean commaSepPremodifiers) {
+		this.commaSepPremodifiers = commaSepPremodifiers;
 	}
 
 	@Override
@@ -111,7 +135,7 @@ public class OrthographyProcessor extends NLGModule {
 				}
 
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
-					realiseList(buffer, element.getChildren(), ",");
+					realiseList(buffer, element.getChildren(), this.commaSepPremodifiers ? "," : "");
 
 				} else if (DiscourseFunction.POST_MODIFIER.equals(function)) {// &&
 																				// appositive)
@@ -203,8 +227,9 @@ public class OrthographyProcessor extends NLGModule {
 			realiseList(realisation, components, "");
 
 			capitaliseFirstLetter(realisation);
-			terminateSentence(realisation, element.getFeatureAsBoolean(
-					InternalFeature.INTERROGATIVE).booleanValue());
+			terminateSentence(realisation,
+					element.getFeatureAsBoolean(InternalFeature.INTERROGATIVE)
+							.booleanValue());
 
 			((DocumentElement) element).clearComponents();
 			// realisation.append(' ');

@@ -90,10 +90,9 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 				new StringElement("seriously"), new StringElement("undeniably")); //$NON-NLS-1$//$NON-NLS-2$
 
 		coord2.addPreModifier(preMod);
-		Assert
-				.assertEquals(
-						"seriously and undeniably incredibly salacious or amazingly beautiful and stunning", //$NON-NLS-1$
-						this.realiser.realise(coord2).getRealisation());
+		Assert.assertEquals(
+				"seriously and undeniably incredibly salacious or amazingly beautiful and stunning", //$NON-NLS-1$
+				this.realiser.realise(coord2).getRealisation());
 
 		// adding a coordinate rather than coordinating should give a different
 		// result
@@ -126,11 +125,36 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 
 	}
 
+	/**
+	 * Test participles as adjectives
+	 */
+	@Test
 	public void testParticipleAdj() {
 		PhraseElement ap = this.phraseFactory
-				.createAdjectivePhrase(this.lexicon.getWord("associated", LexicalCategory.ADJECTIVE));
+				.createAdjectivePhrase(this.lexicon.getWord("associated",
+						LexicalCategory.ADJECTIVE));
 		Assert.assertEquals("associated", this.realiser.realise(ap)
 				.getRealisation());
 	}
 
+	/**
+	 * Test for multiple adjective modifiers with comma-separation. Example courtesy of William Bradshaw.
+	 */
+	@Test
+	public void testMultipleModifiers() {
+		PhraseElement np = this.phraseFactory
+				.createNounPhrase(this.lexicon.getWord("message",
+						LexicalCategory.NOUN));
+		np.addPreModifier(this.lexicon.getWord("active",
+						LexicalCategory.ADJECTIVE));
+		np.addPreModifier(this.lexicon.getWord("temperature",
+						LexicalCategory.ADJECTIVE));
+		Assert.assertEquals("active, temperature message", this.realiser.realise(np).getRealisation());
+		
+		//now we set the realiser not to separate using commas
+		this.realiser.setCommaSepPremodifiers(false);
+		Assert.assertEquals("active temperature message", this.realiser.realise(np).getRealisation());
+		
+	}
+	
 }

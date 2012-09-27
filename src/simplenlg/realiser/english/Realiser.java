@@ -32,7 +32,7 @@ import simplenlg.syntax.english.SyntaxProcessor;
 
 /**
  * @author D. Westwater, Data2Text Ltd
- *
+ * 
  */
 public class Realiser extends NLGModule {
 
@@ -41,7 +41,7 @@ public class Realiser extends NLGModule {
 	private SyntaxProcessor syntax;
 	private NLGModule formatter = null;
 	private boolean debug = false;
-	
+
 	/**
 	 * create a realiser (no lexicon)
 	 */
@@ -49,13 +49,48 @@ public class Realiser extends NLGModule {
 		super();
 		initialise();
 	}
-	
-	/** Create a realiser with a lexicon (should match lexicon used for NLGFactory)
+
+	/**
+	 * Create a realiser with a lexicon (should match lexicon used for
+	 * NLGFactory)
+	 * 
 	 * @param lexicon
 	 */
 	public Realiser(Lexicon lexicon) {
 		this();
 		setLexicon(lexicon);
+	}
+
+	/**
+	 * Check whether this processor separates premodifiers using a comma.
+	 * 
+	 * <br/>
+	 * <strong>Implementation note:</strong> this method checks whether the
+	 * {@link simplenlg.orthography.english.OrthographyProcessor} has the
+	 * parameter set.
+	 * 
+	 * @return <code>true</code> if premodifiers in the noun phrase are
+	 *         comma-separated.
+	 */
+	public boolean isCommaSepPremodifiers() {
+		return this.orthography == null ? false : this.orthography.isCommaSepPremodifiers();
+	}
+
+	/**
+	 * Set whether to separate premodifiers using a comma. If <code>true</code>,
+	 * premodifiers will be comma-separated, as in <i>the long, dark road</i>.
+	 * If <code>false</code>, they won't. <br/>
+	 * <strong>Implementation note:</strong>: this method sets the relevant
+	 * parameter in the
+	 * {@link simplenlg.orthography.english.OrthographyProcessor}.
+	 * 
+	 * @param commaSepPremodifiers
+	 *            the commaSepPremodifiers to set
+	 */
+	public void setCommaSepPremodifiers(boolean commaSepPremodifiers) {
+		if (this.orthography != null) {
+			this.orthography.setCommaSepPremodifiers(commaSepPremodifiers);
+		}
 	}
 
 	@Override
@@ -67,7 +102,7 @@ public class Realiser extends NLGModule {
 		this.syntax = new SyntaxProcessor();
 		this.syntax.initialise();
 		this.formatter = new TextFormatter();
-		//AG: added call to initialise for formatter
+		// AG: added call to initialise for formatter
 		this.formatter.initialise();
 	}
 
@@ -86,14 +121,14 @@ public class Realiser extends NLGModule {
 		if (this.debug) {
 			System.out.println("\nPOST-MORPHOLOGY TREE\n"); //$NON-NLS-1$
 			System.out.println(postMorphology.printTree(null));
-		}							
-		
+		}
+
 		NLGElement postOrthography = this.orthography.realise(postMorphology);
 		if (this.debug) {
 			System.out.println("\nPOST-ORTHOGRAPHY TREE\n"); //$NON-NLS-1$
 			System.out.println(postOrthography.printTree(null));
 		}
-		
+
 		NLGElement postFormatter = null;
 		if (this.formatter != null) {
 			postFormatter = this.formatter.realise(postOrthography);
@@ -104,12 +139,13 @@ public class Realiser extends NLGModule {
 		} else {
 			postFormatter = postOrthography;
 		}
-		
-		
+
 		return postFormatter;
 	}
-	
-	/** Convenience class to realise any NLGElement as a sentence
+
+	/**
+	 * Convenience class to realise any NLGElement as a sentence
+	 * 
 	 * @param element
 	 * @return String realisation of the NLGElement
 	 */
@@ -118,11 +154,12 @@ public class Realiser extends NLGModule {
 		if (element instanceof DocumentElement)
 			realised = realise(element);
 		else {
-			DocumentElement sentence = new DocumentElement(DocumentCategory.SENTENCE, null);
+			DocumentElement sentence = new DocumentElement(
+					DocumentCategory.SENTENCE, null);
 			sentence.addComponent(element);
 			realised = realise(sentence);
 		}
-		
+
 		if (realised == null)
 			return null;
 		else
@@ -144,7 +181,7 @@ public class Realiser extends NLGModule {
 	public void setFormatter(NLGModule formatter) {
 		this.formatter = formatter;
 	}
-	
+
 	public void setDebugMode(boolean debugOn) {
 		this.debug = debugOn;
 	}
