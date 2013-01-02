@@ -93,6 +93,36 @@ public class Realiser extends NLGModule {
 		}
 	}
 
+	/**
+	 * Check whether this processor separates cue phrases from the matrix clause using a comma.
+	 * 
+	 * <br/>
+	 * <strong>Implementation note:</strong> this method checks whether the
+	 * {@link simplenlg.orthography.english.OrthographyProcessor} has the
+	 * parameter set.
+	 * 
+	 * @return <code>true</code> if cue phrases have a comma before the remainder of the host phrase
+	 */
+	public boolean isCommaSepCuephrase() {
+		return this.orthography == null ? false : this.orthography.isCommaSepCuephrase();
+	}
+	
+	/**
+	 * Set whether to separate cue phrases from the host phrase using a comma. If <code>true</code>,
+	 * a comma will be inserted, as in <i>however, Bill arrived late</i>.
+	 * If <code>false</code>, they won't. <br/>
+	 * <strong>Implementation note:</strong>: this method sets the relevant
+	 * parameter in the
+	 * {@link simplenlg.orthography.english.OrthographyProcessor}.
+	 * 
+	 * @param commaSepcuephrase
+	 */
+	public void setCommaSepCuephrase(boolean commaSepCuephrase) {
+		if (this.orthography != null) {
+			this.orthography.setCommaSepCuephrase(commaSepCuephrase);
+		}
+	}
+	
 	@Override
 	public void initialise() {
 		this.morphology = new MorphologyProcessor();

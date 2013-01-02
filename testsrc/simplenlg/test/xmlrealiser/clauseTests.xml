@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://simplenlg.googlecode.com/svn/trunk/res/xml ">
 
 	<nlg:Recording name="Clause tests">
-
+	      
 		<nlg:Record name="Negation on VP">
 			<Document cat="PARAGRAPH">
 				<child xsi:type="SPhraseSpec">

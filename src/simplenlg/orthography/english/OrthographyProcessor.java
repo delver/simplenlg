@@ -57,15 +57,21 @@ public class OrthographyProcessor extends NLGModule {
 	private boolean commaSepPremodifiers; // set whether to separate
 											// premodifiers using commas
 
+	private boolean commaSepCuephrase; // set whether to include a comma after a
+										// cue phrase (if marked by the
+										// CUE_PHRASE=true) feature.
+
 	@Override
 	public void initialise() {
 		this.commaSepPremodifiers = true;
+		this.commaSepCuephrase = false;
 	}
 
 	/**
 	 * Check whether this processor separates premodifiers using a comma.
 	 * 
-	 * @return <code>true</code> if premodifiers in the noun phrase are comma-separated.
+	 * @return <code>true</code> if premodifiers in the noun phrase are
+	 *         comma-separated.
 	 */
 	public boolean isCommaSepPremodifiers() {
 		return commaSepPremodifiers;
@@ -73,8 +79,8 @@ public class OrthographyProcessor extends NLGModule {
 
 	/**
 	 * Set whether to separate premodifiers using a comma. If <code>true</code>,
-	 * premodifiers will be comma-separated, as in <i>the long, dark
-	 * road</i>. If <code>false</code>, they won't.
+	 * premodifiers will be comma-separated, as in <i>the long, dark road</i>.
+	 * If <code>false</code>, they won't.
 	 * 
 	 * @param commaSepPremodifiers
 	 *            the commaSepPremodifiers to set
@@ -83,10 +89,48 @@ public class OrthographyProcessor extends NLGModule {
 		this.commaSepPremodifiers = commaSepPremodifiers;
 	}
 
+	/**
+	 * Check whether this processor separates cue phrases from a matrix phrase
+	 * using a comma.
+	 * 
+	 * @return <code>true</code> if this parameter is set.
+	 */
+	public boolean isCommaSepCuephrase() {
+		return commaSepCuephrase;
+	}
+
+	/**
+	 * If set to <code>true</code>, separates a cue phrase from the matrix
+	 * phrase using a comma. Cue phrases are typically at the start of a
+	 * sentence (e.g. <i><u>However</u>, John left early</i>). This will only
+	 * apply to phrases with the feature
+	 * {@link simplenlg.features.DiscourseFunction#CUE_PHRASE} or {@link simplenlg.features.DiscourseFunction#FRONT_MODIFIER}.
+	 * 
+	 * @param commaSepCuephrase
+	 *            whether to separate cue phrases using a comma
+	 */
+	public void setCommaSepCuephrase(boolean commaSepCuephrase) {
+		this.commaSepCuephrase = commaSepCuephrase;
+	}
+
 	@Override
 	public NLGElement realise(NLGElement element) {
 		NLGElement realisedElement = null;
-
+		Object function = null; //the element's discourse function
+		
+		//get the element's function first
+		if(element instanceof ListElement) {
+			List<NLGElement> children = element.getChildren();	
+			if (!children.isEmpty()) {
+				NLGElement firstChild = children.get(0);
+				function = firstChild
+						.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+			}
+		} else {
+			function = element.getFeature(InternalFeature.DISCOURSE_FUNCTION);
+		}
+		
+		
 		if (element != null) {
 			ElementCategory category = element.getCategory();
 
@@ -122,20 +166,11 @@ public class OrthographyProcessor extends NLGModule {
 				// if it's a postmod, we need commas at the start and end only
 				// if it's appositive
 				StringBuffer buffer = new StringBuffer();
-				List<NLGElement> children = element.getChildren();
-				Object function = null;
-				// Boolean appositive = false;
-
-				if (!children.isEmpty()) {
-					NLGElement firstChild = children.get(0);
-					function = firstChild
-							.getFeature(InternalFeature.DISCOURSE_FUNCTION);
-					// appositive = firstChild
-					// .getFeatureAsBoolean(Feature.APPOSITIVE);
-				}
+							
 
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
-					realiseList(buffer, element.getChildren(), this.commaSepPremodifiers ? "," : "");
+					realiseList(buffer, element.getChildren(),
+							this.commaSepPremodifiers ? "," : "");
 
 				} else if (DiscourseFunction.POST_MODIFIER.equals(function)) {// &&
 																				// appositive)
@@ -163,16 +198,12 @@ public class OrthographyProcessor extends NLGModule {
 						}
 					}
 
-					// buffer.append(", ");
-					// realiseList(buffer, element.getChildren(), ",");
-					// buffer.append(", ");
-
 				} else {
 					realiseList(buffer, element.getChildren(), "");
 				}
 
 				// realiseList(buffer, element.getChildren(), "");
-				realisedElement = new StringElement(buffer.toString());
+				realisedElement = new StringElement(buffer.toString());				
 
 			} else if (element instanceof CoordinatedPhraseElement) {
 				realisedElement = realiseCoordinatedPhrase(element
@@ -187,8 +218,20 @@ public class OrthographyProcessor extends NLGModule {
 			if (realisedElement != null) {
 				realisedElement.setCategory(category);
 			}
+			
+			//check if this is a cue phrase; if param is set, postfix a comma
+			if((DiscourseFunction.CUE_PHRASE.equals(function) || DiscourseFunction.FRONT_MODIFIER.equals(function)) && this.commaSepCuephrase) {
+				String realisation = realisedElement.getRealisation();
+				
+				if(!realisation.endsWith(",")) {
+					realisation = realisation + ",";
+				}
+				
+				realisedElement.setRealisation(realisation);
+			}
 		}
-
+		
+		//remove preceding and trailing whitespace from internal punctuation
 		removePunctSpace(realisedElement);
 		return realisedElement;
 	}

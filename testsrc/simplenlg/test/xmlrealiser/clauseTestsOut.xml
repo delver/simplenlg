@@ -13,17 +13,8 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec" TENSE="PAST" NEGATED="true">
-            <head var="IRREGULAR" cat="VERB">
-              <base>lie</base>
-            </head>
             <postMod xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>etherise</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>upon</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>table</base>
@@ -32,8 +23,17 @@
                     <base>a</base>
                   </spec>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>upon</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>etherise</base>
+              </head>
             </postMod>
+            <head var="IRREGULAR" cat="VERB">
+              <base>lie</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -53,17 +53,8 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head var="IRREGULAR" cat="VERB">
-              <base>lie</base>
-            </head>
             <postMod xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>etherise</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>upon</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>table</base>
@@ -72,8 +63,17 @@
                     <base>a</base>
                   </spec>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>upon</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>etherise</base>
+              </head>
             </postMod>
+            <head var="IRREGULAR" cat="VERB">
+              <base>lie</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -96,17 +96,8 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head var="IRREGULAR" cat="VERB">
-              <base>lie</base>
-            </head>
             <postMod xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>etherise</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>upon</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>table</base>
@@ -115,8 +106,17 @@
                     <base>a</base>
                   </spec>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>upon</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>etherise</base>
+              </head>
             </postMod>
+            <head var="IRREGULAR" cat="VERB">
+              <base>lie</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -136,15 +136,15 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>kill</base>
-            </head>
             <compl xsi:type="WordElement" cat="NOUN">
               <base>bill</base>
             </compl>
             <postMod xsi:type="WordElement" cat="ADVERB">
               <base>slowly</base>
             </postMod>
+            <head cat="VERB">
+              <base>kill</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -164,15 +164,15 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>kill</base>
-            </head>
             <compl xsi:type="WordElement" cat="NOUN">
               <base>bill</base>
             </compl>
             <postMod xsi:type="WordElement" cat="ADVERB">
               <base>slowly</base>
             </postMod>
+            <head cat="VERB">
+              <base>kill</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -192,15 +192,15 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>kill</base>
-            </head>
             <compl xsi:type="WordElement" cat="NOUN">
               <base>bill</base>
             </compl>
             <postMod xsi:type="WordElement" cat="ADVERB">
               <base>slowly</base>
             </postMod>
+            <head cat="VERB">
+              <base>kill</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -220,15 +220,15 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>kill</base>
-            </head>
             <compl xsi:type="WordElement" cat="NOUN">
               <base>bill</base>
             </compl>
             <postMod xsi:type="WordElement" cat="ADVERB">
               <base>slowly</base>
             </postMod>
+            <head cat="VERB">
+              <base>kill</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -248,9 +248,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>said</base>
-            </head>
             <compl xsi:type="SPhraseSpec" TENSE="PAST" PROGRESSIVE="true">
               <subj xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
@@ -261,14 +258,17 @@
                 </spec>
               </subj>
               <vp xsi:type="VPPhraseSpec">
-                <head cat="VERB">
-                  <base>be</base>
-                </head>
                 <compl xsi:type="WordElement" cat="ADJECTIVE">
                   <base>difficult</base>
                 </compl>
+                <head cat="VERB">
+                  <base>be</base>
+                </head>
               </vp>
             </compl>
+            <head cat="VERB">
+              <base>said</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -289,18 +289,15 @@
               </spec>
             </subj>
             <vp xsi:type="VPPhraseSpec">
-              <head cat="VERB">
-                <base>be</base>
-              </head>
               <compl xsi:type="WordElement" cat="ADJECTIVE">
                 <base>difficult</base>
               </compl>
+              <head cat="VERB">
+                <base>be</base>
+              </head>
             </vp>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
               <head cat="NOUN">
                 <base>man</base>
@@ -309,6 +306,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -328,9 +328,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec" PASSIVE="true">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
               <head cat="NOUN">
                 <base>man</base>
@@ -339,6 +336,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -359,18 +359,15 @@
               </spec>
             </subj>
             <vp xsi:type="VPPhraseSpec">
-              <head cat="VERB">
-                <base>be</base>
-              </head>
               <compl xsi:type="WordElement" cat="ADJECTIVE">
                 <base>difficult</base>
               </compl>
+              <head cat="VERB">
+                <base>be</base>
+              </head>
             </vp>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
               <head cat="NOUN">
                 <base>man</base>
@@ -379,6 +376,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -398,9 +398,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
               <head cat="NOUN">
                 <base>man</base>
@@ -409,6 +406,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -428,9 +428,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>give</base>
-            </head>
             <compl xsi:type="NPPhraseSpec" discourseFunction="INDIRECT_OBJECT">
               <head cat="NOUN">
                 <base>man</base>
@@ -447,6 +444,9 @@
                 <base>a</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>give</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -466,9 +466,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>give</base>
-            </head>
             <compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
               <head cat="NOUN">
                 <base>flower</base>
@@ -485,6 +482,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>give</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -504,9 +504,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
               <head cat="NOUN">
                 <base>man</base>
@@ -515,6 +512,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -534,9 +534,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
               <head cat="NOUN">
                 <base>man</base>
@@ -545,6 +542,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -564,9 +564,6 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec">
-            <head cat="VERB">
-              <base>upset</base>
-            </head>
             <compl xsi:type="NPPhraseSpec" discourseFunction="OBJECT">
               <head cat="NOUN">
                 <base>man</base>
@@ -575,6 +572,9 @@
                 <base>the</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>upset</base>
+            </head>
           </vp>
         </child>
       </Document>
@@ -650,17 +650,8 @@
       <Document cat="PARAGRAPH">
         <child xsi:type="SPhraseSpec" TENSE="PAST">
           <frontMod xsi:type="AdvPhraseSpec">
-            <head cat="ADVERB">
-              <base>as</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
-              <head cat="NOUN">
-                <base>result</base>
-              </head>
               <compl xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>of</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>procedure</base>
@@ -669,11 +660,20 @@
                     <base>the</base>
                   </spec>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>of</base>
+                </head>
               </compl>
+              <head cat="NOUN">
+                <base>result</base>
+              </head>
               <spec xsi:type="WordElement" cat="DETERMINER">
                 <base>a</base>
               </spec>
             </compl>
+            <head cat="ADVERB">
+              <base>as</base>
+            </head>
           </frontMod>
           <subj xsi:type="NPPhraseSpec">
             <head cat="NOUN">
@@ -685,9 +685,6 @@
           </subj>
           <vp xsi:type="CoordinatedPhraseElement" conj="and">
             <coord xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>have</base>
-              </head>
               <compl xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
                   <base>adverse contrast media reaction</base>
@@ -696,11 +693,11 @@
                   <base>a</base>
                 </spec>
               </compl>
-            </coord>
-            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <head cat="VERB">
                 <base>have</base>
               </head>
+            </coord>
+            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <compl xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
                   <base>decreased platelet count</base>
@@ -709,26 +706,26 @@
                   <base>a</base>
                 </spec>
               </compl>
+              <head cat="VERB">
+                <base>have</base>
+              </head>
             </coord>
             <coord xsi:type="VPPhraseSpec">
-              <head cat="VERB">
-                <base>go</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>into</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>cardiogenic shock</base>
                   </head>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>into</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>go</base>
+              </head>
             </coord>
             <coord xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>have</base>
-              </head>
               <compl xsi:type="NPPhraseSpec">
                 <preMod xsi:type="AdjPhraseSpec">
                   <head cat="ADJECTIVE">
@@ -739,11 +736,11 @@
                   <base>tamponade</base>
                 </head>
               </compl>
-            </coord>
-            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <head cat="VERB">
                 <base>have</base>
               </head>
+            </coord>
+            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <compl xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
                   <base>vascular complication requiring treatment</base>
@@ -752,11 +749,11 @@
                   <base>a</base>
                 </spec>
               </compl>
-            </coord>
-            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <head cat="VERB">
                 <base>have</base>
               </head>
+            </coord>
+            <coord xsi:type="VPPhraseSpec" TENSE="PAST">
               <compl xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
                   <base>hemorrhagic cerebral infarction</base>
@@ -765,26 +762,26 @@
                   <base>a</base>
                 </spec>
               </compl>
+              <head cat="VERB">
+                <base>have</base>
+              </head>
             </coord>
             <coord xsi:type="VPPhraseSpec">
-              <head cat="VERB">
-                <base>go</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>into</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>renal failure</base>
                   </head>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>into</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>go</base>
+              </head>
             </coord>
             <coord xsi:type="VPPhraseSpec" TENSE="PAST">
-              <head cat="VERB">
-                <base>have</base>
-              </head>
               <compl xsi:type="NPPhraseSpec">
                 <head cat="NOUN">
                   <base>myocardial infarction</base>
@@ -793,21 +790,24 @@
                   <base>a</base>
                 </spec>
               </compl>
+              <head cat="VERB">
+                <base>have</base>
+              </head>
             </coord>
             <coord xsi:type="VPPhraseSpec">
-              <head cat="VERB">
-                <base>go</base>
-              </head>
               <postMod xsi:type="PPPhraseSpec">
-                <head cat="PREPOSITION">
-                  <base>into</base>
-                </head>
                 <compl xsi:type="NPPhraseSpec">
                   <head cat="NOUN">
                     <base>congestive heart failure</base>
                   </head>
                 </compl>
+                <head cat="PREPOSITION">
+                  <base>into</base>
+                </head>
               </postMod>
+              <head cat="VERB">
+                <base>go</base>
+              </head>
             </coord>
           </vp>
         </child>
@@ -852,13 +852,7 @@
             </spec>
           </subj>
           <vp xsi:type="VPPhraseSpec" PASSIVE="true">
-            <head cat="VERB">
-              <base>deploy</base>
-            </head>
             <compl xsi:type="NPPhraseSpec">
-              <head cat="NOUN">
-                <base>device</base>
-              </head>
               <postMod xsi:type="NPPhraseSpec" appositive="true">
                 <head cat="NOUN">
                   <base>Howell's Roto-Rootor</base>
@@ -867,14 +861,55 @@
                   <base>a</base>
                 </spec>
               </postMod>
+              <head cat="NOUN">
+                <base>device</base>
+              </head>
               <spec xsi:type="WordElement" cat="DETERMINER">
                 <base>a</base>
               </spec>
             </compl>
+            <head cat="VERB">
+              <base>deploy</base>
+            </head>
           </vp>
         </child>
       </Document>
-      <Realisation>A device, a Howell's Roto-Rootor, was deployed by the doctor.
+      <Realisation>A device, a Howell's Roto-Rootor was deployed by the doctor.
+
+</Realisation>
+    </Record>
+    <Record name="non-restrictive modifier">
+      <Document cat="PARAGRAPH">
+        <child xsi:type="SPhraseSpec" TENSE="PAST">
+          <subj xsi:type="NPPhraseSpec">
+            <head canned="false" cat="NOUN">
+              <base>the doctor on this shift</base>
+            </head>
+          </subj>
+          <vp xsi:type="VPPhraseSpec" PASSIVE="true">
+            <compl xsi:type="NPPhraseSpec">
+              <postMod xsi:type="NPPhraseSpec" appositive="true">
+                <head cat="NOUN">
+                  <base>Howell's Roto-Rootor</base>
+                </head>
+                <spec xsi:type="WordElement" cat="DETERMINER">
+                  <base>a</base>
+                </spec>
+              </postMod>
+              <head cat="NOUN">
+                <base>device</base>
+              </head>
+              <spec xsi:type="WordElement" cat="DETERMINER">
+                <base>a</base>
+              </spec>
+            </compl>
+            <head cat="VERB">
+              <base>deploy</base>
+            </head>
+          </vp>
+        </child>
+      </Document>
+      <Realisation>A device, a Howell's Roto-Rootor was deployed by the doctor on this shift.
 
 </Realisation>
     </Record>

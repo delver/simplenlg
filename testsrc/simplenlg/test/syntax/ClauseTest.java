@@ -799,5 +799,37 @@ public class ClauseTest extends SimpleNLG4Test {
 				"surfers are carried to the shore by waves", this.realiser //$NON-NLS-1$
 						.realise(_s1).getRealisation());
 	}
+	
+	@Test
+	public void testCuePhrase() {
+		NPPhraseSpec subject = this.phraseFactory.createNounPhrase("wave");
+		subject.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+		NPPhraseSpec object = this.phraseFactory.createNounPhrase("surfer");
+		object.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+		SPhraseSpec _s1 = this.phraseFactory.createClause(subject,
+				"carry", object); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		// add a PP complement
+		PPPhraseSpec pp = this.phraseFactory.createPrepositionPhrase("to",
+				this.phraseFactory.createNounPhrase("the", "shore"));
+		_s1.addPostModifier(pp);
+
+		_s1.setFeature(Feature.PASSIVE, true);
+		
+		_s1.addFrontModifier("however");
+		
+		
+		//without comma separation of cue phrase
+		Assert.assertEquals(
+				"however surfers are carried to the shore by waves", this.realiser //$NON-NLS-1$
+						.realise(_s1).getRealisation());
+		
+		//with comma separation
+		this.realiser.setCommaSepCuephrase(true);
+		Assert.assertEquals(
+				"however, surfers are carried to the shore by waves", this.realiser //$NON-NLS-1$
+						.realise(_s1).getRealisation());
+	}
 
 }
