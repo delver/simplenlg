@@ -40,6 +40,11 @@ public enum InterrogativeType {
 	 * Mary?</em>
 	 */
 	HOW,
+	
+	/**
+	 * A how question related to a predicative sentence, such as <i>John is fine</i>, which becomes <i>How is John?</i> 
+	 */
+	HOW_PREDICATE,
 
 	/**
 	 * This type of interrogative is a question pertaining to the object of a

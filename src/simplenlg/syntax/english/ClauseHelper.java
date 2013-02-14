@@ -84,8 +84,7 @@ abstract class ClauseHelper {
 
 			if (phrase.hasFeature(Feature.INTERROGATIVE_TYPE)) {
 				Object inter = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
-				interrogObj = InterrogativeType.WHAT_OBJECT.equals(inter)
-						|| InterrogativeType.WHO_OBJECT.equals(inter);
+				interrogObj = InterrogativeType.WHAT_OBJECT.equals(inter) || InterrogativeType.WHO_OBJECT.equals(inter) || InterrogativeType.HOW_PREDICATE.equals(inter);
 				splitVerb = realiseInterrogative(phrase, parent,
 						realisedElement, phraseFactory, verbElement);
 			} else {
@@ -547,7 +546,7 @@ abstract class ClauseHelper {
 						"who", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
-				break;
+				break;						
 
 			case WHAT_SUBJECT:
 				realiseInterrogativeKeyWord(
@@ -586,6 +585,11 @@ abstract class ClauseHelper {
 				// addDoAuxiliary(phrase, parent, phraseFactory,
 				// realisedElement);
 				// }
+				break;
+			
+			case HOW_PREDICATE:
+				splitVerb = realiseObjectWHInterrogative("how", phrase, parent,
+						realisedElement, phraseFactory);
 				break;
 
 			case WHAT_OBJECT:
