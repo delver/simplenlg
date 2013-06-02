@@ -20,6 +20,7 @@
 package simplenlg.test.lexicon;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +63,19 @@ public class NIHDBLexiconTest extends TestCase {
 	 * * Sets up the accessor and runs it -- takes ca. 26 sec
 	 */
 	public void setUp() {
-		this.lexicon = new NIHDBLexicon(DB_FILENAME);
+        // use property file for the lexicon
+        try {
+            Properties prop = new Properties();
+            prop.load(getClass().getClassLoader().
+                      getResourceAsStream("lexicon.properties"));
+
+            String lexiconPath = prop.getProperty("DB_FILENAME");
+            
+            if (null != lexiconPath)
+                this.lexicon = new NIHDBLexicon(lexiconPath);
+        } catch (Exception e) {
+            this.lexicon = new NIHDBLexicon(DB_FILENAME);
+        }
 	}
 
 	/**

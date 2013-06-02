@@ -50,8 +50,8 @@ public class XMLLexiconTest extends TestCase {
 		this.lexicon = new XMLLexicon();
 		long stopTime = System.currentTimeMillis();
 		;
-		System.out.format("Loading XML lexicon took %d ms%n", stopTime
-				- startTime);
+		System.out.format("Loading XML lexicon took %d ms%n",
+                          stopTime - startTime);
 
 	}
 

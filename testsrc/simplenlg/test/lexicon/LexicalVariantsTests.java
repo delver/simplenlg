@@ -1,6 +1,7 @@
 package simplenlg.test.lexicon;
 
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -19,6 +20,8 @@ import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.NIHDBLexicon;
+import simplenlg.lexicon.XMLLexicon;
+import simplenlg.lexicon.Lexicon;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.realiser.english.Realiser;
@@ -33,7 +36,7 @@ import simplenlg.realiser.english.Realiser;
 public class LexicalVariantsTests extends TestCase {
 
 	// lexicon object -- an instance of Lexicon
-	NIHDBLexicon lexicon = null;
+	Lexicon lexicon = null;
 
 	// factory for phrases
 	NLGFactory factory;
@@ -50,7 +53,29 @@ public class LexicalVariantsTests extends TestCase {
 	 * * Sets up the accessor and runs it -- takes ca. 26 sec
 	 */
 	public void setUp() {
-		this.lexicon = new NIHDBLexicon(DB_FILENAME);
+        // use property file for the lexicon
+        try {
+            Properties prop = new Properties();
+            prop.load(getClass().getClassLoader().
+                      getResourceAsStream("lexicon.properties"));
+            
+            String type = prop.getProperty("LexiconType");
+            
+            // the XML lexicon is used by default
+            if (type == null)
+                type = "XML";
+            
+            if ("NIH".equals(type)) {
+                // NIH lexicon
+                lexicon = new NIHDBLexicon(prop.getProperty("DB_FILENAME"));
+            } else {
+                // XML lexicon
+                lexicon = new XMLLexicon(prop.getProperty("XML_FILENAME"));
+            }
+        } catch (Exception e) {
+            this.lexicon = new NIHDBLexicon(DB_FILENAME);
+        }
+
 		this.factory = new NLGFactory(lexicon);
 		this.realiser = new Realiser(this.lexicon);
 	}

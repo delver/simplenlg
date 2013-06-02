@@ -22,6 +22,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.LineNumberReader;
 
+import java.util.Properties;
+
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.WordElement;
 
@@ -38,7 +40,21 @@ public class dumpXML {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Lexicon lex = new NIHDBLexicon(DB_FILENAME);
+        Lexicon lex = null;
+        // use property file for the lexicon
+        try {
+            Properties prop = new Properties();
+            prop.load(dumpXML.class.getClassLoader().
+                      getResourceAsStream("lexicon.properties"));
+            
+            String dbFile = prop.getProperty("DB_FILENAME");
+            
+            if (null != dbFile)
+                lex = new NIHDBLexicon(dbFile);
+        } catch (Exception e) {
+            lex = new NIHDBLexicon(DB_FILENAME);
+        }
+
 		try {
 			LineNumberReader wordListFile = new LineNumberReader(new FileReader (WORDLIST_FILENAME));
 			FileWriter xmlFile = new FileWriter(XML_FILENAME);

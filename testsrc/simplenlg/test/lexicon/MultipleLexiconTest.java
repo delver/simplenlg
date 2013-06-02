@@ -18,6 +18,7 @@
  */
 package simplenlg.test.lexicon;
 
+import java.util.Properties;
 
 import junit.framework.Assert;
 
@@ -47,7 +48,21 @@ public class MultipleLexiconTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.lexicon = new MultipleLexicon(new XMLLexicon(XML_FILENAME), new NIHDBLexicon(DB_FILENAME));
+        try {
+            Properties prop = new Properties();
+            prop.load(getClass().getClassLoader().
+                      getResourceAsStream("lexicon.properties"));
+
+            String xmlFile = prop.getProperty("XML_FILENAME");
+            String dbFile = prop.getProperty("DB_FILENAME");
+            
+            this.lexicon = new MultipleLexicon(new XMLLexicon(xmlFile),
+                                               new NIHDBLexicon(dbFile));
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.lexicon = new MultipleLexicon(new XMLLexicon(XML_FILENAME),
+                                               new NIHDBLexicon(DB_FILENAME));
+        }
 	}
 
 	@After
