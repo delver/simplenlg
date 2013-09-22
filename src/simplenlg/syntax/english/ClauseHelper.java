@@ -84,7 +84,12 @@ abstract class ClauseHelper {
 
 			if (phrase.hasFeature(Feature.INTERROGATIVE_TYPE)) {
 				Object inter = phrase.getFeature(Feature.INTERROGATIVE_TYPE);
-				interrogObj = InterrogativeType.WHAT_OBJECT.equals(inter) || InterrogativeType.WHO_OBJECT.equals(inter) || InterrogativeType.HOW_PREDICATE.equals(inter);
+				interrogObj = (InterrogativeType.WHAT_OBJECT.equals(inter)
+						|| InterrogativeType.WHO_OBJECT.equals(inter)
+						|| InterrogativeType.HOW_PREDICATE.equals(inter)
+						|| InterrogativeType.HOW.equals(inter)
+						|| InterrogativeType.WHY.equals(inter) || InterrogativeType.WHERE
+						.equals(inter));
 				splitVerb = realiseInterrogative(phrase, parent,
 						realisedElement, phraseFactory, verbElement);
 			} else {
@@ -92,8 +97,7 @@ abstract class ClauseHelper {
 						.realiseList(
 								parent,
 								realisedElement,
-								phrase
-										.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
+								phrase.getFeatureAsElementList(InternalFeature.FRONT_MODIFIERS),
 								DiscourseFunction.FRONT_MODIFIER);
 			}
 
@@ -542,29 +546,14 @@ abstract class ClauseHelper {
 				break;
 
 			case WHO_SUBJECT:
-				realiseInterrogativeKeyWord(
-						"who", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
-						phraseFactory);
-				phrase.removeFeature(InternalFeature.SUBJECTS);
-				break;						
-
 			case WHAT_SUBJECT:
 				realiseInterrogativeKeyWord(
-						"what", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
+						((InterrogativeType) type).getString(),
+						LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
 						phraseFactory);
 				phrase.removeFeature(InternalFeature.SUBJECTS);
 				break;
-
-			case HOW:
-			case WHY:
-			case WHERE:
-				realiseInterrogativeKeyWord(type.toString().toLowerCase(),
-						LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
-						phraseFactory);
-				splitVerb = realiseYesNo(phrase, parent, verbElement,
-						phraseFactory, realisedElement);
-				break;
-
+			
 			case HOW_MANY:
 				realiseInterrogativeKeyWord(
 						"how", LexicalCategory.PRONOUN, parent, realisedElement, //$NON-NLS-1$
@@ -574,27 +563,19 @@ abstract class ClauseHelper {
 						phraseFactory);
 				break;
 
+			case HOW:
+			case WHY:
+			case WHERE:
 			case WHO_OBJECT:
 			case WHO_INDIRECT_OBJECT:
-				//				realiseInterrogativeKeyWord("who", parent, realisedElement, //$NON-NLS-1$
-				// phraseFactory);
-				splitVerb = realiseObjectWHInterrogative("who", phrase, parent,
+			case WHAT_OBJECT:
+				splitVerb = realiseObjectWHInterrogative(((InterrogativeType) type).getString(), phrase, parent,
 						realisedElement, phraseFactory);
-
-				// if (!hasAuxiliary(phrase)) {
-				// addDoAuxiliary(phrase, parent, phraseFactory,
-				// realisedElement);
-				// }
 				break;
-			
+
 			case HOW_PREDICATE:
 				splitVerb = realiseObjectWHInterrogative("how", phrase, parent,
 						realisedElement, phraseFactory);
-				break;
-
-			case WHAT_OBJECT:
-				splitVerb = realiseObjectWHInterrogative("what", phrase,
-						parent, realisedElement, phraseFactory);
 				break;
 
 			default:
@@ -952,8 +933,19 @@ abstract class ClauseHelper {
 						&& ((CoordinatedPhraseElement) currentElement)
 								.checkIfPlural())
 					pluralSubjects = true;
-				else if ((currentElement.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL) &&
-						! (currentElement instanceof SPhraseSpec))  // ER mod- clauses are singular as NPs, even if they are plural internally
+				else if ((currentElement.getFeature(Feature.NUMBER) == NumberAgreement.PLURAL)
+						&& !(currentElement instanceof SPhraseSpec)) // ER mod-
+																		// clauses
+																		// are
+																		// singular
+																		// as
+																		// NPs,
+																		// even
+																		// if
+																		// they
+																		// are
+																		// plural
+																		// internally
 					pluralSubjects = true;
 				else if (currentElement.isA(PhraseCategory.NOUN_PHRASE)) {
 					NLGElement currentHead = currentElement
@@ -980,7 +972,8 @@ abstract class ClauseHelper {
 			}
 		}
 		if (verbElement != null) {
-			verbElement.setFeature(Feature.NUMBER,
+			verbElement.setFeature(
+					Feature.NUMBER,
 					pluralSubjects ? NumberAgreement.PLURAL : phrase
 							.getFeature(Feature.NUMBER));
 			if (person != null)

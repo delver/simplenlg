@@ -683,9 +683,13 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		Assert.assertEquals("why is Mary beautiful", this.realiser.realise(p2)
 				.getRealisation());
 
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHERE);
+		Assert.assertEquals("where is Mary beautiful", this.realiser.realise(p2)
+				.getRealisation());
+		
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
 		Assert.assertEquals("who is beautiful", this.realiser.realise(p2)
-				.getRealisation());
+				.getRealisation());					
 	}
 
 	/**
@@ -718,6 +722,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		Assert.assertEquals("why will Mary be beautiful", this.realiser
 				.realise(p2).getRealisation());
 
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHERE);
+		Assert.assertEquals("where will Mary be beautiful", this.realiser
+				.realise(p2).getRealisation());
+		
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
 		Assert.assertEquals("who will be beautiful", this.realiser.realise(p2)
 				.getRealisation());
@@ -752,10 +760,32 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);
 		Assert.assertEquals("why was Mary beautiful", this.realiser.realise(p2)
 				.getRealisation());
+		
+		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHERE);
+		Assert.assertEquals("where was Mary beautiful", this.realiser.realise(p2)
+				.getRealisation());
 
 		p2.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHO_SUBJECT);
 		Assert.assertEquals("who was beautiful", this.realiser.realise(p2)
 				.getRealisation());
+	}
+
+
+	/**
+	 * Test WHERE, HOW and WHY questions, with copular predicate "be"
+	 */
+	public void testSimpleBeWHQuestions() {
+		SPhraseSpec p = this.phraseFactory.createClause("I", "be");
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHERE);		
+		Assert.assertEquals("Where am I?", realiser.realiseSentence(p));
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.WHY);		
+		Assert.assertEquals("Why am I?", realiser.realiseSentence(p));
+		
+		p.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.HOW);		
+		Assert.assertEquals("How am I?", realiser.realiseSentence(p));
+
 	}
 
 	/*
@@ -769,9 +799,10 @@ public class InterrogativeTest extends SimpleNLG4Test {
 		subject.setFeature(Feature.PRONOMINAL, true);
 		subject.setFeature(Feature.PERSON, Person.SECOND);
 		test.setSubject(subject);
-		test.setVerb("be");		
+		test.setVerb("be");
 
-		test.setFeature(Feature.INTERROGATIVE_TYPE, InterrogativeType.HOW_PREDICATE);
+		test.setFeature(Feature.INTERROGATIVE_TYPE,
+				InterrogativeType.HOW_PREDICATE);
 		test.setFeature(Feature.TENSE, Tense.PRESENT);
 
 		String result = realiser.realiseSentence(test);

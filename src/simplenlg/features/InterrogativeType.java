@@ -47,6 +47,12 @@ public enum InterrogativeType {
 	HOW_PREDICATE,
 
 	/**
+	 * A how question related to a predicative sentence, such as <i>John is
+	 * fine</i>, which becomes <i>How is John?</i>
+	 */
+	HOW_PREDICATE,
+
+	/**
 	 * This type of interrogative is a question pertaining to the object of a
 	 * phrase. For example, <em>John bought a horse</em> becomes <em>what did 
 	 * John buy?</em> while <em>John gave Mary a flower</em> becomes
@@ -58,7 +64,7 @@ public enum InterrogativeType {
 	/**
 	 * This type of interrogative is a question pertaining to the subject of a
 	 * phrase. For example, <em>A hurricane destroyed the house</em> becomes
-	 * <em>what destroyed the house?</em> 
+	 * <em>what destroyed the house?</em>
 	 */
 	WHAT_SUBJECT,
 
@@ -137,5 +143,47 @@ public enum InterrogativeType {
 	 */
 	public static boolean isIndirectObject(Object type) {
 		return WHO_INDIRECT_OBJECT.equals(type);
+	}
+
+	/**
+	 * Convenience method to return the String corresponding to the question
+	 * word. Useful, since the types in this enum aren't all simply convertible
+	 * to strings (e.g. <code>WHO_SUBJCT</code> and <code>WHO_OBJECT</code> both
+	 * correspond to String <i>Who</i>)
+	 * 
+	 * @return the string corresponding to the question word
+	 */
+	public String getString() {
+		String s = "";
+
+		switch (this) {
+		case HOW:
+		case HOW_PREDICATE:
+			s = "how";
+			break;
+		case WHAT_OBJECT:
+		case WHAT_SUBJECT:
+			s = "what";
+			break;
+		case WHERE:
+			s = "where";
+			break;
+		case WHO_INDIRECT_OBJECT:
+		case WHO_OBJECT:
+		case WHO_SUBJECT:
+			s = "who";
+			break;
+		case WHY:
+			s = "why";
+			break;
+		case HOW_MANY:
+			s = "how many";
+			break;
+		case YES_NO:
+			s = "yes/no";
+			break;
+		}
+
+		return s;
 	}
 }

@@ -49,7 +49,7 @@ public class ElisionTests extends SimpleNLG4Test {
 		this.kiss.setComplement(this.np5);//kiss the curtain
 		s1.setVerbPhrase(this.kiss);
 		
-		this.kiss.getHead().setFeature(Feature.ELIDED, true);
+		this.np5.setFeature(Feature.ELIDED, true);
 		Assert.assertEquals("the rock kisses", this.realiser.realise(s1).getRealisation());
 	}
 
