@@ -32,6 +32,8 @@ public class SyntaxTests {
 		TestSuite suite = new TestSuite("Test for simplenlg.test"); //$NON-NLS-1$
 		//$JUnit-BEGIN$
 		suite.addTestSuite(AdjectivePhraseTest.class);
+		suite.addTestSuite(ClauseAggregationTest.class);
+		suite.addTestSuite(ClauseAggregationTest2.class);
 		suite.addTestSuite(ClauseTest.class);
 		suite.addTestSuite(CoordinationTest.class);
 		suite.addTestSuite(DeterminerTest.class);
@@ -40,14 +42,12 @@ public class SyntaxTests {
 		suite.addTestSuite(ExternalTest.class);
 		suite.addTestSuite(ExternalTests2.class);
 		suite.addTestSuite(FPTest.class);
-		suite.addTestSuite(HTMLFormatterTest.class);
 		suite.addTestSuite(InterrogativeTest.class);
 		suite.addTestSuite(NounPhraseTest.class);
 		suite.addTestSuite(OrthographyFormatTests.class);
 		suite.addTestSuite(PhraseSpecTest.class);
 		suite.addTestSuite(PrepositionalPhraseTest.class);
 		suite.addTestSuite(StringElementTests.class);
-		suite.addTestSuite(TutorialTest.class);
 		suite.addTestSuite(VerbPhraseTest.class);
 		//$JUnit-END$
 		return suite;
