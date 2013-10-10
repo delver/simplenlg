@@ -9,7 +9,7 @@ This (mavenized) git repo is intended to shadow the latest source version from
 https://code.google.com/p/simplenlg/, but augment the code with a maven pom.xml file with
 http://repo.delver.io as the initial repository.
 
-Note: No additional functionality (beyond mavenization) will ever be added.
+**Note:** No additional functionality (beyond mavenization) will ever be added.
 
 License
 -------
