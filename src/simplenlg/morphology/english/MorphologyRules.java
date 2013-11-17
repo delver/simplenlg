@@ -186,8 +186,11 @@ public abstract class MorphologyRules {
 		if (baseForm != null) {
 			if (baseForm.matches(".*[b-z&&[^eiou]]y\\b")) { //$NON-NLS-1$
 				plural = baseForm.replaceAll("y\\b", "ies"); //$NON-NLS-1$ //$NON-NLS-2$
-			} else if (baseForm.matches(".*[szx(ch)(sh)]\\b")) { //$NON-NLS-1$
+			
+				//AG: changed regex from ".*[szx(ch)(sh)]\\b" (tip of the hat to Ian Tabolt)				
+			} else if (baseForm.matches(".*([szx]|[cs]h)\\b")) { //$NON-NLS-1$
 				plural = baseForm + "es"; //$NON-NLS-1$
+			
 			} else {
 				plural = baseForm + "s"; //$NON-NLS-1$
 			}
