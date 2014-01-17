@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.lexicon;
 
@@ -49,7 +49,7 @@ import simplenlg.framework.WordElement;
 public class NIHDBLexicon extends Lexicon {
 
 	// default DB parameters
-	private static String DB_HSQL_DRIVER = "org.hsqldb.jdbcDriver"; // DB driver
+	private static String DB_HSQL_DRIVER = "org.hsqldb.jdbc.JDBCDriver"; // DB driver
 	private static String DB_HQSL_JDBC = "jdbc:hsqldb:"; // JDBC specifier for
 	// HSQL
 	private static String DB_DEFAULT_USERNAME = "sa"; // DB username

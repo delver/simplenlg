@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.lexicon;
 
@@ -105,8 +105,12 @@ public class XMLLexicon extends Lexicon {
 
 	public XMLLexicon() {
 		try {
+			
 			createLexicon(getClass().getResource(
 					"/simplenlg/lexicon/default-lexicon.xml").toURI());
+			// Saad Mahamood: Maven specific fix:
+			// createLexicon(this.getClass().getClassLoader().getResource("default-lexicon.xml").toURI());
+			
 		} catch (URISyntaxException ex) {
 			System.out.println(ex.toString());
 		}

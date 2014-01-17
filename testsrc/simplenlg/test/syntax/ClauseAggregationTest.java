@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.test.syntax;
 
@@ -23,6 +23,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -121,6 +122,18 @@ public class ClauseAggregationTest extends SimpleNLG4Test {
 		this.s6.addPostModifier(this.phraseFactory
 				.createPrepositionPhrase("behind", this.phraseFactory
 						.createNounPhrase("the", "curtain")));
+	}
+	
+	@After
+	public void tearDown() {
+		super.tearDown();
+		
+		this.s1 = null; this.s2 = null; this.s3 = null; 
+		this.s4 = null; this.s5 = null; this.s6 = null;
+		this.aggregator = null;
+		this.coord = null;
+		this.fcr = null;
+		this.bcr = null;
 	}
 
 	/**

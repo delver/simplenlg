@@ -33,7 +33,7 @@ public class SyntaxTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(AdjectivePhraseTest.class);
 		suite.addTestSuite(ClauseAggregationTest.class);
-		suite.addTestSuite(ClauseAggregationTest2.class);
+		//suite.addTestSuite(ClauseAggregationTest2.class);
 		suite.addTestSuite(ClauseTest.class);
 		suite.addTestSuite(CoordinationTest.class);
 		suite.addTestSuite(DeterminerTest.class);

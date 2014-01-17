@@ -1,9 +1,29 @@
+/*
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "Simplenlg".
+ *
+ * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
+ * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
+ *
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
+ */
+
 package simplenlg.test.syntax;
 
 import java.util.Arrays;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,10 +35,10 @@ public class OrthographyFormatTests extends SimpleNLG4Test {
 
 	private DocumentElement list1, list2;
 	private DocumentElement listItem1, listItem2, listItem3;
-	private String list1Realisation = new StringBuffer("* in the room ")
-			.append("\n* behind the curtain ").append("\n").toString();
-	private String list2Realisation = new StringBuffer("* on the rock ")
-			.append("\n* ").append(list1Realisation).append(' ').append("\n").toString();
+	private String list1Realisation = new StringBuffer("* in the room")
+			.append("\n* behind the curtain").append("\n").toString();
+	private String list2Realisation = new StringBuffer("* on the rock")
+			.append("\n* ").append(list1Realisation).append("\n").toString();
 
 	public OrthographyFormatTests(String name) {
 		super(name);
@@ -47,6 +67,16 @@ public class OrthographyFormatTests extends SimpleNLG4Test {
 		this.list2 = this.phraseFactory.createList(Arrays
 				.asList(new DocumentElement[] { this.listItem3,
 						this.phraseFactory.createListItem(this.list1) }));
+	}
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+		this.list1 = null; this.list2 = null;
+		this.listItem1 = null; this.listItem2 = null; this.listItem3 = null;
+		this.list1Realisation = null;
+		list2Realisation = null;
 	}
 
 	/**

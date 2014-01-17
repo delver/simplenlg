@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.test.lexicon;
 
@@ -33,14 +33,14 @@ import simplenlg.lexicon.NIHDBLexicon;
 import simplenlg.lexicon.XMLLexicon;
 
 /**
- * @author D. Westwater, Data2Text Ltd
+ * @author Dave Westwater, Data2Text Ltd
  *
  */
 public class MultipleLexiconTest {
 
 	// NIH, XML lexicon location
-	static String DB_FILENAME = "E:\\NIHDB\\lexAccess2009";
-	static String XML_FILENAME = "E:\\NIHDB\\default-lexicon.xml";
+	static String DB_FILENAME = "src/main/resources/lexAccess2011";
+	static String XML_FILENAME = "src/main/resources/default-lexicon.xml";
 	
 	// multi lexicon
 	MultipleLexicon lexicon;
@@ -79,7 +79,9 @@ public class MultipleLexiconTest {
 	public void testMultipleSpecifics() {
 		// try to get word which is only in NIH lexicon
 		WordElement UK = lexicon.getWord("UK");
-		Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
+		// Saad Mahamood: Removed this test as UK Acyromn doesn't just return United Kingdom in 2011 NIH lexicon:
+		//Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
+		Assert.assertEquals(true, UK.getFeatureAsString(LexicalFeature.ACRONYM_OF).contains("United Kingdom"));
 
 		// test alwaysSearchAll flag
 		boolean alwaysSearchAll = lexicon.isAlwaysSearchAll();

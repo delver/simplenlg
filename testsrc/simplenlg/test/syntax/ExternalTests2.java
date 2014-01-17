@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import simplenlg.features.Feature;
 import simplenlg.features.Form;
-import simplenlg.features.InterrogativeType;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.LexicalCategory;
@@ -44,12 +43,12 @@ public class ExternalTests2 extends SimpleNLG4Test {
 
 	public ExternalTests2(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * Check that empty phrases are not realised as "null"
 	 */
+	@Test
 	public void testEmptyPhraseRealisation() {
 		SPhraseSpec emptyClause = this.phraseFactory.createClause();
 		Assert.assertEquals("", this.realiser.realise(emptyClause)
@@ -59,6 +58,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	/**
 	 * Check that empty coordinate phrases are not realised as "null"
 	 */
+	@Test
 	public void testEmptyCoordination() {
 		// first a simple phrase with no coordinates
 		CoordinatedPhraseElement coord = this.phraseFactory
@@ -75,6 +75,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	 * Test change from "a" to "an" in the presence of a premodifier with a
 	 * vowel
 	 */
+	@Test
 	public void testIndefiniteWithPremodifier() {
 		SPhraseSpec s = this.phraseFactory.createClause("there", "be");
 		s.setFeature(Feature.TENSE, Tense.PRESENT);
@@ -94,6 +95,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	/**
 	 * Test for comma separation between premodifers
 	 */
+	@Test
 	public void testMultipleAdjPremodifiers() {
 		NPPhraseSpec np = this.phraseFactory.createNounPhrase("a", "stenosis");
 		np.addPreModifier(this.phraseFactory.createAdjectivePhrase("eccentric"));
@@ -105,6 +107,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	/**
 	 * Test for comma separation between verb premodifiers
 	 */
+	@Test
 	public void testMultipleAdvPremodifiers() {
 		AdvPhraseSpec adv1 = this.phraseFactory.createAdverbPhrase("slowly");
 		AdvPhraseSpec adv2 = this.phraseFactory
@@ -125,6 +128,8 @@ public class ExternalTests2 extends SimpleNLG4Test {
 				.realise(vp2).getRealisation());
 	}
 
+	
+	@Test
 	public void testParticipleModifier() {
 
 		String verb = "associate";
@@ -150,6 +155,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	/**
 	 * Check that setComplement replaces earlier complements
 	 */
+	@Test
 	public void testSetComplement() {
 		SPhraseSpec s = this.phraseFactory.createClause();
 		s.setSubject("I");
@@ -173,6 +179,7 @@ public class ExternalTests2 extends SimpleNLG4Test {
 	 * Test for subclauses involving WH-complements Based on a query by Owen
 	 * Bennett
 	 */
+	@Test
 	public void testSubclauses() {
 		// Once upon a time, there was an Accountant, called Jeff, who lived in
 		// a forest.

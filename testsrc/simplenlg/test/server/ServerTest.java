@@ -15,7 +15,7 @@
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
  * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater,
- * Roman Kutlak, Margaret Mitchell.
+ * Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.server;
@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -38,6 +39,7 @@ public class ServerTest extends TestCase {
 
     SimpleServer serverapp;
     
+    @Before
     protected void setUp() {
         try {
             serverapp = new SimpleServer(50007);
@@ -50,6 +52,7 @@ public class ServerTest extends TestCase {
         }
     }
     
+    @After
     protected void tearDown() {
         serverapp.terminate();
     }

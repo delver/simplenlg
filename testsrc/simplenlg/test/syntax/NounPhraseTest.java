@@ -21,6 +21,7 @@ package simplenlg.test.syntax;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.features.DiscourseFunction;
@@ -54,6 +55,13 @@ public class NounPhraseTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
+	
+	
 	/**
 	 * Test the setPlural() method in noun phrases.
 	 */

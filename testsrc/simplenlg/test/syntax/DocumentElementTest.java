@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.syntax;
@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,6 +56,15 @@ public class DocumentElementTest extends SimpleNLG4Test {
 		p1 = this.phraseFactory.createClause("you", "be", "happy");
 		p2 = this.phraseFactory.createClause("I", "be", "sad");
 		p3 = this.phraseFactory.createClause("they", "be", "nervous");
+	}
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+		this.p1 = null;
+		this.p2 = null;
+		this.p3 = null;
 	}
 
 	/**

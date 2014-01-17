@@ -1,3 +1,21 @@
+/*
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "Simplenlg".
+ *
+ * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
+ * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
+ *
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
+ */
 package simplenlg.test.lexicon;
 
 import java.util.List;
@@ -45,7 +63,7 @@ public class LexicalVariantsTests extends TestCase {
 	Realiser realiser;
 
 	// DB location -- change this to point to the lex access data dir
-	static String DB_FILENAME = "A:\\corpora\\LEX\\lexAccess2011\\data\\HSqlDb\\lexAccess2011";
+	static String DB_FILENAME = "src/main/resources/lexAccess2011";
 
 	@Override
 	@Before
@@ -119,6 +137,7 @@ public class LexicalVariantsTests extends TestCase {
 	/**
 	 * Test spelling/orthographic variants with different inflections
 	 */
+	@Test
 	public void testSpellingVariantWithInflection() {
 		WordElement word = lexicon.getWord("formalization");
 		List<String> spellVars = word
@@ -142,6 +161,7 @@ public class LexicalVariantsTests extends TestCase {
 	/**
 	 * Test the inflectional variants for a verb.
 	 */
+	@Test
 	public void testVerbInflectionalVariants() {
 		WordElement word = lexicon.getWord("lie", LexicalCategory.VERB);
 		Assert.assertEquals(Inflection.REGULAR, word
@@ -172,6 +192,7 @@ public class LexicalVariantsTests extends TestCase {
 	/**
 	 * Test inflectional variants for nouns
 	 */
+	@Test
 	public void testNounInflectionalVariants() {
 		WordElement word = lexicon.getWord("sanctum", LexicalCategory.NOUN);
 		Assert.assertEquals(Inflection.REGULAR, word
@@ -248,6 +269,7 @@ public class LexicalVariantsTests extends TestCase {
 	/**
 	 * Test the difference between an uncount and a count noun
 	 */
+	@Test
 	public void testUncountInflectionalVariant() {
 		WordElement calc = (WordElement) factory.createWord("calcification", LexicalCategory.NOUN);
 		NPPhraseSpec theCalc = this.factory.createNounPhrase("the", calc);

@@ -1,19 +1,20 @@
 /*
- * 
- * Copyright (C) 2010, University of Aberdeen
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
+ * The Original Code is "Simplenlg".
  *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
+ * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
+ *
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.syntax;
@@ -22,6 +23,7 @@ import java.util.Arrays; // needed for Section 14
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
@@ -82,6 +84,11 @@ public class TutorialTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
 
 	// no code in sections 1 and 2
 	
@@ -380,7 +387,6 @@ public class TutorialTest extends SimpleNLG4Test {
 	/**
 	 * test section 11 code
 	 */
-	@SuppressWarnings({ "deprecation" })
 	@Test
 	public void testSection11( ) {
 		Lexicon lexicon = Lexicon.getDefaultLexicon( ) ;     // default simplenlg lexicon
@@ -407,12 +413,12 @@ public class TutorialTest extends SimpleNLG4Test {
 		pB.addComplement( pp ) ;
 		
 		String outputB = realiser.realiseSentence( pB ) ;		
-		Assert.assertEquals( "Mary chases the monkey in park.", outputB ) ;	// NB missing the determiner "the" !!	
+		Assert.assertEquals( "Mary chases the monkey in the park.", outputB ) ;	
 		
 		place.addPreModifier( "leafy" ) ;
 		
 		String outputC = realiser.realiseSentence( pB ) ;		
-		Assert.assertEquals( "Mary chases the monkey in leafy park.", outputC ) ;	// NB missing the determiner "the" !!	
+		Assert.assertEquals( "Mary chases the monkey in the leafy park.", outputC ) ;	
 	 } // testSection11
 
 	// section12 only has a code table as illustration

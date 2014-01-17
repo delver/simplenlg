@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
  // package simplenlg.format.english;
 
@@ -43,7 +43,8 @@ import simplenlg.framework.StringElement;
  * </ul>
  * </p>
  * 
- * @author D. Westwater, University of Aberdeen ~ for the TextFormatter; <br />J Christie, University of Aberdeen ~ for HTMLFormatter
+ * @author D. Westwater, University of Aberdeen ~ for the TextFormatter; 
+ * 		   <br />J Christie, University of Aberdeen ~ for HTMLFormatter 
  * @version 4.0 original TextFormatter Version; <br />version 0.0 HTMLFormatter
  * 
  */
@@ -189,4 +190,6 @@ public class HTMLFormatter extends NLGModule {
 		}
 		return realisedList;
 	} // realise ~ list of elements
+	
+	
 } // class

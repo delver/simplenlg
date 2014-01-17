@@ -14,13 +14,14 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.syntax;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
@@ -42,6 +43,12 @@ public class PrepositionalPhraseTest extends SimpleNLG4Test {
 	 */
 	public PrepositionalPhraseTest(String name) {
 		super(name);
+	}
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
 	}
 
 	/**

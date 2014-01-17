@@ -14,16 +14,16 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.test.syntax;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
-import simplenlg.features.Form;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.PhraseElement;
@@ -47,6 +47,14 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
+	
+	
 	/**
 	 * Test premodification & coordination of Adjective Phrases (Not much else
 	 * to simplenlg.test)
@@ -138,7 +146,7 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 	}
 
 	/**
-	 * Test for multiple adjective modifiers with comma-separation. Example courtesy of William Bradshaw.
+	 * Test for multiple adjective modifiers with comma-separation. Example courtesy of William Bradshaw (Data2Text Ltd).
 	 */
 	@Test
 	public void testMultipleModifiers() {

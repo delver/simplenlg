@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.format.english.HTMLFormatter;
@@ -44,6 +45,13 @@ public class HTMLFormatterTest extends SimpleNLG4Test {
 		super(name);
 		}
 
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
+	
+	
 	/**
 	 * Check the correct [part] web page contents are being generated
 	 */

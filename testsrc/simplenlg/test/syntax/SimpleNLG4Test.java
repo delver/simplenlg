@@ -14,19 +14,18 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.test.syntax;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 
-import java.util.Properties;
 
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.PhraseElement;
-import simplenlg.lexicon.NIHDBLexicon;
 import simplenlg.lexicon.XMLLexicon;
 import simplenlg.lexicon.Lexicon;
 import simplenlg.phrasespec.VPPhraseSpec;
@@ -117,4 +116,30 @@ public abstract class SimpleNLG4Test extends TestCase {
 		this.give = this.phraseFactory.createVerbPhrase("give"); //$NON-NLS-1$
 		this.say = this.phraseFactory.createVerbPhrase("say"); //$NON-NLS-1$
 	}
+	
+	@Override
+	@After
+	public void tearDown() {
+		this.realiser = null;
+
+		this.phraseFactory = null;
+		
+		if(null != lexicon) {
+			lexicon = null;
+		}
+		
+		this.man = null; this.woman = null; this.dog = null; this.boy = null; 
+		this.np4 = null; this.np5 = null; this.np6 = null; this.proTest1 = null; 
+		this.proTest2 = null;
+		
+		this.beautiful = null; this.stunning = null; this.salacious = null;
+
+		this.onTheRock = null; this.behindTheCurtain= null; 
+		this.inTheRoom = null; this.underTheTable = null;
+
+		this.kick = null; this.kiss = null;  this.walk = null; this.talk = null; 
+		this.getUp = null; this.fallDown = null; this.give = null; this.say = null;
+	}
+	
+	
 }

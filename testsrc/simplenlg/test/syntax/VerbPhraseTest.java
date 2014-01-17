@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.syntax;
@@ -23,6 +23,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.features.DiscourseFunction;
@@ -56,6 +57,14 @@ public class VerbPhraseTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
+	
+	
 	/**
 	 * Some tests to check for an early bug which resulted in reduplication of
 	 * verb particles in the past tense e.g. "fall down down" or "creep up up"

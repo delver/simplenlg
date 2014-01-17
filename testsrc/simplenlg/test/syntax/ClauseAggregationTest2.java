@@ -14,17 +14,20 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood
  */
 package simplenlg.test.syntax;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import simplenlg.aggregation.NewAggregator;
 import simplenlg.features.Feature;
 import simplenlg.features.Tense;
 import simplenlg.framework.NLGElement;
 
+@Ignore 
 public class ClauseAggregationTest2 extends SimpleNLG4Test {
 
 	private NewAggregator aggregator;
@@ -61,6 +64,18 @@ public class ClauseAggregationTest2 extends SimpleNLG4Test {
 		this.s4.setFeature(Feature.PROGRESSIVE, true);
 	}
 
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+		
+		this.aggregator = null;
+		this.s1 = null; this.s2 = null; this.s3 = null; this.s4 = null;
+		
+	}
+	
+	
+	
 	//Functionality disabled for the time being
 	// @Test
 	// public void testConjReduction1() {

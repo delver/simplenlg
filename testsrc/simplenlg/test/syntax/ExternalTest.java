@@ -14,7 +14,7 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 package simplenlg.test.syntax;
 
@@ -23,6 +23,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import simplenlg.aggregation.ClauseCoordinationRule;
@@ -55,6 +56,13 @@ public class ExternalTest extends SimpleNLG4Test {
 	public ExternalTest(String name) {
 		super(name);
 	}
+	
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
+	
 
 	/**
 	 * Basic tests
@@ -85,6 +93,7 @@ public class ExternalTest extends SimpleNLG4Test {
 
 		Assert.assertEquals("Peter has something to do with Paul", //$NON-NLS-1$
 				this.realiser.realise(s2).getRealisation());
+		tearDown();
 	}
 
 	@Test

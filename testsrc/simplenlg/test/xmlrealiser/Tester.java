@@ -30,6 +30,8 @@ import java.util.Vector;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
+import org.junit.Ignore;
+
 import simplenlg.xmlrealiser.Recording;
 import simplenlg.xmlrealiser.XMLRealiser;
 import simplenlg.xmlrealiser.XMLRealiserException;
@@ -47,7 +49,7 @@ import simplenlg.xmlrealiser.wrapper.RecordSet;
  * 
  * @author Christopher Howell, Agfa Healthcare Corporation
  */
-public class Tester {
+@Ignore public class Tester {
 
 	/**
 	 * The main method. The arguments expecetd are:
@@ -238,7 +240,7 @@ public class Tester {
 
 // //////////////////////// end of copied code ////////////////////////
 
-class TestFilenameFilter implements FilenameFilter {
+@Ignore class TestFilenameFilter implements FilenameFilter {
 	@Override
 	public boolean accept(File dir, String name) {
 		if (name.endsWith(".xml") && !name.endsWith("Out.xml"))

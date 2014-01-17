@@ -19,9 +19,9 @@
 
 package simplenlg.test.syntax;
 
+import org.junit.After;
 import org.junit.Test;
 
-import simplenlg.framework.NLGFactory;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 
@@ -41,6 +41,11 @@ public class DeterminerTest extends SimpleNLG4Test {
 		super(name);
 	}
 
+	@Override
+	@After
+	public void tearDown() {
+		super.tearDown();
+	}
 	
 	/**
 	 * testLowercaseConstant - Test for when there is a lower case constant

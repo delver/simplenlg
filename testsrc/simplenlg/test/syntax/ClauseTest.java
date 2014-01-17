@@ -14,13 +14,14 @@
  * The Initial Developer of the Original Code is Ehud Reiter, Albert Gatt and Dave Westwater.
  * Portions created by Ehud Reiter, Albert Gatt and Dave Westwater are Copyright (C) 2010-11 The University of Aberdeen. All Rights Reserved.
  *
- * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell.
+ * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Saad Mahamood.
  */
 
 package simplenlg.test.syntax;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -115,6 +116,17 @@ public class ClauseTest extends SimpleNLG4Test {
 		this.s4.addPostModifier("in the shop"); //$NON-NLS-1$
 		this.s4.setFeature(Feature.TENSE, Tense.FUTURE);
 	}
+	
+	@After
+	public void tearDown() {
+		super.tearDown();
+		
+		this.s1 = null; 
+		this.s2 = null;
+		this.s3 = null;
+		this.s4 = null;
+	}
+	
 
 	/**
 	 * Initial test for basic sentences.
