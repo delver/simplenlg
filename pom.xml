@@ -61,6 +61,14 @@
       <systemPath>${basedir}/lib/junit-4.4.jar</systemPath>
       <version>4.4</version>
     </dependency>
+    <!-- http://stackoverflow.com/questions/3289644/define-spring-jaxb-namespaces-without-using-namespaceprefixmapper#3307076 -->
+    <dependency>
+      <groupId>jaxb-ri</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/jaxb-ri-2.2.7/jaxb-impl.jar</systemPath>
+      <version>2.2.7</version>
+    </dependency>
   </dependencies>
 
   <build>

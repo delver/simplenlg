@@ -42,7 +42,7 @@ import simplenlg.xmlrealiser.wrapper.DocumentRealisation;
 import simplenlg.xmlrealiser.wrapper.NLGSpec;
 import simplenlg.xmlrealiser.wrapper.RecordSet;
 
-import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 /**
  * A recording is a utility class that holds xml objects for testing the
@@ -195,7 +195,7 @@ public class Recording {
 		// It was added so that the namespace declarations would be at the top
 		// of the file, once,
 		// instead of on the elements.
-		m.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper",
+		m.setProperty("com.sun.xml.bind.namespacePrefixMapper",
 				new RecordingNamespacePrefixMapper());
 
 		NLGSpec nlg = new NLGSpec();
