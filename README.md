@@ -10,10 +10,10 @@ https://code.google.com/p/simplenlg/, but augment the code with a maven ```pom.x
 http://repo.delver.io as the initial repository.
 
 **Note:** No additional functionality (beyond Mavenization & Travis CI) will
-ever be added. Caveat: in order to get this project to build on modern JDKs, a 
+ever be added. _Caveat:_ in order to get this project to build on modern JDKs, a 
 [Stack Overflow](http://stackoverflow.com/questions/3289644/define-spring-jaxb-namespaces-without-using-namespaceprefixmapper#3307076)
-question recommends changing deprecated references of ```com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;``` 
-to ```com.sun.xml.bind.marshaller.NamespacePrefixMapper;```; see [Recording.java](https://github.com/delver/simplenlg/blob/master/src/simplenlg/xmlrealiser/Recording.java#L45)
+question recommends changing deprecated references of ```com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper``` 
+to ```com.sun.xml.bind.marshaller.NamespacePrefixMapper```; see [Recording.java](https://github.com/delver/simplenlg/blob/master/src/simplenlg/xmlrealiser/Recording.java#L45)
 for details of the file that changed.
 
 License
